@@ -3,7 +3,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.firebirdsql.jdbc.FBDriver</property>
-        <property name="hibernate.connection.url">jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/DB/NOURISHMENT.FDB</property>
+        <property name="hibernate.connection.url">jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/NourishmentApp/Nourishment/DB/NOURISHMENT.FDB</property>
         <property name="hibernate.connection.username">sysdba</property>
         <property name="hibernate.connection.password">masterkey</property>
         <property name="hibernate.show_sql">true</property>
