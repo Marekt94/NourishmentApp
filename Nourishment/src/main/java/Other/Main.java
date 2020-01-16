@@ -11,6 +11,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import Other.Produkty;
+import View.MainMenuPanel;
+import View.MainWindow;
+import View.ProduktView;
+import View.TitlePanel;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
 
 /**
  *
@@ -34,6 +40,11 @@ public class Main {
         }
         session.close();
         sessionFactory.close();
+        KonfigView konfigView = new KonfigView();
+        MainWindow mainWindow = new MainWindow(konfigView, "Menu", new MainMenuPanel(konfigView));
+    
+        mainWindow.pack();
+        mainWindow.setVisible(true);
     }
     
 }
