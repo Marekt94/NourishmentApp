@@ -10,25 +10,30 @@ import Other.MyPanelInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Marek
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainDialog extends javax.swing.JDialog {
     private TitlePanel titlePanel;
     private KonfigView konfigView;
     private MyPanelInterface workingPanel;
+    private Boolean result;
+
+    public Boolean getResult() {
+        return result;
+    }
 
     public KonfigView getKonfigView() {
         return konfigView;
     }
     
-    public MainWindow(KonfigView konfigView, String title, MyPanelInterface panel) {
-        initComponents();        
-        
+    public MainDialog(java.awt.Frame parent, boolean modal, KonfigView konfigView, String title, MyPanelInterface panel) {
+        super(parent, modal);
+        initComponents();
+
         this.konfigView = new KonfigView(konfigView);
         workingPanel = panel;
         init();
@@ -42,14 +47,14 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void init(){
-        setDefaultCloseOperation(konfigView.getDefaultOperationOnClose());
+        result = false;
     }
     
     public void unpackWindow(Serializable object){
         workingPanel.unpack(object);
     }
     
-     public <E> void unpackWindow(List<E> objectList){
+    public <E> void unpackWindow(List<E> objectList){
         workingPanel.unpack(objectList);
     }
 
@@ -58,13 +63,9 @@ public class MainWindow extends javax.swing.JFrame {
         if (b == true){
             pack();
             setLocationRelativeTo(null);
-            setExtendedState(konfigView.getExtendedState());
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,10 +75,47 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        btnOK = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnOK.setText("OK");
+        btnOK.setPreferredSize(new java.awt.Dimension(100, 20));
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnOK);
+
+        btnCancel.setText("Anuluj");
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 20));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        result = workingPanel.execute();
+        if (result == true){
+            setVisible(false);
+        }
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -96,24 +134,34 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow(new KonfigView(), "", null).setVisible(true);
+                MainDialog dialog = new MainDialog(new javax.swing.JFrame(), true, null, "", null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

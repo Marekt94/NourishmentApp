@@ -5,6 +5,9 @@
  */
 package Other;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  *
  * @author Marek
@@ -12,4 +15,8 @@ package Other;
 public interface MyPanelInterface {
     public Boolean init(KonfigView konfigView);
     public KonfigView getKonfigView();
+    public Boolean execute();
+    public void unpack(Serializable object);
+    public <E> void unpack(List<E> objectList);
+    public void pack();
 }

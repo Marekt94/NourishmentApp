@@ -7,18 +7,91 @@ package View;
 
 import Other.KonfigView;
 import Other.MyPanelInterface;
+import Other.Produkty;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
  * @author Marek
  */
 public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInterface{
+    private List<Produkty> productsList;
+
+    @Override
+    public void unpack(Serializable object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <E> void unpack(List<E> objectList){
+        String[] titleList = null;
+
+        for (E product : objectList){
+            productsList.add((Produkty) product);
+        }
+        
+        Field[] fields = Produkty.class.getDeclaredFields();
+        fields = Arrays.copyOfRange(fields, 1, fields.length);
+        
+        
+        while(jTable1.getColumnCount() < fields.length){
+            jTable1.addColumn(new TableColumn());
+        }
+        
+        for (int i = 0; i < fields.length; i++) {
+            jTable1.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(fields[i].getName());
+        }
+        
+        ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
+        for (int j = 0; j < productsList.size(); j++) {
+            String[] row = new String[fields.length];
+            for (int i = 0; i < fields.length; i++) {
+                try {
+                    Boolean oldAccess;
+                    oldAccess =  fields[i].canAccess(productsList.get(j));
+                    fields[i].setAccessible(true);
+                    row[i] = fields[i].get(productsList.get(j)).toString();
+                    fields[i].setAccessible(oldAccess);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ListaProduktowView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ListaProduktowView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            ((DefaultTableModel) jTable1.getModel()).addRow(row);
+        }
+        
+
+        
+    }
+
+    @Override
+    public void pack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private KonfigView konfigView;
     
     @Override
+    public Boolean execute() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates. 
+    }
+    
+    @Override
     public Boolean init(KonfigView konfigView) {
+        this.konfigView = new KonfigView(konfigView);
         return true;
     }
 
@@ -30,9 +103,9 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
     /**
      * Creates new form ListaProduktowView
      */
-    public ListaProduktowView(KonfigView konfigView) {
+    public ListaProduktowView() {
         initComponents();
-        this.konfigView = new KonfigView(konfigView);
+        productsList = new ArrayList<Produkty>();
     }
 
     /**
@@ -50,6 +123,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setPreferredSize(new java.awt.Dimension(776, 521));
         setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -87,8 +161,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.NORMAL);
         
-        MainWindow mainWindow = new MainWindow(konfigView, "Produkt", new ProduktView(konfigView));
-        mainWindow.pack();
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
         mainWindow.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

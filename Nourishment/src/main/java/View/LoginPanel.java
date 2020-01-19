@@ -7,6 +7,7 @@ package View;
 
 import Other.KonfigView;
 import Other.MyPanelInterface;
+import Other.ORMManager;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Marek
  */
-public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
+public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public void unpack(Serializable object) {
@@ -31,15 +32,12 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     private KonfigView konfigView;
-
-    @Override
-    public Boolean execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private ORMManager ormManager;
     
     @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
+    public Boolean execute() {
+        ormManager = ORMManager.getOrmManager();
+        return ormManager.connect(edtUsername.getText(), new String(edtPassword.getPassword()));
     }
 
     @Override
@@ -48,10 +46,14 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
         return true;
     }
 
+    @Override
+    public KonfigView getKonfigView() {
+        return konfigView;
+    }
     /**
-     * Creates new form ProduktView
+     * Creates new form LoginPanel
      */
-    public ProduktView() {
+    public LoginPanel() {
         initComponents();
     }
 
@@ -64,32 +66,34 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        lblUsername = new javax.swing.JLabel();
+        edtUsername = new javax.swing.JTextField();
+        lblPassword = new javax.swing.JLabel();
+        edtPassword = new javax.swing.JPasswordField();
 
-        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        setPreferredSize(new java.awt.Dimension(112, 56));
+        setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
-        jLabel1.setText("jLabel1");
-        add(jLabel1);
+        lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUsername.setText("Użytkownik");
+        add(lblUsername);
 
-        jTextField1.setText("jTextField1");
-        add(jTextField1);
+        edtUsername.setPreferredSize(new java.awt.Dimension(100, 20));
+        add(edtUsername);
 
-        jLabel2.setText("jLabel2");
-        add(jLabel2);
+        lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPassword.setText("Hasło");
+        lblPassword.setRequestFocusEnabled(false);
+        add(lblPassword);
 
-        jTextField2.setText("jTextField2");
-        add(jTextField2);
+        edtPassword.setPreferredSize(new java.awt.Dimension(100, 20));
+        add(edtPassword);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField edtPassword;
+    private javax.swing.JTextField edtUsername;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblUsername;
     // End of variables declaration//GEN-END:variables
 }

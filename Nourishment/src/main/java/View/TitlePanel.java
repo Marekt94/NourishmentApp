@@ -7,6 +7,8 @@ package View;
 
 import Other.KonfigView;
 import Other.MyPanelInterface;
+import java.io.Serializable;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -14,10 +16,32 @@ import javax.swing.JPanel;
  * @author Marek
  */
 public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
+
+    @Override
+    public void unpack(Serializable object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <E> void unpack(List<E> objectList){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private KonfigView konfigView;
-    
+
+    @Override
+    public Boolean execute() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }    
     @Override
     public Boolean init(KonfigView konfigView) {
+        if (this.konfigView == null){
+            this.konfigView = new KonfigView(konfigView);
+        }
         return true;
     }
 
@@ -28,7 +52,7 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
     public TitlePanel(KonfigView konfigView, String title) {
         initComponents();
         
-        this.konfigView = new KonfigView(konfigView);
+        init(konfigView);
         if (title != ""){
             jLabel1.setText(title);
         }
@@ -55,7 +79,6 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
         jLabel1.setPreferredSize(new java.awt.Dimension(134, 60));
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel1.setLayout(new java.awt.BorderLayout());
         add(jPanel1, java.awt.BorderLayout.CENTER);

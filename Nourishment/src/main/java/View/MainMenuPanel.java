@@ -7,6 +7,10 @@ package View;
 
 import Other.KonfigView;
 import Other.MyPanelInterface;
+import Other.ORMManager;
+import Other.Produkty;
+import java.io.Serializable;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -16,9 +20,31 @@ import javax.swing.WindowConstants;
  */
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
+    private ORMManager ormManager;
+    
+    @Override
+    public void unpack(Serializable object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <E> void unpack(List<E> objectList){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Boolean execute() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public Boolean init(KonfigView konfigView) {
+        this.konfigView = new KonfigView(konfigView);
         return true;
     }
 
@@ -30,9 +56,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     /**
      * Creates new form MainMenuPanel
      */
-    public MainMenuPanel(KonfigView konfigView) {
+    public MainMenuPanel() {
         initComponents();
-        this.konfigView = new KonfigView(konfigView);
+        ormManager = ORMManager.getOrmManager();
     }
 
     /**
@@ -71,8 +97,11 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainWindow mainWindow = new MainWindow(konfigView, "Produkty", new ListaProduktowView(konfigView));
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowView());
         mainWindow.pack();
+        
+        mainWindow.unpackWindow(ormManager.askForProducts());
+        
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnProduktyActionPerformed
 

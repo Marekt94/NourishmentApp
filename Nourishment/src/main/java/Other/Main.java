@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import Other.Produkty;
+import View.LoginPanel;
+import View.MainDialog;
 import View.MainMenuPanel;
 import View.MainWindow;
 import View.ProduktView;
@@ -28,23 +30,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().configure();
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        
-        List<Produkty> produkty = session.createCriteria(Produkty.class).list();
-        for (int i = 0; i < produkty.size(); i++) {
-            System.out.print(produkty.get(i).getNazwa() + "\n");
-        }
-        session.close();
-        sessionFactory.close();
-        KonfigView konfigView = new KonfigView();
-        MainWindow mainWindow = new MainWindow(konfigView, "Menu", new MainMenuPanel(konfigView));
-    
-        mainWindow.pack();
+        MainWindow mainWindow = new MainWindow(new KonfigView(), "Menu", new MainMenuPanel());
         mainWindow.setVisible(true);
+        MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie do DB", new LoginPanel());
+        connectinDialog.setVisible(true);
+        if (connectinDialog.getResult() == false){
+            System.exit(0);
+        }
     }
     
 }
