@@ -18,7 +18,7 @@ import java.util.List;
 public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
-    public void unpack(Serializable object) {
+    public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

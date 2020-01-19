@@ -50,7 +50,7 @@ public class MainDialog extends javax.swing.JDialog {
         result = false;
     }
     
-    public void unpackWindow(Serializable object){
+    public <E> void unpackWindow(E object){
         workingPanel.unpack(object);
     }
     

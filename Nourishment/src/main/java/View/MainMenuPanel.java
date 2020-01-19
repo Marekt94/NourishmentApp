@@ -23,7 +23,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     private ORMManager ormManager;
     
     @Override
-    public void unpack(Serializable object) {
+    public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -97,9 +97,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowView());
-        mainWindow.pack();
-        
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowView());        
         mainWindow.unpackWindow(ormManager.askForProducts());
         
         mainWindow.setVisible(true);

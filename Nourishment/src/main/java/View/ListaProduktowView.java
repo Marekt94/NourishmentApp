@@ -30,7 +30,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
     private List<Produkty> productsList;
 
     @Override
-    public void unpack(Serializable object) {
+    public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,13 +40,18 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
 
         for (E product : objectList){
             productsList.add((Produkty) product);
-        }
+        } 
         
+        updateTable();
+    }
+    
+    private void updateTable(){
         Field[] fields = Produkty.class.getDeclaredFields();
         fields = Arrays.copyOfRange(fields, 1, fields.length);
         
         
         while(jTable1.getColumnCount() < fields.length){
+            TableColumn tblcol = new TableColumn();
             jTable1.addColumn(new TableColumn());
         }
         
@@ -72,10 +77,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
 
             }
             ((DefaultTableModel) jTable1.getModel()).addRow(row);
-        }
-        
-
-        
+        }        
     }
 
     @Override
@@ -152,18 +154,39 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         jPanel1.add(jButton1);
 
         jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         add(jPanel1, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (jTable1.getSelectedRow() > -1){
+            konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
+            konfigView.setExtendedState(JFrame.NORMAL);
+            
+            MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
+            mainWindow.unpackWindow(productsList.get(jTable1.getSelectedRow()));
+            
+            mainWindow.setVisible(true);
+            
+            updateTable();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.NORMAL);
         
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
+        mainWindow.unpackWindow(new Produkty());
+        
         mainWindow.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

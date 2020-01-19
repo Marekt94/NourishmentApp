@@ -15,4 +15,6 @@ public class GlobalConfig {
 
     public static final PreviewType PREVIEW = PreviewType.ptPreview;
     public static final int DEFAULT_OPERATION_ON_CLOSE = WindowConstants.EXIT_ON_CLOSE;
+    public static final String NULL_SIGN = "-";
+    public static final Integer DIGITS = 3;
 }
