@@ -21,6 +21,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -52,7 +53,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         
         while(jTable1.getColumnCount() < fields.length){
             TableColumn tblcol = new TableColumn();
-            jTable1.addColumn(new TableColumn());
+            ((DefaultTableModel) jTable1.getModel()).addColumn("");
         }
         
         for (int i = 0; i < fields.length; i++) {
@@ -183,9 +184,14 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         konfigView.setExtendedState(JFrame.NORMAL);
         
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
-        mainWindow.unpackWindow(new Produkty());
+        Produkty product = new Produkty();
+        mainWindow.unpackWindow(product);
         
         mainWindow.setVisible(true);
+        if (mainWindow.getResult()){
+            productsList.add(product);
+            updateTable();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

@@ -44,17 +44,32 @@ public class GlobalFun {
     }
     
     public static Double bind(JTextField edt, Double number){
-        number = new Double(edt.getText());
+        if (edt.getText().equals(NULL_SIGN)){
+            number = 0.0;
+        }
+        else{
+            number = new Double(edt.getText());
+        }
         return number;
     }
 
     public static Integer bind(JTextField edt, Integer number){
-        number = new Integer(edt.getText());
+        if (edt.getText().equals(NULL_SIGN)){
+            number = 0;
+        }
+        else{
+            number = new Integer(edt.getText());
+        }
         return number;
     } 
     
     public static String bind(JTextField edt, String text){
-        text = edt.getText();
+        if (edt.getText().equals(NULL_SIGN)){
+            text = "";
+        }
+        else{
+            text = edt.getText();
+        }
         return text;
     }
     
