@@ -35,7 +35,7 @@ public class GlobalFun {
     
     public static void bind(Double number, JTextField edt){
         if (number != null){
-            number = new BigDecimal(number).setScale(DIGITS, RoundingMode.HALF_UP).doubleValue(); 
+            number = round(number, null);
             edt.setText(number.toString());
         }
         else{
@@ -44,7 +44,7 @@ public class GlobalFun {
     }
     
     public static Double bind(JTextField edt, Double number){
-        if (edt.getText().equals(NULL_SIGN)){
+        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
             number = 0.0;
         }
         else{
@@ -54,7 +54,7 @@ public class GlobalFun {
     }
 
     public static Integer bind(JTextField edt, Integer number){
-        if (edt.getText().equals(NULL_SIGN)){
+        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
             number = 0;
         }
         else{
@@ -64,13 +64,22 @@ public class GlobalFun {
     } 
     
     public static String bind(JTextField edt, String text){
-        if (edt.getText().equals(NULL_SIGN)){
+        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
             text = "";
         }
         else{
             text = edt.getText();
         }
         return text;
+    }
+    
+    public static Double round(Double number, Integer digits){
+        if (digits != null){
+            return new BigDecimal(number).setScale(digits, RoundingMode.HALF_UP).doubleValue();
+        }
+        else{
+            return new BigDecimal(number).setScale(DIGITS, RoundingMode.HALF_UP).doubleValue(); 
+        }
     }
     
     

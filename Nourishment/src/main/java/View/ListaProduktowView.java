@@ -5,6 +5,7 @@
  */
 package View;
 
+import Other.GlobalFun;
 import Other.KonfigView;
 import Other.MyPanelInterface;
 import Other.ORMManager;
@@ -71,7 +72,12 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
                     oldAccess =  fields[i].canAccess(productsList.get(j));
                     fields[i].setAccessible(true);
                     if (fields[i].get(productsList.get(j)) != null){
-                        row[i] = fields[i].get(productsList.get(j)).toString();
+                        if (fields[i].get(productsList.get(j)).getClass().equals(Double.class)){
+                            row[i] = GlobalFun.round((Double) fields[i].get(productsList.get(j)), null).toString();
+                        }
+                        else{
+                            row[i] = fields[i].get(productsList.get(j)).toString();
+                        }
                     }
                     fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
@@ -129,11 +135,11 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(776, 521));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.BorderLayout(5, 5));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -151,27 +157,28 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
+        jPanel1.setLayout(new java.awt.GridLayout(20, 0, 5, 5));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setText("Edytuj");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnEdit);
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Dodaj");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
+        jPanel1.add(btnAdd);
 
         add(jPanel1, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         if (jTable1.getSelectedRow() > -1){
             Produkty product;
             konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
@@ -189,9 +196,9 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
             
             updateTable();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.NORMAL);
         
@@ -205,12 +212,12 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
             newOrEditedProducts.add(product);
             updateTable();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
