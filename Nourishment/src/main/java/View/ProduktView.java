@@ -44,10 +44,9 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
     public void pack() {
         produkt.setBialko(GlobalFun.bind(edtBialko, produkt.getBialko()));
         produkt.setBlonnik(GlobalFun.bind(edtBlonnik, produkt.getBlonnik()));
-        produkt.setCukryProste(Double.MAX_VALUE); GlobalFun.bind(edtCukryProste, produkt.getCukryProste());
+        produkt.setCukryProste(GlobalFun.bind(edtCukryProste, produkt.getCukryProste()));
         produkt.setCukrySuma( GlobalFun.bind(edtCukrySuma, produkt.getCukrySuma()));
         produkt.setCukryZlozone( GlobalFun.bind(edtCukryZlozone, produkt.getCukryZlozone()));
-        produkt.setId( GlobalFun.bind(edtID, produkt.getId()));
         produkt.setKcalNa100g( GlobalFun.bind(edtKcalNa100g, produkt.getKcalNa100g()));
         produkt.setNazwa( GlobalFun.bind(edtNazwa, produkt.getNazwa()));
         produkt.setSol( GlobalFun.bind(edtSol, produkt.getSol()));

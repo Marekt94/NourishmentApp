@@ -8,7 +8,9 @@ package Other;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.internal.util.SerializationHelper;
 
 /**
  *
@@ -37,6 +39,7 @@ public class ORMManager {
     
     private ORMManager(){
         
+        
     }
     
     public Boolean connect(String username, String password){
@@ -53,33 +56,48 @@ public class ORMManager {
         else{
             configuration.setProperty("hibernate.connection.password", password);
         }
-        configuration.configure();
+        configuration.setProperty("hibernate.jdbc.batch_size", GlobalConfig.BATCH_SIZE.toString());
         
         try {
+            configuration.configure();
+            
             sessionFactory = configuration.buildSessionFactory();
-        } catch (Exception e) {
-            return false;
+            
+            session = sessionFactory.openSession();
+            session.close();
+        } catch (Exception e){
+          return false;      
         }
-        
-        session = sessionFactory.openSession();
-//        session.beginTransaction();
-        
-//        List<Produkty> produkty = session.createCriteria(Produkty.class).list();
-//        for (int i = 0; i < produkty.size(); i++) {
-//            System.out.print(produkty.get(i).getNazwa() + "\n");
-//        }
-//        session.close();
-//        sessionFactory.close();
         return true;
     } 
     
     public List<Produkty> askForProducts(){
         List<Produkty> productsList = null;
         
+        session = sessionFactory.openSession();
         session.beginTransaction();
         productsList = session.createCriteria(Produkty.class).list();
-        
+        session.close();
         return productsList;
+    }
+    
+    public Boolean addProductsList(List<Produkty> productsList){
+        session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            for (int i = 0; i < productsList.size(); i++) {
+                session.saveOrUpdate(productsList.get(i));
+                if (i % GlobalConfig.BATCH_SIZE == 0){
+                    session.flush();
+                    session.clear();
+                }
+            }
+            transaction.commit();
+            session.close();
+        } catch (Exception e){
+            return false;      
+        }
+        return true;
     }
     
     public Boolean disconnect(){

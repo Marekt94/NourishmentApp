@@ -7,6 +7,7 @@ package View;
 
 import Other.KonfigView;
 import Other.MyPanelInterface;
+import Other.ORMManager;
 import Other.Produkty;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -29,6 +30,7 @@ import javax.swing.table.TableModel;
  */
 public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInterface{
     private List<Produkty> productsList;
+    private List<Produkty> newOrEditedProducts;
 
     @Override
     public <E> void unpack(E object) {
@@ -68,7 +70,9 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
                     Boolean oldAccess;
                     oldAccess =  fields[i].canAccess(productsList.get(j));
                     fields[i].setAccessible(true);
-                    row[i] = fields[i].get(productsList.get(j)).toString();
+                    if (fields[i].get(productsList.get(j)) != null){
+                        row[i] = fields[i].get(productsList.get(j)).toString();
+                    }
                     fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
                     Logger.getLogger(ListaProduktowView.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,9 +93,10 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
     
     @Override
     public Boolean execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates. 
+        ORMManager oRMManager = ORMManager.getOrmManager();
+        return oRMManager.addProductsList(newOrEditedProducts);
     }
-    
+     
     @Override
     public Boolean init(KonfigView konfigView) {
         this.konfigView = new KonfigView(konfigView);
@@ -109,6 +114,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
     public ListaProduktowView() {
         initComponents();
         productsList = new ArrayList<Produkty>();
+        newOrEditedProducts = new ArrayList<Produkty>();
     }
 
     /**
@@ -167,13 +173,19 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTable1.getSelectedRow() > -1){
+            Produkty product;
             konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
             konfigView.setExtendedState(JFrame.NORMAL);
             
             MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
-            mainWindow.unpackWindow(productsList.get(jTable1.getSelectedRow()));
+            product = productsList.get(jTable1.getSelectedRow());
+            mainWindow.unpackWindow(product);
             
             mainWindow.setVisible(true);
+            
+            if (mainWindow.getResult()){
+                newOrEditedProducts.add(product);
+            }
             
             updateTable();
         }
@@ -190,6 +202,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
         mainWindow.setVisible(true);
         if (mainWindow.getResult()){
             productsList.add(product);
+            newOrEditedProducts.add(product);
             updateTable();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
