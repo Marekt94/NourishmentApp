@@ -5,18 +5,19 @@
  */
 package Other;
 
+import View.BasicView.KonfigView;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import Other.Produkty;
+import Entities.Produkty;
 import View.LoginPanel;
-import View.MainDialog;
+import View.BasicView.MainDialog;
 import View.MainMenuPanel;
-import View.MainWindow;
+import View.BasicView.MainWindow;
 import View.ProduktView;
-import View.TitlePanel;
+import View.BasicView.TitlePanel;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 

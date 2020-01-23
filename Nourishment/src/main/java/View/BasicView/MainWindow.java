@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.BasicView;
 
-import Other.KonfigView;
-import Other.MyPanelInterface;
+import Interfaces.MyWindowInterface;
+import Interfaces.MyPanelInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
@@ -17,40 +17,30 @@ import javax.swing.JPanel;
  *
  * @author Marek
  */
-public class MainWindow extends javax.swing.JFrame {
-    private TitlePanel titlePanel;
-    private KonfigView konfigView;
-    private MyPanelInterface workingPanel;
-
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
+public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
+    private MyWindowManager myWindowManager = null;
     
     public MainWindow(KonfigView konfigView, String title, MyPanelInterface panel) {
         initComponents();        
         
-        this.konfigView = new KonfigView(konfigView);
-        workingPanel = panel;
+        myWindowManager = new MyWindowManager();
+        myWindowManager.create(this, konfigView, title, panel);
         init();
-        
-        titlePanel = new TitlePanel(konfigView, title);
-        if (workingPanel != null){
-            workingPanel.init(konfigView);
-            titlePanel.getjPanel1().add((JPanel) workingPanel);
-        }
-        add(titlePanel, BorderLayout.CENTER);
     }
     
-    private void init(){
-        setDefaultCloseOperation(konfigView.getDefaultOperationOnClose());
+    @Override
+    public void init(){
+        setDefaultCloseOperation(myWindowManager.getKonfigView().getDefaultOperationOnClose());
     }
     
-    public void unpackWindow(Serializable object){
-        workingPanel.unpack(object);
+    @Override
+    public <E> void unpackWindow(E object){
+        myWindowManager.getWorkingPanel().unpack(object);
     }
     
+    @Override
      public <E> void unpackWindow(List<E> objectList){
-        workingPanel.unpack(objectList);
+        myWindowManager.getWorkingPanel().unpack(objectList);
     }
 
     @Override
@@ -58,7 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (b == true){
             pack();
             setLocationRelativeTo(null);
-            setExtendedState(konfigView.getExtendedState());
+            setExtendedState(myWindowManager.getKonfigView().getExtendedState());
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }

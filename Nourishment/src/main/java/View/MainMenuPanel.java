@@ -5,11 +5,13 @@
  */
 package View;
 
-import Other.KonfigView;
-import Other.MyPanelInterface;
-import Other.ORMManager;
-import Other.Produkty;
+import View.BasicView.MainDialog;
+import View.BasicView.KonfigView;
+import Interfaces.MyPanelInterface;
+import Global.ORMManager;
+import Entities.Produkty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -97,7 +99,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowView());        
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowPanel());        
         mainWindow.unpackWindow(ormManager.askForProducts());
         
         mainWindow.setVisible(true);

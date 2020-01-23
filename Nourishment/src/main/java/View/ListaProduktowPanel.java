@@ -5,11 +5,12 @@
  */
 package View;
 
-import Other.GlobalFun;
-import Other.KonfigView;
-import Other.MyPanelInterface;
-import Other.ORMManager;
-import Other.Produkty;
+import View.BasicView.MainDialog;
+import Global.GlobalFun;
+import View.BasicView.KonfigView;
+import Interfaces.MyPanelInterface;
+import Global.ORMManager;
+import Entities.Produkty;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import javax.swing.table.TableModel;
  *
  * @author Marek
  */
-public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInterface{
+public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelInterface{
     private List<Produkty> productsList;
     private List<Produkty> newOrEditedProducts;
 
@@ -81,9 +82,9 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
                     }
                     fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
-                    Logger.getLogger(ListaProduktowView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ListaProduktowPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(ListaProduktowView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ListaProduktowPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
@@ -117,7 +118,7 @@ public class ListaProduktowView extends javax.swing.JPanel implements MyPanelInt
     /**
      * Creates new form ListaProduktowView
      */
-    public ListaProduktowView() {
+    public ListaProduktowPanel() {
         initComponents();
         productsList = new ArrayList<Produkty>();
         newOrEditedProducts = new ArrayList<Produkty>();

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Other;
+package Global;
 
-import static Other.GlobalConfig.*;
+import static Global.GlobalConfig.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.JTextField;
@@ -42,35 +42,44 @@ public class GlobalFun {
             edt.setText(NULL_SIGN);
         }         
     }
-    
-    public static Double bind(JTextField edt, Double number){
-        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
-            number = 0.0;
-        }
-        else{
-            number = new Double(edt.getText());
-        }
-        return number;
-    }
 
-    public static Integer bind(JTextField edt, Integer number){
+    public static Object bind(JTextField edt, Class type){
+        Boolean notEmpty;
+ 
         if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
-            number = 0;
+            notEmpty = false;
         }
         else{
-            number = new Integer(edt.getText());
+            notEmpty = true;
         }
-        return number;
-    } 
-    
-    public static String bind(JTextField edt, String text){
-        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
-            text = "";
+        
+        if (type == Double.class){
+            if (notEmpty){
+                return new Double(edt.getText());
+            }
+            else{
+                return 0.0;
+            }
         }
-        else{
-            text = edt.getText();
+        
+        if (type == Integer.class){
+            if (notEmpty){
+                return new Integer(edt.getText());
+            }
+            else{
+                return 0;
+            }
         }
-        return text;
+        
+        if (type == String.class){
+            if (notEmpty){
+                return edt.getText();
+            }
+            else{
+                return "";
+            }
+        }
+        return NULL_SIGN;
     }
     
     public static Double round(Double number, Integer digits){

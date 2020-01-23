@@ -5,10 +5,10 @@
  */
 package View;
 
-import Other.GlobalFun;
-import Other.KonfigView;
-import Other.MyPanelInterface;
-import Other.Produkty;
+import Global.GlobalFun;
+import View.BasicView.KonfigView;
+import Interfaces.MyPanelInterface;
+import Entities.Produkty;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.Serializable;
@@ -20,8 +20,9 @@ import javax.swing.JTextField;
  * @author Marek
  */
 public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
-    Produkty produkt = null;
-    FocusListener focusListener = null;
+    private Produkty produkt = null;
+    private FocusListener focusListener = null;
+    private KonfigView konfigView = null;
         
     @Override
     public <E> void unpack(E object) {
@@ -46,18 +47,17 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public void pack() {
-        produkt.setBialko(GlobalFun.bind(edtBialko, produkt.getBialko()));
-        produkt.setBlonnik(GlobalFun.bind(edtBlonnik, produkt.getBlonnik()));
-        produkt.setCukryProste(GlobalFun.bind(edtCukryProste, produkt.getCukryProste()));
-        produkt.setCukrySuma(GlobalFun.bind(edtCukrySuma, produkt.getCukrySuma()));
-        produkt.setCukryZlozone(GlobalFun.bind(edtCukryZlozone, produkt.getCukryZlozone()));
-        produkt.setKcalNa100g(GlobalFun.bind(edtKcalNa100g, produkt.getKcalNa100g()));
-        produkt.setNazwa(GlobalFun.bind(edtNazwa, produkt.getNazwa()));
-        produkt.setSol(GlobalFun.bind(edtSol, produkt.getSol()));
-        produkt.setTluszcz(GlobalFun.bind(edtTluszcz, produkt.getTluszcz()));
-        produkt.setWagaJednostki(GlobalFun.bind(edtWagaJednostki, produkt.getWagaJednostki()));      
+        produkt.setBialko((Double) GlobalFun.bind(edtBialko, produkt.getBialko().getClass()));
+        produkt.setBlonnik((Double) GlobalFun.bind(edtBlonnik, produkt.getBlonnik().getClass()));
+        produkt.setCukryProste((Double) GlobalFun.bind(edtCukryProste, produkt.getCukryProste().getClass()));
+        produkt.setCukrySuma((Double) GlobalFun.bind(edtCukrySuma, produkt.getCukrySuma().getClass()));
+        produkt.setCukryZlozone((Double) GlobalFun.bind(edtCukryZlozone, produkt.getCukryZlozone().getClass()));
+        produkt.setKcalNa100g((Double) GlobalFun.bind(edtKcalNa100g, produkt.getKcalNa100g().getClass()));
+        produkt.setNazwa((String) GlobalFun.bind(edtNazwa, produkt.getNazwa().getClass()));
+        produkt.setSol((Double) GlobalFun.bind(edtSol, produkt.getSol().getClass()));
+        produkt.setTluszcz((Double) GlobalFun.bind(edtTluszcz, produkt.getTluszcz().getClass()));
+        produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, produkt.getWagaJednostki().getClass()));      
     }
-    private KonfigView konfigView;
 
     @Override
     public Boolean execute() {

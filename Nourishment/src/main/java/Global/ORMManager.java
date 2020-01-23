@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Other;
+package Global;
 
+import Global.GlobalConfig;
+import Entities.Produkty;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,6 +68,7 @@ public class ORMManager {
             session = sessionFactory.openSession();
             session.close();
         } catch (Exception e){
+          e.printStackTrace();
           return false;      
         }
         return true;

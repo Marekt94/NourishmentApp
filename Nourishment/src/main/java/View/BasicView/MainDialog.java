@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.BasicView;
 
-import Other.KonfigView;
-import Other.MyPanelInterface;
+import Interfaces.MyWindowInterface;
+import Interfaces.MyPanelInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
@@ -16,46 +16,36 @@ import javax.swing.JPanel;
  *
  * @author Marek
  */
-public class MainDialog extends javax.swing.JDialog {
-    private TitlePanel titlePanel;
-    private KonfigView konfigView;
-    private MyPanelInterface workingPanel;
+public class MainDialog extends javax.swing.JDialog implements MyWindowInterface{
+    private MyWindowManager myWindowManager = null;
     private Boolean result;
 
     public Boolean getResult() {
         return result;
     }
-
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
     
     public MainDialog(java.awt.Frame parent, boolean modal, KonfigView konfigView, String title, MyPanelInterface panel) {
         super(parent, modal);
         initComponents();
-
-        this.konfigView = new KonfigView(konfigView);
-        workingPanel = panel;
-        init();
         
-        titlePanel = new TitlePanel(konfigView, title);
-        if (workingPanel != null){
-            workingPanel.init(konfigView);
-            titlePanel.getjPanel1().add((JPanel) workingPanel);
-        }
-        add(titlePanel, BorderLayout.CENTER);
+        myWindowManager = new MyWindowManager();
+        myWindowManager.create(this, konfigView, title, panel);
+        init();
     }
     
-    private void init(){
+    @Override
+    public void init(){
         result = false;
     }
     
+    @Override
     public <E> void unpackWindow(E object){
-        workingPanel.unpack(object);
+        myWindowManager.getWorkingPanel().unpack(object);
     }
     
+    @Override
     public <E> void unpackWindow(List<E> objectList){
-        workingPanel.unpack(objectList);
+        myWindowManager.getWorkingPanel().unpack(objectList);
     }
 
     @Override
@@ -111,7 +101,7 @@ public class MainDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        result = workingPanel.execute();
+        result = myWindowManager.getWorkingPanel().execute();
         if (result == true){
             setVisible(false);
         }

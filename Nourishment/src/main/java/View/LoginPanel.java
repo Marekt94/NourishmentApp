@@ -5,9 +5,9 @@
  */
 package View;
 
-import Other.KonfigView;
-import Other.MyPanelInterface;
-import Other.ORMManager;
+import View.BasicView.KonfigView;
+import Interfaces.MyPanelInterface;
+import Global.ORMManager;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,7 +16,9 @@ import java.util.List;
  * @author Marek
  */
 public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
-
+    private KonfigView konfigView;
+    private ORMManager ormManager;
+    
     @Override
     public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -31,8 +33,6 @@ public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
     public void pack() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    private KonfigView konfigView;
-    private ORMManager ormManager;
     
     @Override
     public Boolean execute() {

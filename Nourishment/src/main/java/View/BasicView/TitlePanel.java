@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.BasicView;
 
-import Other.KonfigView;
-import Other.MyPanelInterface;
+import Interfaces.MyPanelInterface;
 import java.io.Serializable;
 import java.util.List;
 import javax.swing.JPanel;

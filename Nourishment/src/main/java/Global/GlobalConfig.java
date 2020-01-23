@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Other;
+package Global;
 
+import Other.PreviewType;
 import javax.swing.WindowConstants;
 
 /**

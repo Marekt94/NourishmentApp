@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Other;
+package Interfaces;
 
+import View.BasicView.KonfigView;
 import java.io.Serializable;
 import java.util.List;
 

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Other;
+package View.BasicView;
 
+import Global.GlobalConfig;
+import Other.PreviewType;
 import javax.swing.JFrame;
 
 /**
