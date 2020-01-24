@@ -47,16 +47,16 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public void pack() {
-        produkt.setBialko((Double) GlobalFun.bind(edtBialko, produkt.getBialko().getClass()));
-        produkt.setBlonnik((Double) GlobalFun.bind(edtBlonnik, produkt.getBlonnik().getClass()));
-        produkt.setCukryProste((Double) GlobalFun.bind(edtCukryProste, produkt.getCukryProste().getClass()));
-        produkt.setCukrySuma((Double) GlobalFun.bind(edtCukrySuma, produkt.getCukrySuma().getClass()));
-        produkt.setCukryZlozone((Double) GlobalFun.bind(edtCukryZlozone, produkt.getCukryZlozone().getClass()));
-        produkt.setKcalNa100g((Double) GlobalFun.bind(edtKcalNa100g, produkt.getKcalNa100g().getClass()));
-        produkt.setNazwa((String) GlobalFun.bind(edtNazwa, produkt.getNazwa().getClass()));
-        produkt.setSol((Double) GlobalFun.bind(edtSol, produkt.getSol().getClass()));
-        produkt.setTluszcz((Double) GlobalFun.bind(edtTluszcz, produkt.getTluszcz().getClass()));
-        produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, produkt.getWagaJednostki().getClass()));      
+        produkt.setBialko((Double) GlobalFun.bind(edtBialko, Double.class));
+        produkt.setBlonnik((Double) GlobalFun.bind(edtBlonnik, Double.class));
+        produkt.setCukryProste((Double) GlobalFun.bind(edtCukryProste, Double.class));
+        produkt.setCukrySuma((Double) GlobalFun.bind(edtCukrySuma, Double.class));
+        produkt.setCukryZlozone((Double) GlobalFun.bind(edtCukryZlozone, Double.class));
+        produkt.setKcalNa100g((Double) GlobalFun.bind(edtKcalNa100g, Double.class));
+        produkt.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
+        produkt.setSol((Double) GlobalFun.bind(edtSol, Double.class));
+        produkt.setTluszcz((Double) GlobalFun.bind(edtTluszcz, Double.class));
+        produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, Double.class));      
     }
 
     @Override

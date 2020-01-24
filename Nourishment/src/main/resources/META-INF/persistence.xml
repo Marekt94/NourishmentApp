@@ -3,6 +3,7 @@
   <persistence-unit name="com.csvtosql_Nourishment_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entities.Produkty</class>
+    <class>Entities.Potrawy</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/DB/NOURISHMENT.FDB"/>
       <property name="javax.persistence.jdbc.user" value="sysdba"/>
