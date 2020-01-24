@@ -100,7 +100,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowPanel());        
-        mainWindow.unpackWindow(ormManager.askForProducts());
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForProducts());
         
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnProduktyActionPerformed

@@ -6,15 +6,21 @@
 package View.BasicView;
 
 import Interfaces.MyPanelInterface;
+import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.Window;
+import javax.swing.KeyStroke;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Marek
  */
-public class MyWindowManager {
+public class MyWindowManager implements MyWindowManagerInterface{
     private TitlePanel titlePanel = null;
     private KonfigView konfigView;
     private MyPanelInterface workingPanel;  
@@ -40,7 +46,29 @@ public class MyWindowManager {
             workingPanel.init(konfigView);
             titlePanel.getjPanel1().add((JPanel) workingPanel);
         }
-        mainWindow.add(titlePanel, BorderLayout.CENTER);        
+        mainWindow.add(titlePanel, BorderLayout.CENTER);
+        setTraversalKeys(mainWindow);
+    }
+    
+    private void setTraversalKeys(Window mainWindow){
+        setTraversalKey(mainWindow, KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, "DOWN");
+        setTraversalKey(mainWindow, KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, "UP");
+    }
+    
+    private void setTraversalKey(Window mainWindow, Integer traversal, String key){
+        Set set = new HashSet(mainWindow.getFocusTraversalKeys(traversal));
+        set.add(KeyStroke.getKeyStroke(key));
+        mainWindow.setFocusTraversalKeys(traversal, set);       
+    }
+    
+    @Override
+    public <E> void unpackWindow(E object){
+        workingPanel.unpack(object);
+    }
+    
+    @Override
+    public <E> void unpackWindow(List<E> objectList){
+        workingPanel.unpack(objectList);
     }
     
     public MyWindowManager(){

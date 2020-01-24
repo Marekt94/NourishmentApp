@@ -7,6 +7,7 @@ package View.BasicView;
 
 import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
+import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
@@ -32,16 +33,6 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
     public void init(){
         setDefaultCloseOperation(myWindowManager.getKonfigView().getDefaultOperationOnClose());
     }
-    
-    @Override
-    public <E> void unpackWindow(E object){
-        myWindowManager.getWorkingPanel().unpack(object);
-    }
-    
-    @Override
-     public <E> void unpackWindow(List<E> objectList){
-        myWindowManager.getWorkingPanel().unpack(objectList);
-    }
 
     @Override
     public void setVisible(boolean b) {
@@ -51,6 +42,11 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
             setExtendedState(myWindowManager.getKonfigView().getExtendedState());
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public MyWindowManagerInterface getMyWindowManager() {
+        return myWindowManager;
     }
     
     

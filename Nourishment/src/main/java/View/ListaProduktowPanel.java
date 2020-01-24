@@ -187,7 +187,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
             
             MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
             product = productsList.get(jTable1.getSelectedRow());
-            mainWindow.unpackWindow(product);
+            mainWindow.getMyWindowManager().unpackWindow(product);
             
             mainWindow.setVisible(true);
             
@@ -205,7 +205,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
         
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
         Produkty product = new Produkty();
-        mainWindow.unpackWindow(product);
+        mainWindow.getMyWindowManager().unpackWindow(product);
         
         mainWindow.setVisible(true);
         if (mainWindow.getResult()){

@@ -7,6 +7,7 @@ package View.BasicView;
 
 import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
+import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 public class MainDialog extends javax.swing.JDialog implements MyWindowInterface{
     private MyWindowManager myWindowManager = null;
     private Boolean result;
-
+ 
     public Boolean getResult() {
         return result;
     }
@@ -36,16 +37,6 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
     @Override
     public void init(){
         result = false;
-    }
-    
-    @Override
-    public <E> void unpackWindow(E object){
-        myWindowManager.getWorkingPanel().unpack(object);
-    }
-    
-    @Override
-    public <E> void unpackWindow(List<E> objectList){
-        myWindowManager.getWorkingPanel().unpack(objectList);
     }
 
     @Override
@@ -148,10 +139,16 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
             }
         });
     }
-
+    
+    @Override
+    public MyWindowManagerInterface getMyWindowManager() {
+        return myWindowManager;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
 }
