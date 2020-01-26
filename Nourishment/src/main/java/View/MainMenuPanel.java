@@ -92,6 +92,11 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         btnPotrawy.setMaximumSize(new java.awt.Dimension(100, 21));
         btnPotrawy.setMinimumSize(new java.awt.Dimension(100, 21));
         btnPotrawy.setPreferredSize(new java.awt.Dimension(100, 21));
+        btnPotrawy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPotrawyActionPerformed(evt);
+            }
+        });
         add(btnPotrawy);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -104,6 +109,13 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnProduktyActionPerformed
+
+    private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
+        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new PotrawyManagerPanel());
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForPotrawy());
+        
+        mainDialog.setVisible(true);
+    }//GEN-LAST:event_btnPotrawyActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

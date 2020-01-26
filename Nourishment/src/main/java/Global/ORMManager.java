@@ -5,8 +5,10 @@
  */
 package Global;
 
+import Entities.Potrawy;
 import Global.GlobalConfig;
 import Entities.Produkty;
+import Entities.ProduktyWPotrawie;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -82,6 +84,25 @@ public class ORMManager {
         productsList = session.createCriteria(Produkty.class).list();
         session.close();
         return productsList;
+    }
+    
+    public List<ProduktyWPotrawie> askForProduktyWPotrawie(){
+        List<ProduktyWPotrawie> list = null;
+        
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        list = session.createCriteria(ProduktyWPotrawie.class).list();
+        session.close();
+        return list;
+    }
+    
+    public List<ProduktyWPotrawie> askForPotrawy(){
+        List<ProduktyWPotrawie> list = null;
+        
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        list = session.createCriteria(Potrawy.class).list();
+        return list;
     }
     
     public Boolean addProductsList(List<Produkty> productsList){

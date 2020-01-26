@@ -47,50 +47,9 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
             productsList.add((Produkty) product);
         } 
         
-        updateTable();
+        GlobalFun.updateTable(productsList, jTable1);;
     }
     
-    private void updateTable(){
-        Field[] fields = Produkty.class.getDeclaredFields();
-        fields = Arrays.copyOfRange(fields, 1, fields.length);
-        
-        
-        while(jTable1.getColumnCount() < fields.length){
-            TableColumn tblcol = new TableColumn();
-            ((DefaultTableModel) jTable1.getModel()).addColumn("");
-        }
-        
-        for (int i = 0; i < fields.length; i++) {
-            jTable1.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(fields[i].getName());
-        }
-        
-        ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
-        for (int j = 0; j < productsList.size(); j++) {
-            String[] row = new String[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                try {
-                    Boolean oldAccess;
-                    oldAccess =  fields[i].canAccess(productsList.get(j));
-                    fields[i].setAccessible(true);
-                    if (fields[i].get(productsList.get(j)) != null){
-                        if (fields[i].get(productsList.get(j)).getClass().equals(Double.class)){
-                            row[i] = GlobalFun.round((Double) fields[i].get(productsList.get(j)), null).toString();
-                        }
-                        else{
-                            row[i] = fields[i].get(productsList.get(j)).toString();
-                        }
-                    }
-                    fields[i].setAccessible(oldAccess);
-                } catch (IllegalArgumentException ex) {
-                    Logger.getLogger(ListaProduktowPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(ListaProduktowPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            ((DefaultTableModel) jTable1.getModel()).addRow(row);
-        }        
-    }
 
     @Override
     public void pack() {
@@ -195,7 +154,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
                 newOrEditedProducts.add(product);
             }
             
-            updateTable();
+            GlobalFun.updateTable(productsList, jTable1);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -211,7 +170,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
         if (mainWindow.getResult()){
             productsList.add(product);
             newOrEditedProducts.add(product);
-            updateTable();
+            GlobalFun.updateTable(productsList, jTable1);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 

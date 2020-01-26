@@ -9,5 +9,7 @@
         <property name="hibernate.connection.useUnicode">true</property> 
         <property name="hibernate.connection.characterEncoding">UTF-8</property> 
         <mapping class="Entities.Produkty" />
+        <mapping class="Entities.ProduktyWPotrawie" />
+        <mapping class="Entities.Potrawy" />
     </session-factory>
 </hibernate-configuration>
