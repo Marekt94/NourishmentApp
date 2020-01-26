@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,16 +29,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProduktyWPotrawie.findAll", query = "SELECT p FROM ProduktyWPotrawie p"),
     @NamedQuery(name = "ProduktyWPotrawie.findById", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.id = :id"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpIloscWG", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppIloscWG = :ppIloscWG"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaBlonnik", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaBlonnik = :ppSumaBlonnik"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaKcal", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaKcal = :ppSumaKcal"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaSol", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaSol = :ppSumaSol"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaTluszcz", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaTluszcz = :ppSumaTluszcz"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpWaga", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppWaga = :ppWaga"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaBialko", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaBialko = :ppSumaBialko"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaCukryProste", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaCukryProste = :ppSumaCukryProste"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaCukryZlozone", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaCukryZlozone = :ppSumaCukryZlozone"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByPpSumaCukrySuma", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.ppSumaCukrySuma = :ppSumaCukrySuma")})
+    @NamedQuery(name = "ProduktyWPotrawie.findByIloscWG", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.iloscWG = :iloscWG"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaBlonnik", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaBlonnik = :sumaBlonnik"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaKcal", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaKcal = :sumaKcal"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaSol", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaSol = :sumaSol"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaTluszcz", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaTluszcz = :sumaTluszcz"),
+    @NamedQuery(name = "ProduktyWPotrawie.findByWaga", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.waga = :waga"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaBialko", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaBialko = :sumaBialko"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryProste", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryProste = :sumaCukryProste"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryZlozone", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryZlozone = :sumaCukryZlozone"),
+    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukrySuma", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukrySuma = :sumaCukrySuma")})
 public class ProduktyWPotrawie implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,33 +47,33 @@ public class ProduktyWPotrawie implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "PP_ILOSC_W_G")
-    private double ppIloscWG;
+    @Column(name = "ILOSC_W_G")
+    private double iloscWG;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "PP_SUMA_BLONNIK")
-    private Double ppSumaBlonnik;
-    @Column(name = "PP_SUMA_KCAL")
-    private Double ppSumaKcal;
-    @Column(name = "PP_SUMA_SOL")
-    private Double ppSumaSol;
-    @Column(name = "PP_SUMA_TLUSZCZ")
-    private Double ppSumaTluszcz;
-    @Column(name = "PP_WAGA")
-    private Double ppWaga;
-    @Column(name = "PP_SUMA_BIALKO")
-    private Double ppSumaBialko;
-    @Column(name = "PP_SUMA_CUKRY_PROSTE")
-    private Double ppSumaCukryProste;
-    @Column(name = "PP_SUMA_CUKRY_ZLOZONE")
-    private Double ppSumaCukryZlozone;
-    @Column(name = "PP_SUMA_CUKRY_SUMA")
-    private Double ppSumaCukrySuma;
-    @JoinColumn(name = "PP_ID_POTRAWY", referencedColumnName = "ID")
+    @Column(name = "SUMA_BLONNIK")
+    private Double sumaBlonnik;
+    @Column(name = "SUMA_KCAL")
+    private Double sumaKcal;
+    @Column(name = "SUMA_SOL")
+    private Double sumaSol;
+    @Column(name = "SUMA_TLUSZCZ")
+    private Double sumaTluszcz;
+    @Column(name = "WAGA")
+    private Double waga;
+    @Column(name = "SUMA_BIALKO")
+    private Double sumaBialko;
+    @Column(name = "SUMA_CUKRY_PROSTE")
+    private Double sumaCukryProste;
+    @Column(name = "SUMA_CUKRY_ZLOZONE")
+    private Double sumaCukryZlozone;
+    @Column(name = "SUMA_CUKRY_SUMA")
+    private Double sumaCukrySuma;
+    @JoinColumn(name = "ID_POTRAWY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Potrawy ppIdPotrawy;
-    @JoinColumn(name = "PP_ID_PRODUKTU", referencedColumnName = "ID")
+    private Potrawy idPotrawy;
+    @JoinColumn(name = "ID_PRODUKTU", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Produkty ppIdProduktu;
+    private Produkty idProduktu;
 
     public ProduktyWPotrawie() {
     }
@@ -80,9 +82,9 @@ public class ProduktyWPotrawie implements Serializable {
         this.id = id;
     }
 
-    public ProduktyWPotrawie(Integer id, double ppIloscWG) {
+    public ProduktyWPotrawie(Integer id, double iloscWG) {
         this.id = id;
-        this.ppIloscWG = ppIloscWG;
+        this.iloscWG = iloscWG;
     }
 
     public Integer getId() {
@@ -93,100 +95,100 @@ public class ProduktyWPotrawie implements Serializable {
         this.id = id;
     }
 
-    public double getPpIloscWG() {
-        return ppIloscWG;
+    public double getIloscWG() {
+        return iloscWG;
     }
 
-    public void setPpIloscWG(double ppIloscWG) {
-        this.ppIloscWG = ppIloscWG;
+    public void setIloscWG(double iloscWG) {
+        this.iloscWG = iloscWG;
     }
 
-    public Double getPpSumaBlonnik() {
-        return ppSumaBlonnik;
+    public Double getSumaBlonnik() {
+        return sumaBlonnik;
     }
 
-    public void setPpSumaBlonnik(Double ppSumaBlonnik) {
-        this.ppSumaBlonnik = ppSumaBlonnik;
+    public void setSumaBlonnik(Double sumaBlonnik) {
+        this.sumaBlonnik = sumaBlonnik;
     }
 
-    public Double getPpSumaKcal() {
-        return ppSumaKcal;
+    public Double getSumaKcal() {
+        return sumaKcal;
     }
 
-    public void setPpSumaKcal(Double ppSumaKcal) {
-        this.ppSumaKcal = ppSumaKcal;
+    public void setSumaKcal(Double sumaKcal) {
+        this.sumaKcal = sumaKcal;
     }
 
-    public Double getPpSumaSol() {
-        return ppSumaSol;
+    public Double getSumaSol() {
+        return sumaSol;
     }
 
-    public void setPpSumaSol(Double ppSumaSol) {
-        this.ppSumaSol = ppSumaSol;
+    public void setSumaSol(Double sumaSol) {
+        this.sumaSol = sumaSol;
     }
 
-    public Double getPpSumaTluszcz() {
-        return ppSumaTluszcz;
+    public Double getSumaTluszcz() {
+        return sumaTluszcz;
     }
 
-    public void setPpSumaTluszcz(Double ppSumaTluszcz) {
-        this.ppSumaTluszcz = ppSumaTluszcz;
+    public void setSumaTluszcz(Double sumaTluszcz) {
+        this.sumaTluszcz = sumaTluszcz;
     }
 
-    public Double getPpWaga() {
-        return ppWaga;
+    public Double getWaga() {
+        return waga;
     }
 
-    public void setPpWaga(Double ppWaga) {
-        this.ppWaga = ppWaga;
+    public void setWaga(Double waga) {
+        this.waga = waga;
     }
 
-    public Double getPpSumaBialko() {
-        return ppSumaBialko;
+    public Double getSumaBialko() {
+        return sumaBialko;
     }
 
-    public void setPpSumaBialko(Double ppSumaBialko) {
-        this.ppSumaBialko = ppSumaBialko;
+    public void setSumaBialko(Double sumaBialko) {
+        this.sumaBialko = sumaBialko;
     }
 
-    public Double getPpSumaCukryProste() {
-        return ppSumaCukryProste;
+    public Double getSumaCukryProste() {
+        return sumaCukryProste;
     }
 
-    public void setPpSumaCukryProste(Double ppSumaCukryProste) {
-        this.ppSumaCukryProste = ppSumaCukryProste;
+    public void setSumaCukryProste(Double sumaCukryProste) {
+        this.sumaCukryProste = sumaCukryProste;
     }
 
-    public Double getPpSumaCukryZlozone() {
-        return ppSumaCukryZlozone;
+    public Double getSumaCukryZlozone() {
+        return sumaCukryZlozone;
     }
 
-    public void setPpSumaCukryZlozone(Double ppSumaCukryZlozone) {
-        this.ppSumaCukryZlozone = ppSumaCukryZlozone;
+    public void setSumaCukryZlozone(Double sumaCukryZlozone) {
+        this.sumaCukryZlozone = sumaCukryZlozone;
     }
 
-    public Double getPpSumaCukrySuma() {
-        return ppSumaCukrySuma;
+    public Double getSumaCukrySuma() {
+        return sumaCukrySuma;
     }
 
-    public void setPpSumaCukrySuma(Double ppSumaCukrySuma) {
-        this.ppSumaCukrySuma = ppSumaCukrySuma;
+    public void setSumaCukrySuma(Double sumaCukrySuma) {
+        this.sumaCukrySuma = sumaCukrySuma;
     }
 
-    public Potrawy getPpIdPotrawy() {
-        return ppIdPotrawy;
+    public Potrawy getIdPotrawy() {
+        return idPotrawy;
     }
 
-    public void setPpIdPotrawy(Potrawy ppIdPotrawy) {
-        this.ppIdPotrawy = ppIdPotrawy;
+    public void setIdPotrawy(Potrawy idPotrawy) {
+        this.idPotrawy = idPotrawy;
     }
 
-    public Produkty getPpIdProduktu() {
-        return ppIdProduktu;
+    public Produkty getIdProduktu() {
+        return idProduktu;
     }
 
-    public void setPpIdProduktu(Produkty ppIdProduktu) {
-        this.ppIdProduktu = ppIdProduktu;
+    public void setIdProduktu(Produkty idProduktu) {
+        this.idProduktu = idProduktu;
     }
 
     @Override

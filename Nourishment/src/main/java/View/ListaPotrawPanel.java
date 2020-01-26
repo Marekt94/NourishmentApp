@@ -5,6 +5,7 @@
  */
 package View;
 
+import Entities.Potrawy;
 import View.BasicView.MainDialog;
 import Global.GlobalFun;
 import View.BasicView.KonfigView;
@@ -30,9 +31,9 @@ import javax.swing.table.TableModel;
  *
  * @author Marek
  */
-public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelInterface{
-    private List<Produkty> productsList;
-    private List<Produkty> newOrEditedProducts;
+public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInterface{
+    private List<Potrawy> mealList;
+    private List<Potrawy> newOrEditedMeals;
 
     @Override
     public <E> void unpack(E object) {
@@ -43,11 +44,11 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
     public <E> void unpack(List<E> objectList){
         String[] titleList = null;
 
-        for (E product : objectList){
-            productsList.add((Produkty) product);
+        for (E meal : objectList){
+            mealList.add((Potrawy) meal);
         } 
         
-        GlobalFun.updateTable(productsList, jTable1);;
+        GlobalFun.updateTable(mealList, jTable1);;
     }
     
 
@@ -60,7 +61,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
     @Override
     public Boolean execute() {
         ORMManager oRMManager = ORMManager.getOrmManager();
-        return oRMManager.addToDB(newOrEditedProducts);
+        return oRMManager.addToDB(newOrEditedMeals);
     }
      
     @Override
@@ -77,10 +78,10 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
     /**
      * Creates new form ListaProduktowView
      */
-    public ListaProduktowPanel() {
+    public ListaPotrawPanel() {
         initComponents();
-        productsList = new ArrayList<Produkty>();
-        newOrEditedProducts = new ArrayList<Produkty>();
+        mealList = new ArrayList<Potrawy>();
+        newOrEditedMeals = new ArrayList<Potrawy>();
     }
 
     /**
@@ -140,21 +141,21 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         if (jTable1.getSelectedRow() > -1){
-            Produkty product;
+            Potrawy meal;
             konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
             konfigView.setExtendedState(JFrame.NORMAL);
             
-            MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
-            product = productsList.get(jTable1.getSelectedRow());
-            mainWindow.getMyWindowManager().unpackWindow(product);
+            MainDialog mainWindow = new MainDialog(null, true, konfigView, "Potrawy", new PotrawyView());
+            meal = mealList.get(jTable1.getSelectedRow());
+            mainWindow.getMyWindowManager().unpackWindow(meal);
             
             mainWindow.setVisible(true);
             
             if (mainWindow.getResult()){
-                newOrEditedProducts.add(product);
+                newOrEditedMeals.add(meal);
             }
             
-            GlobalFun.updateTable(productsList, jTable1);
+            GlobalFun.updateTable(mealList, jTable1);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -162,15 +163,15 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.NORMAL);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkt", new ProduktView());
-        Produkty product = new Produkty();
-        mainWindow.getMyWindowManager().unpackWindow(product);
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Potrawy", new PotrawyView());
+        Potrawy meal = new Potrawy();
+        mainWindow.getMyWindowManager().unpackWindow(meal);
         
         mainWindow.setVisible(true);
         if (mainWindow.getResult()){
-            productsList.add(product);
-            newOrEditedProducts.add(product);
-            GlobalFun.updateTable(productsList, jTable1);
+            mealList.add(meal);
+            newOrEditedMeals.add(meal);
+            GlobalFun.updateTable(mealList, jTable1);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 

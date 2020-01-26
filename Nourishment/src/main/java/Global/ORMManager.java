@@ -102,15 +102,17 @@ public class ORMManager {
         session = sessionFactory.openSession();
         session.beginTransaction();
         list = session.createCriteria(Potrawy.class).list();
+        session.close();
         return list;
     }
     
-    public Boolean addProductsList(List<Produkty> productsList){
+    public <E> Boolean addToDB(List<E> list){
+        if (session.isOpen()){ session.close();}
         session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            for (int i = 0; i < productsList.size(); i++) {
-                session.saveOrUpdate(productsList.get(i));
+            for (int i = 0; i < list.size(); i++) {
+                session.saveOrUpdate(list.get(i));
                 if (i % GlobalConfig.BATCH_SIZE == 0){
                     session.flush();
                     session.clear();
@@ -119,6 +121,8 @@ public class ORMManager {
             transaction.commit();
             session.close();
         } catch (Exception e){
+            e.printStackTrace();
+            session.close();
             return false;      
         }
         return true;

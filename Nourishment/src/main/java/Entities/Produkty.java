@@ -43,13 +43,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produkty.findBySol", query = "SELECT p FROM Produkty p WHERE p.sol = :sol")})
 public class Produkty implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ppIdProduktu")
-    private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
@@ -74,6 +71,8 @@ public class Produkty implements Serializable {
     private Double blonnik;
     @Column(name = "SOL")
     private Double sol;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduktu")
+    private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
 
     public Produkty() {
     }
@@ -175,6 +174,15 @@ public class Produkty implements Serializable {
         this.sol = sol;
     }
 
+    @XmlTransient
+    public Collection<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+        return produktyWPotrawieCollection;
+    }
+
+    public void setProduktyWPotrawieCollection(Collection<ProduktyWPotrawie> produktyWPotrawieCollection) {
+        this.produktyWPotrawieCollection = produktyWPotrawieCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -197,16 +205,7 @@ public class Produkty implements Serializable {
 
     @Override
     public String toString() {
-        return "Other.Produkty[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
-        return produktyWPotrawieCollection;
-    }
-
-    public void setProduktyWPotrawieCollection(Collection<ProduktyWPotrawie> produktyWPotrawieCollection) {
-        this.produktyWPotrawieCollection = produktyWPotrawieCollection;
+        return "Entities.Produkty[ id=" + id + " ]";
     }
     
 }

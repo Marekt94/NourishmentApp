@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -41,11 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
 public class Potrawy implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ppIdPotrawy")
-    private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
@@ -71,6 +71,8 @@ public class Potrawy implements Serializable {
     private Double sumaCukryProste;
     @Column(name = "WAGA")
     private Double waga;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy")
+    private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
 
     public Potrawy() {
     }
@@ -172,6 +174,15 @@ public class Potrawy implements Serializable {
         this.waga = waga;
     }
 
+    @XmlTransient
+    public Collection<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+        return produktyWPotrawieCollection;
+    }
+
+    public void setProduktyWPotrawieCollection(Collection<ProduktyWPotrawie> produktyWPotrawieCollection) {
+        this.produktyWPotrawieCollection = produktyWPotrawieCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -195,15 +206,6 @@ public class Potrawy implements Serializable {
     @Override
     public String toString() {
         return "Entities.Potrawy[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
-        return produktyWPotrawieCollection;
-    }
-
-    public void setProduktyWPotrawieCollection(Collection<ProduktyWPotrawie> produktyWPotrawieCollection) {
-        this.produktyWPotrawieCollection = produktyWPotrawieCollection;
     }
     
 }
