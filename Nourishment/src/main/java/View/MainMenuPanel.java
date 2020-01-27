@@ -23,6 +23,16 @@ import javax.swing.WindowConstants;
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
+
+    @Override
+    public void updateView() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <E> List<E> getNewOrEditedObjectList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @Override
     public <E> void unpack(E object) {
@@ -114,17 +124,21 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        PotrawyManagerPanel potrawyManagerPanel = new PotrawyManagerPanel();
-        ListaPotrawPanel listaPotrawPanel = new ListaPotrawPanel();
-        ListaProduktowPanel listaProduktowPanel = new ListaProduktowPanel();
+//        PotrawyManagerPanel potrawyManagerPanel = new PotrawyManagerPanel();
+//        ListaPotrawPanel listaPotrawPanel = new ListaPotrawPanel();
+//        ListaProduktowPanel listaProduktowPanel = new ListaProduktowPanel();
+//        
+//        potrawyManagerPanel.pnlListaProduktow = listaProduktowPanel;
+//        potrawyManagerPanel.
+//        
+//        potrawyManagerPanel.getPnlPotrawy().add(listaPotrawPanel);
+//        potrawyManagerPanel.getPnlProdukty().add(listaProduktowPanel);
+//        
+//        listaPotrawPanel.unpack(ormManager.askForPotrawy());
+//        listaProduktowPanel.unpack(ormManager.askForProducts());
         
-        listaPotrawPanel.unpack(ormManager.askForPotrawy());
-        listaProduktowPanel.unpack(ormManager.askForProducts());
-        
-        potrawyManagerPanel.getPnlPotrawy().add(listaPotrawPanel);
-        potrawyManagerPanel.getPnlProdukty().add(listaProduktowPanel);
-        
-        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", potrawyManagerPanel);
+        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new PotrawyManagerPanel());
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForProducts());
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForPotrawy());
         
         mainDialog.setVisible(true);

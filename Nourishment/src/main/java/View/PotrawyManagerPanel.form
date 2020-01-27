@@ -43,15 +43,21 @@
             <Property name="alignment" type="int" value="2"/>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnPotrawyOK">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
+                <Property name="text" type="java.lang.String" value="OK"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPotrawyOKActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnPotrawyAnuluj">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
+                <Property name="text" type="java.lang.String" value="Anuluj"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPotrawyAnulujActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -94,29 +100,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel4">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-              <BorderConstraints direction="South"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-            <Property name="alignment" type="int" value="2"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jButton4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jButton3"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlProdukty">
@@ -143,15 +126,21 @@
             <Property name="alignment" type="int" value="2"/>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="btnProduktyOK">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton5"/>
+                <Property name="text" type="java.lang.String" value="OK"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduktyOKActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
+            <Component class="javax.swing.JButton" name="btnProduktyAnuluj">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton6"/>
+                <Property name="text" type="java.lang.String" value="Anuluj"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduktyAnulujActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

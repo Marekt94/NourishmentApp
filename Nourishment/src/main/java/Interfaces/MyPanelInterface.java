@@ -19,5 +19,7 @@ public interface MyPanelInterface {
     public Boolean execute();
     public <E> void unpack(E object);
     public <E> void unpack(List<E> objectList);
+    public <E> List<E> getNewOrEditedObjectList();
     public void pack();
+    public void updateView();
 }

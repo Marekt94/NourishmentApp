@@ -8,6 +8,7 @@ package View;
 import Entities.Potrawy;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Global.ORMManager;
 import Interfaces.MyPanelInterface;
 import View.BasicView.KonfigView;
 import java.util.ArrayList;
@@ -25,16 +26,27 @@ import javax.swing.event.ListSelectionListener;
  */
 public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelInterface{
     KonfigView konfigView = null;
+    ListaPotrawPanel pnlListaPotraw = null;
+    ListaProduktowPanel pnlListaProduktow = null;
 
-    public JPanel getPnlPotrawy() {
-        return pnlPotrawy;
+    @Override
+    public void updateView() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public JPanel getPnlProdukty() {
-        return pnlProdukty;
+    public ListaPotrawPanel getPnlListaPotraw() {
+        return pnlListaPotraw;
+    }
+
+    public ListaProduktowPanel getPnlListaProduktow() {
+        return pnlListaProduktow;
+    }
+
+    @Override
+    public <E> List<E> getNewOrEditedObjectList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-
     @Override
     public Boolean init(KonfigView konfigView) {
         this.konfigView = new KonfigView(konfigView);
@@ -58,7 +70,12 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
     @Override
     public <E> void unpack(List<E> objectList) {
-
+        if (objectList.get(0) instanceof Produkty){
+            pnlListaProduktow.unpack(objectList);
+        }
+        if (objectList.get(0) instanceof Potrawy){
+            pnlListaPotraw.unpack(objectList);
+        }
     }
 
     @Override
@@ -71,6 +88,11 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
      */
     public PotrawyManagerPanel() {
         initComponents();
+        pnlListaPotraw = new ListaPotrawPanel();
+        pnlListaProduktow = new ListaProduktowPanel();
+        
+        pnlPotrawy.add(pnlListaPotraw);
+        pnlProdukty.add(pnlListaProduktow);
     }
 
     /**
@@ -84,18 +106,15 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         pnlPotrawy = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnPotrawyOK = new javax.swing.JButton();
+        btnPotrawyAnuluj = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProduktyWPotrawie = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         pnlProdukty = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnProduktyOK = new javax.swing.JButton();
+        btnProduktyAnuluj = new javax.swing.JButton();
 
         setLayout(new java.awt.GridLayout(1, 0, 10, 10));
 
@@ -104,11 +123,21 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton2.setText("jButton2");
-        jPanel3.add(jButton2);
+        btnPotrawyOK.setText("OK");
+        btnPotrawyOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPotrawyOKActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPotrawyOK);
 
-        jButton1.setText("jButton1");
-        jPanel3.add(jButton1);
+        btnPotrawyAnuluj.setText("Anuluj");
+        btnPotrawyAnuluj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPotrawyAnulujActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPotrawyAnuluj);
 
         pnlPotrawy.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -132,16 +161,6 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        jButton4.setText("jButton4");
-        jPanel4.add(jButton4);
-
-        jButton3.setText("jButton3");
-        jPanel4.add(jButton3);
-
-        jPanel2.add(jPanel4, java.awt.BorderLayout.SOUTH);
-
         add(jPanel2);
 
         pnlProdukty.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -149,28 +168,57 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton5.setText("jButton5");
-        jPanel6.add(jButton5);
+        btnProduktyOK.setText("OK");
+        btnProduktyOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduktyOKActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnProduktyOK);
 
-        jButton6.setText("jButton6");
-        jPanel6.add(jButton6);
+        btnProduktyAnuluj.setText("Anuluj");
+        btnProduktyAnuluj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduktyAnulujActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnProduktyAnuluj);
 
         pnlProdukty.add(jPanel6, java.awt.BorderLayout.SOUTH);
 
         add(pnlProdukty);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPotrawyOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyOKActionPerformed
+        ORMManager oRMManager = ORMManager.getOrmManager();
+        oRMManager.addToDB(pnlListaPotraw.getNewOrEditedObjectList());
+        pnlListaPotraw.updateView();
+    }//GEN-LAST:event_btnPotrawyOKActionPerformed
+
+    private void btnProduktyOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyOKActionPerformed
+        ORMManager oRMManager = ORMManager.getOrmManager();
+        oRMManager.addToDB(pnlListaProduktow.getNewOrEditedObjectList());
+        pnlListaProduktow.updateView();
+    }//GEN-LAST:event_btnProduktyOKActionPerformed
+
+    private void btnPotrawyAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyAnulujActionPerformed
+        pnlListaPotraw.getNewOrEditedObjectList().clear();
+        pnlListaPotraw.updateView();
+    }//GEN-LAST:event_btnPotrawyAnulujActionPerformed
+
+    private void btnProduktyAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyAnulujActionPerformed
+        pnlListaProduktow.getNewOrEditedObjectList().clear();
+        pnlListaProduktow.updateView(); 
+    }//GEN-LAST:event_btnProduktyAnulujActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btnPotrawyAnuluj;
+    private javax.swing.JButton btnPotrawyOK;
+    private javax.swing.JButton btnProduktyAnuluj;
+    private javax.swing.JButton btnProduktyOK;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlPotrawy;

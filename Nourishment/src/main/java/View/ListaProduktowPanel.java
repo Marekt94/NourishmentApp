@@ -35,6 +35,16 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
     private List<Produkty> newOrEditedProducts;
 
     @Override
+    public void updateView() {
+        GlobalFun.updateTable(productsList, jTable1);
+    }
+
+    @Override
+    public <E> List<E> getNewOrEditedObjectList() {
+        return (List<E>) newOrEditedProducts;
+    }
+
+    @Override
     public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -47,7 +57,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
             productsList.add((Produkty) product);
         } 
         
-        GlobalFun.updateTable(productsList, jTable1);;
+        GlobalFun.updateTable(productsList, jTable1);
     }
     
 

@@ -36,6 +36,16 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
     private List<Potrawy> newOrEditedMeals;
 
     @Override
+    public void updateView() {
+        GlobalFun.updateTable(mealList, jTable1);
+    }
+
+    @Override
+    public <E> List<E> getNewOrEditedObjectList() {
+        return (List<E>) newOrEditedMeals;
+    }
+
+    @Override
     public <E> void unpack(E object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -48,7 +58,7 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
             mealList.add((Potrawy) meal);
         } 
         
-        GlobalFun.updateTable(mealList, jTable1);;
+        GlobalFun.updateTable(mealList, jTable1);
     }
     
 

@@ -22,6 +22,16 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
     }
 
     @Override
+    public void updateView() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <E> List<E> getNewOrEditedObjectList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public <E> void unpack(List<E> objectList){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
