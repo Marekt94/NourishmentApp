@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -24,7 +25,15 @@ import javax.swing.event.ListSelectionListener;
  */
 public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelInterface{
     KonfigView konfigView = null;
-    List<Potrawy> potrawyList = null;
+
+    public JPanel getPnlPotrawy() {
+        return pnlPotrawy;
+    }
+
+    public JPanel getPnlProdukty() {
+        return pnlProdukty;
+    }
+    
 
     @Override
     public Boolean init(KonfigView konfigView) {
@@ -49,8 +58,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
     @Override
     public <E> void unpack(List<E> objectList) {
-       potrawyList = (List<Potrawy>) objectList;
-       Global.GlobalFun.updateTable(potrawyList, tblPotrawy);
+
     }
 
     @Override
@@ -63,15 +71,6 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
      */
     public PotrawyManagerPanel() {
         initComponents();
-        tblPotrawy.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (tblPotrawy.getSelectedRow() > -1){
-                    Collection<ProduktyWPotrawie> ppList = potrawyList.get(tblPotrawy.getSelectedRow()).getProduktyWPotrawieCollection();
-                    Global.GlobalFun.updateTable(ppList.stream().collect(Collectors.toList()), tblProduktyWPotrawie);
-                }
-            }
-        });
     }
 
     /**
@@ -83,9 +82,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblPotrawy = new javax.swing.JTable();
+        pnlPotrawy = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -95,35 +92,15 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         jPanel4 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        pnlProdukty = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
 
         setLayout(new java.awt.GridLayout(1, 0, 10, 10));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        tblPotrawy.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tblPotrawy);
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlPotrawy.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlPotrawy.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -133,9 +110,9 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         jButton1.setText("jButton1");
         jPanel3.add(jButton1);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
+        pnlPotrawy.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-        add(jPanel1);
+        add(pnlPotrawy);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -167,23 +144,8 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         add(jPanel2);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel5.setLayout(new java.awt.BorderLayout(10, 0));
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
-
-        jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        pnlProdukty.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlProdukty.setLayout(new java.awt.BorderLayout(10, 0));
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -193,19 +155,9 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         jButton6.setText("jButton6");
         jPanel6.add(jButton6);
 
-        jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
+        pnlProdukty.add(jPanel6, java.awt.BorderLayout.SOUTH);
 
-        jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.Y_AXIS));
-
-        jButton8.setText("jButton8");
-        jPanel7.add(jButton8);
-
-        jButton7.setText("jButton7");
-        jPanel7.add(jButton7);
-
-        jPanel5.add(jPanel7, java.awt.BorderLayout.WEST);
-
-        add(jPanel5);
+        add(pnlProdukty);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -216,20 +168,13 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable tblPotrawy;
+    private javax.swing.JPanel pnlPotrawy;
+    private javax.swing.JPanel pnlProdukty;
     private javax.swing.JTable tblProduktyWPotrawie;
     // End of variables declaration//GEN-END:variables
 }

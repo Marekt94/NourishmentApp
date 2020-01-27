@@ -8,6 +8,7 @@ package View.BasicView;
 import Interfaces.MyPanelInterface;
 import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.KeyboardFocusManager;
 import java.awt.Window;
 import javax.swing.KeyStroke;
@@ -43,8 +44,8 @@ public class MyWindowManager implements MyWindowManagerInterface{
         
         titlePanel = new TitlePanel(konfigView, title);
         if (workingPanel != null){
-            workingPanel.init(konfigView);
             titlePanel.getjPanel1().add((JPanel) workingPanel);
+            setKonfigViewToChildPanel((JPanel)titlePanel);
         }
         mainWindow.add(titlePanel, BorderLayout.CENTER);
         setTraversalKeys(mainWindow);
@@ -69,6 +70,19 @@ public class MyWindowManager implements MyWindowManagerInterface{
     @Override
     public <E> void unpackWindow(List<E> objectList){
         workingPanel.unpack(objectList);
+    }
+    
+    private void setKonfigViewToChildPanel(JPanel panel){
+        for (Component component : panel.getComponents()) {
+            if (component instanceof JPanel){
+                if (((JPanel) component).getComponentCount() > 0){
+                    setKonfigViewToChildPanel((JPanel) component);
+                }
+                if(component instanceof MyPanelInterface){
+                    ((MyPanelInterface)component).init(konfigView);
+                }
+            }
+        }
     }
     
     public MyWindowManager(){

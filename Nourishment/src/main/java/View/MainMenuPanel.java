@@ -111,7 +111,20 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     }//GEN-LAST:event_btnProduktyActionPerformed
 
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
-        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new ListaPotrawPanel());
+        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
+        konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        PotrawyManagerPanel potrawyManagerPanel = new PotrawyManagerPanel();
+        ListaPotrawPanel listaPotrawPanel = new ListaPotrawPanel();
+        ListaProduktowPanel listaProduktowPanel = new ListaProduktowPanel();
+        
+        listaPotrawPanel.unpack(ormManager.askForPotrawy());
+        listaProduktowPanel.unpack(ormManager.askForProducts());
+        
+        potrawyManagerPanel.getPnlPotrawy().add(listaPotrawPanel);
+        potrawyManagerPanel.getPnlProdukty().add(listaProduktowPanel);
+        
+        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", potrawyManagerPanel);
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForPotrawy());
         
         mainDialog.setVisible(true);

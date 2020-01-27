@@ -36,6 +36,7 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
     public Boolean execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }    
+    
     @Override
     public Boolean init(KonfigView konfigView) {
         if (this.konfigView == null){
