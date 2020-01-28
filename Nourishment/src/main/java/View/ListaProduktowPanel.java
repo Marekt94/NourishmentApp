@@ -31,8 +31,21 @@ import javax.swing.table.TableModel;
  * @author Marek
  */
 public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelInterface{
+    private List<Produkty> initProductsList;
     private List<Produkty> productsList;
     private List<Produkty> newOrEditedProducts;
+    
+    @Override
+    public <E> List<E> getObjectsList() {
+        return null;
+    }
+    
+    @Override
+    public void rollback() {
+        newOrEditedProducts.clear();
+        productsList.clear();
+        GlobalFun.deepListCopy(initProductsList, productsList);
+    }
 
     @Override
     public void updateView() {
@@ -56,6 +69,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
         for (E product : objectList){
             productsList.add((Produkty) product);
         } 
+        GlobalFun.deepListCopy((List<Produkty>) objectList, initProductsList);
         
         GlobalFun.updateTable(productsList, jTable1);
     }
@@ -91,6 +105,7 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
         initComponents();
         productsList = new ArrayList<Produkty>();
         newOrEditedProducts = new ArrayList<Produkty>();
+        initProductsList = new ArrayList<Produkty>();
     }
 
     /**

@@ -88,6 +88,7 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        myWindowManager.getWorkingPanel().rollback();
         setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 

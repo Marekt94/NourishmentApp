@@ -23,6 +23,16 @@ import javax.swing.WindowConstants;
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
+    
+    @Override
+    public <E> List<E> getObjectsList() {
+        return null;
+    }
+
+    @Override
+    public void rollback() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public void updateView() {
@@ -123,19 +133,6 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
-//        PotrawyManagerPanel potrawyManagerPanel = new PotrawyManagerPanel();
-//        ListaPotrawPanel listaPotrawPanel = new ListaPotrawPanel();
-//        ListaProduktowPanel listaProduktowPanel = new ListaProduktowPanel();
-//        
-//        potrawyManagerPanel.pnlListaProduktow = listaProduktowPanel;
-//        potrawyManagerPanel.
-//        
-//        potrawyManagerPanel.getPnlPotrawy().add(listaPotrawPanel);
-//        potrawyManagerPanel.getPnlProdukty().add(listaProduktowPanel);
-//        
-//        listaPotrawPanel.unpack(ormManager.askForPotrawy());
-//        listaProduktowPanel.unpack(ormManager.askForProducts());
         
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new PotrawyManagerPanel());
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForProducts());

@@ -15,6 +15,16 @@ import javax.swing.JPanel;
  * @author Marek
  */
 public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
+    
+    @Override
+    public <E> List<E> getObjectsList() {
+        return null;
+    }
+
+    @Override
+    public void rollback() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public <E> void unpack(E object) {

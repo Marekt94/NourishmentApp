@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
@@ -26,14 +28,33 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import java.io.Serializable;
+import org.apache.commons.lang3.SerializationUtils;
 
 /**
  *
  * @author Marek
  */
 public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInterface{
+    private List<Potrawy> initMealList;
     private List<Potrawy> mealList;
     private List<Potrawy> newOrEditedMeals;
+
+    @Override
+    public <E> List<E> getObjectsList() {
+        return (List<E>) mealList;
+    }
+
+    public JTable getjTable1() {
+        return jTable1;
+    }
+
+    @Override
+    public void rollback() {
+        newOrEditedMeals.clear();
+        mealList.clear();
+        GlobalFun.deepListCopy(initMealList, mealList);
+    }
 
     @Override
     public void updateView() {
@@ -57,6 +78,7 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
         for (E meal : objectList){
             mealList.add((Potrawy) meal);
         } 
+        GlobalFun.deepListCopy((List<Potrawy>) objectList, initMealList);
         
         GlobalFun.updateTable(mealList, jTable1);
     }
@@ -92,6 +114,7 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
         initComponents();
         mealList = new ArrayList<Potrawy>();
         newOrEditedMeals = new ArrayList<Potrawy>();
+        initMealList = new ArrayList<Potrawy>();
     }
 
     /**

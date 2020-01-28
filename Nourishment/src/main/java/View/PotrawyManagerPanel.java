@@ -8,6 +8,7 @@ package View;
 import Entities.Potrawy;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyPanelInterface;
 import View.BasicView.KonfigView;
@@ -28,6 +29,17 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     KonfigView konfigView = null;
     ListaPotrawPanel pnlListaPotraw = null;
     ListaProduktowPanel pnlListaProduktow = null;
+    
+    @Override
+    public <E> List<E> getObjectsList() {
+        return null;
+    }
+
+    @Override
+    public void rollback() {
+        pnlListaPotraw.rollback();
+        pnlListaProduktow.rollback();
+    }
 
     @Override
     public void updateView() {
@@ -93,6 +105,17 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         
         pnlPotrawy.add(pnlListaPotraw);
         pnlProdukty.add(pnlListaProduktow);
+        
+        pnlListaPotraw.getjTable1().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Integer selectedRow = pnlListaPotraw.getjTable1().getSelectedRow();
+                List<Potrawy> potrawyList = pnlListaPotraw.getObjectsList();
+                Potrawy potrawa = potrawyList.get(selectedRow);
+                List<ProduktyWPotrawie> prodWPotList = potrawa.getProduktyWPotrawieCollection().stream().collect(Collectors.toList());
+                GlobalFun.updateTable(prodWPotList, tblProduktyWPotrawie);
+            }
+        });
     }
 
     /**
@@ -190,24 +213,22 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPotrawyOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyOKActionPerformed
-        ORMManager oRMManager = ORMManager.getOrmManager();
-        oRMManager.addToDB(pnlListaPotraw.getNewOrEditedObjectList());
+        pnlListaPotraw.execute();
         pnlListaPotraw.updateView();
     }//GEN-LAST:event_btnPotrawyOKActionPerformed
 
     private void btnProduktyOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyOKActionPerformed
-        ORMManager oRMManager = ORMManager.getOrmManager();
-        oRMManager.addToDB(pnlListaProduktow.getNewOrEditedObjectList());
+        pnlListaProduktow.execute();
         pnlListaProduktow.updateView();
     }//GEN-LAST:event_btnProduktyOKActionPerformed
 
     private void btnPotrawyAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyAnulujActionPerformed
-        pnlListaPotraw.getNewOrEditedObjectList().clear();
+        pnlListaPotraw.rollback();
         pnlListaPotraw.updateView();
     }//GEN-LAST:event_btnPotrawyAnulujActionPerformed
 
     private void btnProduktyAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyAnulujActionPerformed
-        pnlListaProduktow.getNewOrEditedObjectList().clear();
+        pnlListaProduktow.rollback();
         pnlListaProduktow.updateView(); 
     }//GEN-LAST:event_btnProduktyAnulujActionPerformed
 

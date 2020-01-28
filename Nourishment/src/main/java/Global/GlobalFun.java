@@ -5,9 +5,11 @@
  */
 package Global;
 
+import Entities.Potrawy;
 import Entities.Produkty;
 import static Global.GlobalConfig.*;
 import View.ListaProduktowPanel;
+import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.apache.commons.lang3.SerializationUtils;
 
 /**
  *
@@ -150,6 +153,12 @@ public class GlobalFun {
             }
             ((DefaultTableModel) table.getModel()).addRow(row);
         }        
+    }
+    
+    public static <E extends Serializable> void deepListCopy(List<E> referenceList, List<E> newList){
+        for (E object : referenceList){
+            newList.add(SerializationUtils.clone(object));
+        }
     }
     
     

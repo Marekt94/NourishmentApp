@@ -23,6 +23,16 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
     private Produkty produkt = null;
     private FocusListener focusListener = null;
     private KonfigView konfigView = null;
+    
+    @Override
+    public <E> List<E> getObjectsList() {
+        return null;
+    }
+
+    @Override
+    public void rollback() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public void updateView() {

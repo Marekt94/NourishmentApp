@@ -22,4 +22,6 @@ public interface MyPanelInterface {
     public <E> List<E> getNewOrEditedObjectList();
     public void pack();
     public void updateView();
+    public void rollback();
+    public <E> List<E> getObjectsList();
 }

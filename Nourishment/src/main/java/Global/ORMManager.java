@@ -9,7 +9,11 @@ import Entities.Potrawy;
 import Global.GlobalConfig;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -96,12 +100,16 @@ public class ORMManager {
         return list;
     }
     
-    public List<ProduktyWPotrawie> askForPotrawy(){
-        List<ProduktyWPotrawie> list = null;
+    public List<Potrawy> askForPotrawy(){
+        List<Potrawy> list = null;
+        Set<Potrawy> set = new HashSet<Potrawy>();
         
         session = sessionFactory.openSession();
         session.beginTransaction();
-        list = session.createCriteria(Potrawy.class).list();
+        for (Potrawy meal : (List<Potrawy>) session.createCriteria(Potrawy.class).list()){
+            set.add(meal);
+        } 
+        list = new ArrayList<Potrawy>(set);
         session.close();
         return list;
     }
