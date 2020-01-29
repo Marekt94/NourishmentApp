@@ -205,7 +205,7 @@ public class Produkty implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.Produkty[ id=" + id + " ]";
+        return nazwa;
     }
     
 }

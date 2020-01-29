@@ -35,6 +35,14 @@ public class ListaProduktowPanel extends javax.swing.JPanel implements MyPanelIn
     private List<Produkty> productsList;
     private List<Produkty> newOrEditedProducts;
     
+    public Produkty getCurrentObject(){
+        if (jTable1.getSelectedRow() < productsList.size()){
+            return productsList.get(jTable1.getSelectedRow());
+        }
+        else
+            return null;
+    }
+    
     @Override
     public <E> List<E> getObjectsList() {
         return null;

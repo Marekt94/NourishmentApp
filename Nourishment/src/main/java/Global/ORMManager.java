@@ -82,20 +82,28 @@ public class ORMManager {
     
     public List<Produkty> askForProducts(){
         List<Produkty> productsList = null;
+        Set<Produkty> set = new HashSet<Produkty>();
         
         session = sessionFactory.openSession();
         session.beginTransaction();
-        productsList = session.createCriteria(Produkty.class).list();
+        for (Produkty product : (List<Produkty>) session.createCriteria(Produkty.class).list()){
+            set.add(product);
+        }
+        productsList = new ArrayList<Produkty>(set);
         session.close();
         return productsList;
     }
     
     public List<ProduktyWPotrawie> askForProduktyWPotrawie(){
         List<ProduktyWPotrawie> list = null;
+        Set<ProduktyWPotrawie> set = new HashSet<ProduktyWPotrawie>();
         
         session = sessionFactory.openSession();
         session.beginTransaction();
-        list = session.createCriteria(ProduktyWPotrawie.class).list();
+        for (ProduktyWPotrawie prodWPot : (List<ProduktyWPotrawie>) session.createCriteria(ProduktyWPotrawie.class).list()){
+            set.add(prodWPot);
+        }         
+        list = new ArrayList<ProduktyWPotrawie>(set);
         session.close();
         return list;
     }

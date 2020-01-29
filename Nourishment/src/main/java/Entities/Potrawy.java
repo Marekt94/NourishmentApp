@@ -207,7 +207,8 @@ public class Potrawy implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.Potrawy[ id=" + id + " ]";
+        //return "Entities.Potrawy[ id=" + id + " ]";
+        return nazwa;
     }
     
 }

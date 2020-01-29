@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -107,6 +108,10 @@ public class GlobalFun {
         }
     }
     
+    public static <E> void updateTable(Collection<E> list, JTable table){
+        updateTable(toList(list), table);
+    } 
+    
     public static <E> void updateTable(List<E> list, JTable table){
         if (list.size() < 1){return;}
         List<Field> fieldsList = new ArrayList<>();
@@ -159,6 +164,10 @@ public class GlobalFun {
         for (E object : referenceList){
             newList.add(SerializationUtils.clone(object));
         }
+    }
+    
+    public static <E> List<E> toList(Collection<E> collection){
+        return collection.stream().collect(Collectors.toList());
     }
     
     
