@@ -18,6 +18,11 @@ import java.util.List;
 public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
+
+    @Override
+    public <E> E getCurrentObject() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @Override
     public <E> List<E> getObjectsList() {

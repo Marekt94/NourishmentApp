@@ -24,4 +24,5 @@ public interface MyPanelInterface {
     public void updateView();
     public void rollback();
     public <E> List<E> getObjectsList();
+    public <E> E getCurrentObject();
 }

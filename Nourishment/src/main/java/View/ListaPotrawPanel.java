@@ -40,9 +40,10 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
     private List<Potrawy> mealList;
     private List<Potrawy> newOrEditedMeals;
     
-    public Potrawy getCurrentObject(){
+    
+    public <E> E getCurrentObject(){
         if ((jTable1.getSelectedRow() < mealList.size()) && (jTable1.getSelectedRow() > -1)){
-            return mealList.get(jTable1.getSelectedRow());
+            return (E) mealList.get(jTable1.getSelectedRow());
         }
         else
             return null;

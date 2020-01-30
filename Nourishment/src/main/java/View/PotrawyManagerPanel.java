@@ -29,6 +29,16 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     KonfigView konfigView = null;
     ListaPotrawPanel pnlListaPotraw = null;
     ListaProduktowPanel pnlListaProduktow = null;
+    List<ProduktyWPotrawie> prodWPotrList = null;
+
+    @Override
+    public <E> E getCurrentObject() {
+        if (tblProduktyWPotrawie.getSelectedRow() > -1){
+            ProduktyWPotrawie prod = prodWPotrList.get(tblProduktyWPotrawie.getSelectedRow()); 
+            return (E) prodWPotrList.get(tblProduktyWPotrawie.getSelectedRow());
+        }
+        return null;
+    }
     
     @Override
     public <E> List<E> getObjectsList() {
@@ -43,7 +53,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
     @Override
     public void updateView() {
-        GlobalFun.updateTable(pnlListaPotraw.getCurrentObject().getProduktyWPotrawieCollection(), tblProduktyWPotrawie);
+        GlobalFun.updateTable(prodWPotrList, tblProduktyWPotrawie);
     }
 
     public ListaPotrawPanel getPnlListaPotraw() {
@@ -102,6 +112,8 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         initComponents();
         pnlListaPotraw = new ListaPotrawPanel();
         pnlListaProduktow = new ListaProduktowPanel();
+        prodWPotrList = new ArrayList<ProduktyWPotrawie>();
+        
         
         pnlPotrawy.add(pnlListaPotraw);
         pnlProdukty.add(pnlListaProduktow);
@@ -110,7 +122,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 Potrawy potrawa = pnlListaPotraw.getCurrentObject();
-                List<ProduktyWPotrawie> prodWPotList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
                 updateView();
             }
         });
@@ -129,7 +141,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         jPanel3 = new javax.swing.JPanel();
         btnPotrawyOK = new javax.swing.JButton();
         btnPotrawyAnuluj = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        pnlProduktyWPotrawie = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProduktyWPotrawie = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -166,7 +178,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
         add(pnlPotrawy);
 
-        jPanel2.setLayout(new java.awt.BorderLayout(5, 0));
+        pnlProduktyWPotrawie.setLayout(new java.awt.BorderLayout(5, 0));
 
         tblProduktyWPotrawie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -181,7 +193,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         ));
         jScrollPane2.setViewportView(tblProduktyWPotrawie);
 
-        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        pnlProduktyWPotrawie.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(100, 300));
         jPanel4.setLayout(new java.awt.GridLayout(20, 0, 5, 5));
@@ -195,11 +207,16 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         jPanel4.add(btnAddProduct);
 
         btnDeleteProduct.setText(">>");
+        btnDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProductActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnDeleteProduct);
 
-        jPanel2.add(jPanel4, java.awt.BorderLayout.LINE_END);
+        pnlProduktyWPotrawie.add(jPanel4, java.awt.BorderLayout.LINE_END);
 
-        add(jPanel2);
+        add(pnlProduktyWPotrawie);
 
         pnlProdukty.setLayout(new java.awt.BorderLayout(10, 0));
 
@@ -250,10 +267,22 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         if (pnlListaPotraw.getCurrentObject() != null){
             ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
             prodWPotr.setIdProduktu(pnlListaProduktow.getCurrentObject());
-            pnlListaPotraw.getCurrentObject().getProduktyWPotrawieCollection().add(prodWPotr);
+            ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
+            prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
             updateView();
         }
     }//GEN-LAST:event_btnAddProductActionPerformed
+
+    private void btnDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProductActionPerformed
+        if (tblProduktyWPotrawie.getSelectedRow() > -1){
+                if (pnlListaPotraw.getCurrentObject() != null){
+                    ProduktyWPotrawie prod = getCurrentObject();
+                    ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().remove(prod);
+                    prodWPotrList.remove(prod);
+                    updateView();
+                }
+        }
+    }//GEN-LAST:event_btnDeleteProductActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -263,13 +292,13 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     private javax.swing.JButton btnPotrawyOK;
     private javax.swing.JButton btnProduktyAnuluj;
     private javax.swing.JButton btnProduktyOK;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlPotrawy;
     private javax.swing.JPanel pnlProdukty;
+    private javax.swing.JPanel pnlProduktyWPotrawie;
     private javax.swing.JTable tblProduktyWPotrawie;
     // End of variables declaration//GEN-END:variables
 }
