@@ -12,6 +12,7 @@ import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyPanelInterface;
 import View.BasicView.KonfigView;
+import View.BasicView.MainDialog;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -267,8 +268,14 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         if (pnlListaPotraw.getCurrentObject() != null){
             ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
             prodWPotr.setIdProduktu(pnlListaProduktow.getCurrentObject());
-            ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
-            prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
+            prodWPotr.setIdPotrawy(pnlListaPotraw.getCurrentObject());
+            MainDialog mainDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
+            mainDialog.getMyWindowManager().unpackWindow(prodWPotr);
+            mainDialog.setVisible(true);
+            if (mainDialog.getResult()){
+                ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
+                prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
+            }
             updateView();
         }
     }//GEN-LAST:event_btnAddProductActionPerformed
