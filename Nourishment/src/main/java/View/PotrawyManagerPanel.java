@@ -15,7 +15,9 @@ import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.swing.JPanel;
@@ -31,6 +33,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
     ListaPotrawPanel pnlListaPotraw = null;
     ListaProduktowPanel pnlListaProduktow = null;
     List<ProduktyWPotrawie> prodWPotrList = null;
+    Set<Potrawy> newOrEditedList = null;
 
     @Override
     public <E> E getCurrentObject() {
@@ -83,6 +86,10 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
 
     @Override
     public Boolean execute() {
+        pnlListaPotraw.execute();
+        pnlListaProduktow.execute();
+        ORMManager ormManager = ORMManager.getOrmManager();
+        ormManager.addToDB(new ArrayList<Potrawy>(newOrEditedList));
         return true;
     }
 
@@ -114,6 +121,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         pnlListaPotraw = new ListaPotrawPanel();
         pnlListaProduktow = new ListaProduktowPanel();
         prodWPotrList = new ArrayList<ProduktyWPotrawie>();
+        newOrEditedList = new HashSet<Potrawy>();
         
         
         pnlPotrawy.add(pnlListaPotraw);
@@ -275,6 +283,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
             if (mainDialog.getResult()){
                 ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
                 prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
+                newOrEditedList.add((Potrawy) pnlListaPotraw.getCurrentObject());
             }
             updateView();
         }
