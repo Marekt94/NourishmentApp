@@ -12,6 +12,7 @@ import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
+import View.BasicView.BaseListPanel;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -29,91 +30,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.lang3.SerializationUtils;
 
 /**
  *
  * @author Marek
  */
-public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInterface{
-    private List<Potrawy> initMealList;
-    private List<Potrawy> mealList;
-    private List<Potrawy> newOrEditedMeals;
-    
-    
-    public <E> E getCurrentObject(){
-        if ((jTable1.getSelectedRow() < mealList.size()) && (jTable1.getSelectedRow() > -1)){
-            return (E) mealList.get(jTable1.getSelectedRow());
-        }
-        else
-            return null;
-    }    
-
-    @Override
-    public <E> List<E> getObjectsList() {
-        return (List<E>) mealList;
-    }
+public class ListaPotrawPanel extends BaseListPanel{
 
     public JTable getjTable1() {
         return jTable1;
-    }
-
-    @Override
-    public void rollback() {
-        newOrEditedMeals.clear();
-        mealList.clear();
-        GlobalFun.deepListCopy(initMealList, mealList);
-    }
-
-    @Override
-    public void updateView() {
-        GlobalFun.updateTable(mealList, jTable1);
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        return (List<E>) newOrEditedMeals;
-    }
-
-    @Override
-    public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> void unpack(List<E> objectList){
-        String[] titleList = null;
-
-        for (E meal : objectList){
-            mealList.add((Potrawy) meal);
-        } 
-        GlobalFun.deepListCopy((List<Potrawy>) objectList, initMealList);
-        
-        GlobalFun.updateTable(mealList, jTable1);
-    }
-    
-
-    @Override
-    public void pack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    private KonfigView konfigView;
-    
-    @Override
-    public Boolean execute() {
-        ORMManager oRMManager = ORMManager.getOrmManager();
-        return oRMManager.addToDB(newOrEditedMeals);
-    }
-     
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        return true;
-    }
-
-    @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
     }
 
     /**
@@ -121,9 +48,7 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
      */
     public ListaPotrawPanel() {
         initComponents();
-        mealList = new ArrayList<Potrawy>();
-        newOrEditedMeals = new ArrayList<Potrawy>();
-        initMealList = new ArrayList<Potrawy>();
+        create(jTable1);
     }
 
     /**
@@ -182,39 +107,11 @@ public class ListaPotrawPanel extends javax.swing.JPanel implements MyPanelInter
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (jTable1.getSelectedRow() > -1){
-            Potrawy meal;
-            konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-            konfigView.setExtendedState(JFrame.NORMAL);
-            
-            MainDialog mainWindow = new MainDialog(null, true, konfigView, "Potrawy", new PotrawyView());
-            meal = mealList.get(jTable1.getSelectedRow());
-            mainWindow.getMyWindowManager().unpackWindow(meal);
-            
-            mainWindow.setVisible(true);
-            
-            if (mainWindow.getResult()){
-                newOrEditedMeals.add(meal);
-            }
-            
-            GlobalFun.updateTable(mealList, jTable1);
-        }
+        editObject(new PotrawyView(), "Potrawa");
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        konfigView.setExtendedState(JFrame.NORMAL);
-        
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Potrawy", new PotrawyView());
-        Potrawy meal = new Potrawy();
-        mainWindow.getMyWindowManager().unpackWindow(meal);
-        
-        mainWindow.setVisible(true);
-        if (mainWindow.getResult()){
-            mealList.add(meal);
-            newOrEditedMeals.add(meal);
-            GlobalFun.updateTable(mealList, jTable1);
-        }
+        addObject(new PotrawyView(), "Potrawa", Potrawy.class);
     }//GEN-LAST:event_btnAddActionPerformed
 
 
