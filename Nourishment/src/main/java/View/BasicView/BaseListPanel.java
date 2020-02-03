@@ -26,9 +26,12 @@ import javax.swing.WindowConstants;
  * @author Marek
  */
 public class BaseListPanel extends javax.swing.JPanel implements MyPanelInterface{
+    private MyPanelInterface detailPanel = null;
+    private String detailPanelTitle = null;
+    private Class detailEntityClass = null;
+    
     protected KonfigView konfigView = null;
     protected KonfigView detailPanelKonfigView = null;
-    protected JTable tblObjects = null;
     
     protected List<Serializable> initObjectList = null;
     protected List<Serializable> objectList = null;
@@ -99,16 +102,21 @@ public class BaseListPanel extends javax.swing.JPanel implements MyPanelInterfac
 
     @Override
     public <E> E getCurrentObject() {
-        return (E) objectList.get(tblObjects.getSelectedRow());
+        if (tblObjects.getSelectedRow() > -1){ 
+            return (E) objectList.get(tblObjects.getSelectedRow());
+        }
+        else{
+            return null;
+        }
     }
 
     
-    public BaseListPanel() {
+    public BaseListPanel(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         initComponents();
-    }
-    
-    public void create(JTable tblObjects){
-        this.tblObjects = tblObjects;
+        this.detailPanel = detailPanel;
+        this.detailPanelTitle = detailPanelTitle;
+        this.detailEntityClass = detailEntityClass;
+        
         initObjectList = new ArrayList<Serializable>();
         objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
@@ -175,19 +183,84 @@ public class BaseListPanel extends javax.swing.JPanel implements MyPanelInterfac
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblObjects = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        btnEdit = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+
+        tblObjects.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblObjects);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
+        jPanel1.setLayout(new java.awt.GridLayout(20, 0, 5, 5));
+
+        btnEdit.setText("Edytuj");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEdit);
+
+        btnAdd.setText("Dodaj");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAdd);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 776, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(5, 5, 5)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 521, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        editObject(detailPanel, detailPanelTitle);
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        addObject(detailPanel, detailPanelTitle, detailEntityClass);
+    }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,7 +36,6 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public void rollback() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
