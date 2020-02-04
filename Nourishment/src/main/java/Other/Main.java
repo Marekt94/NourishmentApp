@@ -33,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
         MainWindow mainWindow = new MainWindow(new KonfigView(), "Menu", new MainMenuPanel());
         mainWindow.setVisible(true);
-        MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie do DB", new LoginPanel());
+        MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie", new LoginPanel());
         connectinDialog.setVisible(true);
         if (connectinDialog.getResult() == false){
             System.exit(0);

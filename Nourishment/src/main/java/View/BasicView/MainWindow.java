@@ -40,6 +40,7 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
             pack();
             setLocationRelativeTo(null);
             setExtendedState(myWindowManager.getKonfigView().getExtendedState());
+            myWindowManager.setResizeListener(this);
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }

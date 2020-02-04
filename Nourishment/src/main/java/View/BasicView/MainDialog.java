@@ -44,6 +44,7 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
         if (b == true){
             pack();
             setLocationRelativeTo(null);
+            myWindowManager.setResizeListener(this);
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }

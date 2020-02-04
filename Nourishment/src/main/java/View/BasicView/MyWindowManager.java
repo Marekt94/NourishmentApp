@@ -9,13 +9,18 @@ import Interfaces.MyPanelInterface;
 import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.KeyStroke;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 /**
  *
@@ -44,7 +49,7 @@ public class MyWindowManager implements MyWindowManagerInterface{
         
         titlePanel = new TitlePanel(konfigView, title);
         if (workingPanel != null){
-            titlePanel.getjPanel1().add((JPanel) workingPanel);
+            titlePanel.getjPanel1().add((JPanel) workingPanel, BorderLayout.CENTER);
             setKonfigViewToChildPanel((JPanel)titlePanel);
         }
         mainWindow.add(titlePanel, BorderLayout.CENTER);
@@ -87,5 +92,27 @@ public class MyWindowManager implements MyWindowManagerInterface{
     
     public MyWindowManager(){
         
+    }
+    
+    public void setResizeListener(Window window){
+        window.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                Integer taskbarHeight = Toolkit.getDefaultToolkit().getScreenInsets(window.getGraphicsConfiguration()).bottom; 
+                
+                Integer screenHeight = window.getSize().height;
+                Integer screenWidth = window.getSize().width;
+                
+                if (screenHeight > screenSize.height){
+                    screenHeight = screenSize.height - taskbarHeight;
+                }
+                
+                if (screenWidth > screenSize.width){
+                    screenWidth = screenSize.width;
+                }
+                
+                window.setSize(screenWidth, screenHeight);
+            }
+        });        
     }
 }
