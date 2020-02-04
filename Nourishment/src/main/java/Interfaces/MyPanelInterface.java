@@ -14,15 +14,11 @@ import java.util.List;
  * @author Marek
  */
 public interface MyPanelInterface {
-    public Boolean init(KonfigView konfigView);
     public KonfigView getKonfigView();
-    public Boolean execute();
+    public Boolean init(KonfigView konfigView);
     public <E> void unpack(E object);
     public <E> void unpack(List<E> objectList);
-    public <E> List<E> getNewOrEditedObjectList();
     public void pack();
-    public void updateView();
+    public Boolean execute();
     public void rollback();
-    public <E> List<E> getObjectsList();
-    public <E> E getCurrentObject();
 }

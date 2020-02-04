@@ -5,11 +5,13 @@
  */
 package View;
 
+import Entities.Potrawy;
 import View.BasicView.MainDialog;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
+import View.BasicView.BaseListPanel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +25,19 @@ import javax.swing.WindowConstants;
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
-
-    @Override
-    public <E> E getCurrentObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     @Override
-    public <E> List<E> getObjectsList() {
-        return null;
+    public <E> void unpack(List<E> objectList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void rollback() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void updateView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     @Override
     public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> void unpack(List<E> objectList){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -129,7 +111,8 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", new ListaProduktowPanel());        
+        BaseListPanel listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", listaProduktowPanel);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForProducts());
         
         mainWindow.setVisible(true);

@@ -10,7 +10,9 @@ import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
+import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import java.util.ArrayList;
@@ -28,10 +30,10 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Marek
  */
-public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelInterface{
+public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPanelInterface{
     KonfigView konfigView = null;
-    ListaPotrawPanel pnlListaPotraw = null;
-    ListaProduktowPanel pnlListaProduktow = null;
+    BaseListPanel pnlListaPotraw = null;
+    BaseListPanel pnlListaProduktow = null;
     List<ProduktyWPotrawie> prodWPotrList = null;
     Set<Potrawy> newOrEditedList = null;
 
@@ -60,11 +62,11 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         GlobalFun.updateTable(prodWPotrList, tblProduktyWPotrawie);
     }
 
-    public ListaPotrawPanel getPnlListaPotraw() {
+    public BaseListPanel getPnlListaPotraw() {
         return pnlListaPotraw;
     }
 
-    public ListaProduktowPanel getPnlListaProduktow() {
+    public BaseListPanel getPnlListaProduktow() {
         return pnlListaProduktow;
     }
 
@@ -118,8 +120,8 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
      */
     public PotrawyManagerPanel() {
         initComponents();
-        pnlListaPotraw = new ListaPotrawPanel();
-        pnlListaProduktow = new ListaProduktowPanel();
+        pnlListaPotraw = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
+        pnlListaProduktow = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         prodWPotrList = new ArrayList<ProduktyWPotrawie>();
         newOrEditedList = new HashSet<Potrawy>();
         
@@ -127,11 +129,13 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
         pnlPotrawy.add(pnlListaPotraw);
         pnlProdukty.add(pnlListaProduktow);
         
-        pnlListaPotraw.getjTable1().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        pnlListaPotraw.getTblObjects().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 Potrawy potrawa = pnlListaPotraw.getCurrentObject();
-                prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                if (potrawa != null){
+                    prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                }
                 updateView();
             }
         });
@@ -277,10 +281,10 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
             ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
             prodWPotr.setIdProduktu(pnlListaProduktow.getCurrentObject());
             prodWPotr.setIdPotrawy(pnlListaPotraw.getCurrentObject());
-            MainDialog mainDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
-            mainDialog.getMyWindowManager().unpackWindow(prodWPotr);
-            mainDialog.setVisible(true);
-            if (mainDialog.getResult()){
+            MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
+            wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
+            wagaProduktuDialog.setVisible(true);
+            if (wagaProduktuDialog.getResult()){
                 ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
                 prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
                 newOrEditedList.add((Potrawy) pnlListaPotraw.getCurrentObject());

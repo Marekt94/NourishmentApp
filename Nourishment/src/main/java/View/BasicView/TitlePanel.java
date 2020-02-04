@@ -15,17 +15,12 @@ import javax.swing.JPanel;
  * @author Marek
  */
 public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
-    
-    @Override
-    public <E> List<E> getObjectsList() {
-        return null;
-    }
 
     @Override
-    public <E> E getCurrentObject() {
+    public <E> void unpack(List<E> objectList) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void rollback() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -33,21 +28,6 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> void unpack(List<E> objectList){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -70,6 +50,7 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
         return true;
     }
 
+    @Override
     public KonfigView getKonfigView() {
         return konfigView;
     }

@@ -8,7 +8,6 @@ package Global;
 import Entities.Potrawy;
 import Entities.Produkty;
 import static Global.GlobalConfig.*;
-import View.ListaProduktowPanel;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
@@ -113,7 +112,10 @@ public class GlobalFun {
     } 
     
     public static <E> void updateTable(List<E> list, JTable table){
-        if (list.size() < 1){return;}
+        if (list.size() < 1){
+            ((DefaultTableModel) table.getModel()).setRowCount(0);
+            return;
+        }
         List<Field> fieldsList = new ArrayList<>();
         for (Field field : list.get(0).getClass().getDeclaredFields()) {
             if ((field.getName() != "serialVersionUID") && (!field.getType().equals(Collection.class))){
