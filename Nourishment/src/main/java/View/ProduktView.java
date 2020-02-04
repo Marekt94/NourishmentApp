@@ -9,6 +9,7 @@ import Global.GlobalFun;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Entities.Produkty;
+import View.BasicView.BasePanel;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.Serializable;
@@ -19,34 +20,8 @@ import javax.swing.JTextField;
  *
  * @author Marek
  */
-public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
+public class ProduktView extends BasePanel{
     private Produkty produkt = null;
-    private FocusListener focusListener = null;
-    private KonfigView konfigView = null;
-
-    @Override
-    public <E> E getCurrentObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public <E> List<E> getObjectsList() {
-        return null;
-    }
-
-    @Override
-    public void rollback() {
-    }
-
-    @Override
-    public void updateView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
         
     @Override
     public <E> void unpack(E object) {
@@ -65,11 +40,6 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
     }
 
     @Override
-    public <E> void unpack(List<E> objectList){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void pack() {
         produkt.setBialko((Double) GlobalFun.bind(edtBialko, Double.class));
         produkt.setBlonnik((Double) GlobalFun.bind(edtBlonnik, Double.class));
@@ -83,41 +53,12 @@ public class ProduktView extends javax.swing.JPanel implements MyPanelInterface{
         produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, Double.class));      
     }
 
-    @Override
-    public Boolean execute() {
-        pack();
-        return true;
-    }
-    
-    @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
-
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        return true;
-    }
-
     /**
      * Creates new form ProduktView
      */
     public ProduktView() {
         initComponents();
-        focusListener = new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                JTextField field = (JTextField)e.getSource();
-                field.selectAll();              
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                JTextField field = (JTextField)e.getSource();
-                field.select(0, 0);
-            }
-        };
+        
         edtBialko.addFocusListener(focusListener);
         edtBlonnik.addFocusListener(focusListener);
         edtCukryProste.addFocusListener(focusListener);

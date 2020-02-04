@@ -25,39 +25,19 @@ import javax.swing.WindowConstants;
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
-
-    @Override
-    public <E> E getCurrentObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     @Override
-    public <E> List<E> getObjectsList() {
-        return null;
+    public <E> void unpack(List<E> objectList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void rollback() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void updateView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     @Override
     public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> void unpack(List<E> objectList){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

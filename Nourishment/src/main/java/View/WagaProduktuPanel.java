@@ -18,6 +18,11 @@ import java.util.List;
 public class WagaProduktuPanel extends javax.swing.JPanel implements MyPanelInterface {
     private KonfigView konfigView = null;
     private ProduktyWPotrawie prodWPotr = null;
+    
+    @Override
+    public <E> void unpack(List<E> objectList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * Creates new form WagaProduktuPanel
@@ -76,37 +81,12 @@ public class WagaProduktuPanel extends javax.swing.JPanel implements MyPanelInte
     }
 
     @Override
-    public <E> void unpack(List<E> objectList) {
-        
-    }
-
-    @Override
-    public <E> List<E> getNewOrEditedObjectList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void pack() {
         prodWPotr.setIloscWG((Double) GlobalFun.bind(edtWagaProdruktu, Double.class));
     }
 
     @Override
-    public void updateView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void rollback() {
         
-    }
-
-    @Override
-    public <E> List<E> getObjectsList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <E> E getCurrentObject() {
-        return (E) prodWPotr;
     }
 }

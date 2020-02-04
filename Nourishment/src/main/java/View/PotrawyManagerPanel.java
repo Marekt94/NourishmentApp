@@ -10,6 +10,7 @@ import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
@@ -29,7 +30,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Marek
  */
-public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelInterface{
+public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPanelInterface{
     KonfigView konfigView = null;
     BaseListPanel pnlListaPotraw = null;
     BaseListPanel pnlListaProduktow = null;
@@ -280,10 +281,10 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyPanelIn
             ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
             prodWPotr.setIdProduktu(pnlListaProduktow.getCurrentObject());
             prodWPotr.setIdPotrawy(pnlListaPotraw.getCurrentObject());
-            MainDialog mainDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
-            mainDialog.getMyWindowManager().unpackWindow(prodWPotr);
-            mainDialog.setVisible(true);
-            if (mainDialog.getResult()){
+            MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
+            wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
+            wagaProduktuDialog.setVisible(true);
+            if (wagaProduktuDialog.getResult()){
                 ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
                 prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
                 newOrEditedList.add((Potrawy) pnlListaPotraw.getCurrentObject());

@@ -8,6 +8,7 @@ package View.BasicView;
 import Entities.Potrawy;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.PotrawyView;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import javax.swing.WindowConstants;
  *
  * @author Marek
  */
-public class BaseListPanel extends javax.swing.JPanel implements MyPanelInterface{
+public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInterface{
     private MyPanelInterface detailPanel = null;
     private String detailPanelTitle = null;
     private Class detailEntityClass = null;
@@ -80,7 +81,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyPanelInterfac
 
     @Override
     public void pack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
