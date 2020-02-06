@@ -6,6 +6,7 @@
 package View;
 
 import Entities.Potrawy;
+import Entities.PotrawyWDniu;
 import View.BasicView.MainDialog;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
@@ -81,8 +82,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
 
         btnProdukty = new javax.swing.JButton();
         btnPotrawy = new javax.swing.JButton();
+        btnJadlospis = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(132, 58));
+        setPreferredSize(new java.awt.Dimension(132, 86));
 
         btnProdukty.setText("Produkty");
         btnProdukty.setMaximumSize(new java.awt.Dimension(100, 21));
@@ -105,6 +107,15 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
             }
         });
         add(btnPotrawy);
+
+        btnJadlospis.setText("Jadłospis");
+        btnJadlospis.setPreferredSize(new java.awt.Dimension(100, 21));
+        btnJadlospis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJadlospisActionPerformed(evt);
+            }
+        });
+        add(btnJadlospis);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
@@ -129,8 +140,20 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         mainDialog.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
 
+    private void btnJadlospisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadlospisActionPerformed
+        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
+        konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        BaseListPanel listaPotrawWDniu = new BaseListPanel(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
+        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Jadłospis", listaPotrawWDniu);        
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForPotrawyWDniu());
+        
+        mainWindow.setVisible(true);       
+    }//GEN-LAST:event_btnJadlospisActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnJadlospis;
     private javax.swing.JButton btnPotrawy;
     private javax.swing.JButton btnProdukty;
     // End of variables declaration//GEN-END:variables

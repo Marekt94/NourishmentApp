@@ -23,8 +23,6 @@ import javax.swing.JTextField;
  */
 public class PotrawyView extends BasePanel{
     private Potrawy meal = null;
-    private FocusListener focusListener = null;
-    private KonfigView konfigView = null;
         
     @Override
     public <E> void unpack(E object) {

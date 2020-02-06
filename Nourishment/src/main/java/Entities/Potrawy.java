@@ -45,6 +45,9 @@ import org.hibernate.FetchMode;
     @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
 public class Potrawy implements Serializable {
 
+    @OneToMany(mappedBy = "idPotrawy", fetch = FetchType.EAGER)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -209,6 +212,15 @@ public class Potrawy implements Serializable {
     public String toString() {
         //return "Entities.Potrawy[ id=" + id + " ]";
         return nazwa;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection() {
+        return potrawyWDniuCollection;
+    }
+
+    public void setPotrawyWDniuCollection(Collection<PotrawyWDniu> potrawyWDniuCollection) {
+        this.potrawyWDniuCollection = potrawyWDniuCollection;
     }
     
 }

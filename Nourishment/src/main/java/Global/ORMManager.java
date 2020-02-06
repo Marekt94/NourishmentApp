@@ -6,6 +6,7 @@
 package Global;
 
 import Entities.Potrawy;
+import Entities.PotrawyWDniu;
 import Global.GlobalConfig;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
@@ -118,6 +119,20 @@ public class ORMManager {
             set.add(meal);
         } 
         list = new ArrayList<Potrawy>(set);
+        session.close();
+        return list;
+    }
+    
+    public List<PotrawyWDniu> askForPotrawyWDniu(){
+        List<PotrawyWDniu> list = null;
+        Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
+        
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        for (PotrawyWDniu potWDniu : (List<PotrawyWDniu>) session.createCriteria(PotrawyWDniu.class).list()){
+            set.add(potWDniu);
+        } 
+        list = new ArrayList<PotrawyWDniu>(set);
         session.close();
         return list;
     }
