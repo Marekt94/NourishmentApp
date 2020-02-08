@@ -71,7 +71,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         } 
         GlobalFun.deepListCopy((List<Serializable>) this.objectList, (List<Serializable>) initObjectList);
         
-        GlobalFun.updateTable(objectList, tblObjects);
+        updateView();
     }
 
     @Override
@@ -240,10 +240,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnEdit;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblObjects;
+    protected javax.swing.JButton btnAdd;
+    protected javax.swing.JButton btnEdit;
+    protected javax.swing.JPanel jPanel1;
+    protected javax.swing.JScrollPane jScrollPane1;
+    protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
 }

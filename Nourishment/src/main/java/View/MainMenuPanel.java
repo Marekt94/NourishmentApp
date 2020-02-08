@@ -124,7 +124,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         
         BaseListPanel listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", listaProduktowPanel);        
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForProducts());
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnProduktyActionPerformed
@@ -134,8 +134,8 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new PotrawyManagerPanel());
-        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForProducts());
-        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForPotrawy());
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
         
         mainDialog.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
@@ -144,9 +144,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        BaseListPanel listaPotrawWDniu = new BaseListPanel(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
+        BaseListPanel listaPotrawWDniu = new ProduktyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Jadłospis", listaPotrawWDniu);        
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForPotrawyWDniu());
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
         
         mainWindow.setVisible(true);       
     }//GEN-LAST:event_btnJadlospisActionPerformed

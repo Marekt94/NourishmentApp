@@ -10,6 +10,7 @@ import Entities.PotrawyWDniu;
 import Global.GlobalConfig;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,60 +82,18 @@ public class ORMManager {
         return true;
     } 
     
-    public List<Produkty> askForProducts(){
-        List<Produkty> productsList = null;
-        Set<Produkty> set = new HashSet<Produkty>();
-        
+    public List<? extends Serializable> askForObjects(Class myType){
+        List<Serializable> list = null;
+        Set<Serializable> set = new HashSet<Serializable>();
+
         session = sessionFactory.openSession();
         session.beginTransaction();
-        for (Produkty product : (List<Produkty>) session.createCriteria(Produkty.class).list()){
-            set.add(product);
-        }
-        productsList = new ArrayList<Produkty>(set);
-        session.close();
-        return productsList;
-    }
-    
-    public List<ProduktyWPotrawie> askForProduktyWPotrawie(){
-        List<ProduktyWPotrawie> list = null;
-        Set<ProduktyWPotrawie> set = new HashSet<ProduktyWPotrawie>();
-        
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        for (ProduktyWPotrawie prodWPot : (List<ProduktyWPotrawie>) session.createCriteria(ProduktyWPotrawie.class).list()){
-            set.add(prodWPot);
-        }         
-        list = new ArrayList<ProduktyWPotrawie>(set);
-        session.close();
-        return list;
-    }
-    
-    public List<Potrawy> askForPotrawy(){
-        List<Potrawy> list = null;
-        Set<Potrawy> set = new HashSet<Potrawy>();
-        
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        for (Potrawy meal : (List<Potrawy>) session.createCriteria(Potrawy.class).list()){
-            set.add(meal);
+        for (Serializable object : (List<Serializable>) session.createCriteria(myType).list()){
+            set.add(object);
         } 
-        list = new ArrayList<Potrawy>(set);
+        list = new ArrayList<Serializable>(set);
         session.close();
-        return list;
-    }
-    
-    public List<PotrawyWDniu> askForPotrawyWDniu(){
-        List<PotrawyWDniu> list = null;
-        Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
-        
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        for (PotrawyWDniu potWDniu : (List<PotrawyWDniu>) session.createCriteria(PotrawyWDniu.class).list()){
-            set.add(potWDniu);
-        } 
-        list = new ArrayList<PotrawyWDniu>(set);
-        session.close();
-        return list;
+        return (List<Serializable>) list;
     }
     
     public <E> Boolean addToDB(List<E> list){

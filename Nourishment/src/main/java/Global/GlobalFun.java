@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +57,15 @@ public class GlobalFun {
         }
         else{
             edt.setText(NULL_SIGN);
+        }         
+    }
+    
+    public static void bind(Serializable obj, JComboBox cmb){
+        if (obj != null){
+            cmb.setSelectedItem(obj);
+        }
+        else{
+            cmb.setSelectedItem(null);
         }         
     }
 
@@ -98,6 +108,11 @@ public class GlobalFun {
         return NULL_SIGN;
     }
     
+    public static Serializable bind(JComboBox cmb){
+        Serializable item = (Serializable) cmb.getSelectedItem();         
+        return item;
+    }
+    
     public static Double round(Double number, Integer digits){
         if (digits != null){
             return new BigDecimal(number).setScale(digits, RoundingMode.HALF_UP).doubleValue();
@@ -109,9 +124,25 @@ public class GlobalFun {
     
     public static <E> void updateTable(Collection<E> list, JTable table){
         updateTable(toList(list), table);
-    } 
+    }
+    
+    private static Boolean isInOmmited(String columnName, String[] ommitedColumns){
+        if (ommitedColumns.length == 0){
+            return false;
+        }
+        for (String columnNameTemp : ommitedColumns){
+            if (columnName == columnNameTemp){
+                return true;
+            }
+        }
+        return false;
+    }
     
     public static <E> void updateTable(List<E> list, JTable table){
+        updateTable(list, table, new String[0]);
+    }
+    
+    public static <E> void updateTable(List<E> list, JTable table, String[] ommitedColumns){
         if (list.size() < 1){
             ((DefaultTableModel) table.getModel()).setRowCount(0);
             return;
@@ -119,12 +150,15 @@ public class GlobalFun {
         List<Field> fieldsList = new ArrayList<>();
         for (Field field : list.get(0).getClass().getDeclaredFields()) {
             if ((field.getName() != "serialVersionUID") && (!field.getType().equals(Collection.class))){
-                fieldsList.add(field);
+                if (!isInOmmited(field.getName(), ommitedColumns)){
+                    fieldsList.add(field);
+                }
             }
 
         }
         Field[] fields = fieldsList.toArray(new Field[fieldsList.size()]);
         
+        ((DefaultTableModel) table.getModel()).setColumnCount(0);
         while(table.getColumnCount() < fields.length){
             TableColumn tblcol = new TableColumn();
             ((DefaultTableModel) table.getModel()).addColumn("");
@@ -170,6 +204,13 @@ public class GlobalFun {
     
     public static <E> List<E> toList(Collection<E> collection){
         return collection.stream().collect(Collectors.toList());
+    }
+    
+    public static void unpackComboBox(JComboBox combobox, List<Serializable> list){
+        combobox.addItem(null);
+        for (Serializable obj : list){
+            combobox.addItem(obj);
+        }
     }
     
     
