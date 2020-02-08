@@ -19,4 +19,5 @@ public class GlobalConfig {
     public static final String NULL_SIGN = "-";
     public static final Integer DIGITS = 3;
     public static final Integer BATCH_SIZE = 20;
+    public static final String dataFormat = "yyyy-MM-dd"; 
 }

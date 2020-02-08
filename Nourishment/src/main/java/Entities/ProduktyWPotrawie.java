@@ -48,6 +48,9 @@ public class ProduktyWPotrawie implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @JoinColumn(name = "ID_PRODUKTU", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Produkty idProduktu;
     @Basic(optional = false)
     @Column(name = "ILOSC_W_G")
     private double iloscWG;
@@ -73,9 +76,6 @@ public class ProduktyWPotrawie implements Serializable {
     @JoinColumn(name = "ID_POTRAWY", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Potrawy idPotrawy;
-    @JoinColumn(name = "ID_PRODUKTU", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Produkty idProduktu;
 
     public ProduktyWPotrawie() {
     }

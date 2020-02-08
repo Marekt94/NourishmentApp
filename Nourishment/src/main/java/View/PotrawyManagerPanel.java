@@ -59,7 +59,8 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
 
     @Override
     public void updateView() {
-        GlobalFun.updateTable(prodWPotrList, tblProduktyWPotrawie);
+        String[] omittedColumns = {"idPotrawy"};
+        GlobalFun.updateTable(prodWPotrList, tblProduktyWPotrawie, omittedColumns);
     }
 
     public BaseListPanel getPnlListaPotraw() {

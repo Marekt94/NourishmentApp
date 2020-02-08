@@ -67,24 +67,24 @@ public class PotrawyWDniu implements Serializable {
     private Double mnoznikKolacja;
     @Column(name = "MNOZNIK_LUNCH")
     private Double mnoznikLunch;
-    @JoinColumn(name = "OBIAD", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Potrawy obiad;
     @JoinColumn(name = "SNIADANIE", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private Potrawy sniadanie;
-    @JoinColumn(name = "KOLACJA", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Potrawy kolacja;
-    @JoinColumn(name = "PODWIECZOREK", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Potrawy podwieczorek;
     @JoinColumn(name = "DRUGIE_SNIADANIE", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private Potrawy drugieSniadanie;
+    @JoinColumn(name = "OBIAD", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Potrawy obiad;
     @JoinColumn(name = "LUNCH", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private Potrawy lunch;
+    @JoinColumn(name = "PODWIECZOREK", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Potrawy podwieczorek;
+    @JoinColumn(name = "KOLACJA", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Potrawy kolacja;
 
     public PotrawyWDniu() {
     }

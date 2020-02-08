@@ -8,14 +8,21 @@ package Global;
 import Entities.Potrawy;
 import Entities.Produkty;
 import static Global.GlobalConfig.*;
+import Other.DateLabelFormatter;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.apache.commons.lang3.SerializationUtils;
+import org.jdatepicker.impl.JDatePickerImpl;
 
 /**
  *
@@ -111,6 +119,23 @@ public class GlobalFun {
     public static Serializable bind(JComboBox cmb){
         Serializable item = (Serializable) cmb.getSelectedItem();         
         return item;
+    }
+    
+    public static void bind(Date date, JDatePickerImpl datePicker){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        datePicker.getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePicker.getModel().setSelected(true);
+    }
+    
+    public static Date bind(JDatePickerImpl datePicker){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(GlobalConfig.dataFormat);
+            return (Date) sdf.parseObject(datePicker.getJFormattedTextField().getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(GlobalFun.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
     public static Double round(Double number, Integer digits){
@@ -207,6 +232,7 @@ public class GlobalFun {
     }
     
     public static void unpackComboBox(JComboBox combobox, List<Serializable> list){
+        combobox.removeAllItems();
         combobox.addItem(null);
         for (Serializable obj : list){
             combobox.addItem(obj);

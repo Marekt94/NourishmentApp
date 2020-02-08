@@ -24,6 +24,7 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class PotrawyWDniuView extends BasePanel {
     private PotrawyWDniu potrWDniu = null;
+    JDatePickerImpl datePicker = null;
 
     @Override
     public <E> void unpack(E object) {
@@ -35,6 +36,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getPodwieczorek(), cmbPodwieczorek);
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
+        GlobalFun.bind(potrWDniu.getData(), datePicker);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setPodwieczorek((Potrawy) GlobalFun.bind(cmbPodwieczorek));
         potrWDniu.setKolacja((Potrawy) GlobalFun.bind(cmbKolacja));
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
+        potrWDniu.setData(GlobalFun.bind(datePicker));
     }
     
 
@@ -67,8 +70,7 @@ public class PotrawyWDniuView extends BasePanel {
 //        p.put("text.month", "Month");
 //        p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         jPanel1.add(datePicker,BorderLayout.CENTER);       
     }
 
