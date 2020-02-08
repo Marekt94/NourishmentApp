@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.FetchMode;
 
 /**
  *
@@ -44,9 +43,6 @@ import org.hibernate.FetchMode;
     @NamedQuery(name = "Potrawy.findBySumaCukryProste", query = "SELECT p FROM Potrawy p WHERE p.sumaCukryProste = :sumaCukryProste"),
     @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
 public class Potrawy implements Serializable {
-
-    @OneToMany(mappedBy = "idPotrawy", fetch = FetchType.EAGER)
-    private Collection<PotrawyWDniu> potrawyWDniuCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -78,6 +74,18 @@ public class Potrawy implements Serializable {
     private Double waga;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy", fetch = FetchType.EAGER)
     private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
+    @OneToMany(mappedBy = "obiad", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection;
+    @OneToMany(mappedBy = "sniadanie", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection1;
+    @OneToMany(mappedBy = "kolacja", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection2;
+    @OneToMany(mappedBy = "podwieczorek", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection3;
+    @OneToMany(mappedBy = "drugieSniadanie", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection4;
+    @OneToMany(mappedBy = "lunch", fetch = FetchType.LAZY)
+    private Collection<PotrawyWDniu> potrawyWDniuCollection5;
 
     public Potrawy() {
     }
@@ -188,6 +196,60 @@ public class Potrawy implements Serializable {
         this.produktyWPotrawieCollection = produktyWPotrawieCollection;
     }
 
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection() {
+        return potrawyWDniuCollection;
+    }
+
+    public void setPotrawyWDniuCollection(Collection<PotrawyWDniu> potrawyWDniuCollection) {
+        this.potrawyWDniuCollection = potrawyWDniuCollection;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection1() {
+        return potrawyWDniuCollection1;
+    }
+
+    public void setPotrawyWDniuCollection1(Collection<PotrawyWDniu> potrawyWDniuCollection1) {
+        this.potrawyWDniuCollection1 = potrawyWDniuCollection1;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection2() {
+        return potrawyWDniuCollection2;
+    }
+
+    public void setPotrawyWDniuCollection2(Collection<PotrawyWDniu> potrawyWDniuCollection2) {
+        this.potrawyWDniuCollection2 = potrawyWDniuCollection2;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection3() {
+        return potrawyWDniuCollection3;
+    }
+
+    public void setPotrawyWDniuCollection3(Collection<PotrawyWDniu> potrawyWDniuCollection3) {
+        this.potrawyWDniuCollection3 = potrawyWDniuCollection3;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection4() {
+        return potrawyWDniuCollection4;
+    }
+
+    public void setPotrawyWDniuCollection4(Collection<PotrawyWDniu> potrawyWDniuCollection4) {
+        this.potrawyWDniuCollection4 = potrawyWDniuCollection4;
+    }
+
+    @XmlTransient
+    public Collection<PotrawyWDniu> getPotrawyWDniuCollection5() {
+        return potrawyWDniuCollection5;
+    }
+
+    public void setPotrawyWDniuCollection5(Collection<PotrawyWDniu> potrawyWDniuCollection5) {
+        this.potrawyWDniuCollection5 = potrawyWDniuCollection5;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -210,17 +272,7 @@ public class Potrawy implements Serializable {
 
     @Override
     public String toString() {
-        //return "Entities.Potrawy[ id=" + id + " ]";
-        return nazwa;
-    }
-
-    @XmlTransient
-    public Collection<PotrawyWDniu> getPotrawyWDniuCollection() {
-        return potrawyWDniuCollection;
-    }
-
-    public void setPotrawyWDniuCollection(Collection<PotrawyWDniu> potrawyWDniuCollection) {
-        this.potrawyWDniuCollection = potrawyWDniuCollection;
+        return "Entities.Potrawy[ id=" + id + " ]";
     }
     
 }

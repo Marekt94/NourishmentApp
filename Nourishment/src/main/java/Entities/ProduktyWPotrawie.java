@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,8 +44,8 @@ public class ProduktyWPotrawie implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
@@ -70,10 +71,10 @@ public class ProduktyWPotrawie implements Serializable {
     @Column(name = "SUMA_CUKRY_SUMA")
     private Double sumaCukrySuma;
     @JoinColumn(name = "ID_POTRAWY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Potrawy idPotrawy;
     @JoinColumn(name = "ID_PRODUKTU", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Produkty idProduktu;
 
     public ProduktyWPotrawie() {
