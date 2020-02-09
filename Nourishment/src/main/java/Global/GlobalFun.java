@@ -14,6 +14,9 @@ import static java.lang.System.exit;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,6 +27,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -89,7 +93,11 @@ public class GlobalFun {
         
         if (type == Double.class){
             if (notEmpty){
-                return new Double(edt.getText());
+                    DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
+                    DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+                    String valueStr = edt.getText().replaceAll(Character.toString(symbols.getDecimalSeparator()),".");
+                    Double valueDoub = new Double(valueStr); 
+                    return valueDoub;
             }
             else{
                 return 0.0;
@@ -123,9 +131,11 @@ public class GlobalFun {
     
     public static void bind(Date date, JDatePickerImpl datePicker){
         Calendar calendar = Calendar.getInstance();
+        if (date != null){
         calendar.setTime(date);
-        datePicker.getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePicker.getModel().setSelected(true);
+            datePicker.getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            datePicker.getModel().setSelected(true);
+        }
     }
     
     public static Date bind(JDatePickerImpl datePicker){
@@ -168,7 +178,7 @@ public class GlobalFun {
     }
     
     public static <E> void updateTable(List<E> list, JTable table, String[] ommitedColumns){
-        if (list.size() < 1){
+        if ((list == null) || (list.size() < 1)){
             ((DefaultTableModel) table.getModel()).setRowCount(0);
             return;
         }
@@ -228,7 +238,10 @@ public class GlobalFun {
     }
     
     public static <E> List<E> toList(Collection<E> collection){
-        return collection.stream().collect(Collectors.toList());
+        if (collection != null){
+            return collection.stream().collect(Collectors.toList());
+        }
+        return null;
     }
     
     public static void unpackComboBox(JComboBox combobox, List<Serializable> list){

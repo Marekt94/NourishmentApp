@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaKcal", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaKcal = :sumaKcal"),
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaSol", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaSol = :sumaSol"),
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaTluszcz", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaTluszcz = :sumaTluszcz"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByWaga", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.waga = :waga"),
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaBialko", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaBialko = :sumaBialko"),
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryProste", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryProste = :sumaCukryProste"),
     @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryZlozone", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryZlozone = :sumaCukryZlozone"),
@@ -63,8 +62,6 @@ public class ProduktyWPotrawie implements Serializable {
     private Double sumaSol;
     @Column(name = "SUMA_TLUSZCZ")
     private Double sumaTluszcz;
-    @Column(name = "WAGA")
-    private Double waga;
     @Column(name = "SUMA_BIALKO")
     private Double sumaBialko;
     @Column(name = "SUMA_CUKRY_PROSTE")
@@ -135,14 +132,6 @@ public class ProduktyWPotrawie implements Serializable {
 
     public void setSumaTluszcz(Double sumaTluszcz) {
         this.sumaTluszcz = sumaTluszcz;
-    }
-
-    public Double getWaga() {
-        return waga;
-    }
-
-    public void setWaga(Double waga) {
-        this.waga = waga;
     }
 
     public Double getSumaBialko() {

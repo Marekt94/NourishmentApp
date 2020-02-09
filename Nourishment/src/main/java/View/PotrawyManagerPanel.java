@@ -18,8 +18,11 @@ import View.BasicView.MainDialog;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.swing.JPanel;
@@ -133,11 +136,13 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
         pnlListaPotraw.getTblObjects().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Potrawy potrawa = pnlListaPotraw.getCurrentObject();
-                if (potrawa != null){
-                    prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                if ( !e.getValueIsAdjusting()){
+                    Potrawy potrawa = pnlListaPotraw.getCurrentObject();
+                    if (potrawa != null){
+                        prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                    }
+                    updateView();
                 }
-                updateView();
             }
         });
     }
@@ -286,6 +291,9 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
             wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
             wagaProduktuDialog.setVisible(true);
             if (wagaProduktuDialog.getResult()){
+                if (((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection() == null){
+                    ((Potrawy) pnlListaPotraw.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
+                }
                 ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
                 prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
                 newOrEditedList.add((Potrawy) pnlListaPotraw.getCurrentObject());
@@ -322,4 +330,5 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
     private javax.swing.JPanel pnlProduktyWPotrawie;
     private javax.swing.JTable tblProduktyWPotrawie;
     // End of variables declaration//GEN-END:variables
+
 }
