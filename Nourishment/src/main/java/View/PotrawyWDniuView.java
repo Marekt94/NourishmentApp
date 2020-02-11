@@ -67,8 +67,6 @@ public class PotrawyWDniuView extends BasePanel {
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
-//        p.put("text.month", "Month");
-//        p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         jPanel1.add(datePicker,BorderLayout.CENTER);       

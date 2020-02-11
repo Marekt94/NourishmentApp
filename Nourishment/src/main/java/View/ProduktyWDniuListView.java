@@ -10,6 +10,7 @@ import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
+import View.BasicView.FilterPanel;
 import View.BasicView.MainDialog;
 import java.awt.BorderLayout;
 import java.io.Serializable;
@@ -17,6 +18,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -30,6 +34,11 @@ public class ProduktyWDniuListView extends BaseListPanel {
      */
     public ProduktyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
+        JPanel filterPanel = new JPanel();
+        filterPanel.setLayout(new BorderLayout());
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
+        filterPanel.add(new FilterPanel(),BorderLayout.WEST);
+        this.add(filterPanel,BorderLayout.NORTH);
         ORMManager ormManager = ORMManager.getOrmManager();
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
     }
@@ -104,16 +113,7 @@ public class ProduktyWDniuListView extends BaseListPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
 
 
