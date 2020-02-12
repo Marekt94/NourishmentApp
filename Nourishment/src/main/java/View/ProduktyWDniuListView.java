@@ -13,6 +13,9 @@ import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
 import View.BasicView.MainDialog;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.EventHandler;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -34,12 +37,19 @@ public class ProduktyWDniuListView extends BaseListPanel {
      */
     public ProduktyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
+        ORMManager ormManager = ORMManager.getOrmManager();
         JPanel filterPanel = new JPanel();
+        FilterPanel filter = new FilterPanel();
         filterPanel.setLayout(new BorderLayout());
         filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
-        filterPanel.add(new FilterPanel(),BorderLayout.WEST);
+        filterPanel.add(filter,BorderLayout.WEST);
+        filter.btnApply.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                unpack(ORMManager.getOrmManager().filterByDate(filter.getDataFrom(), filter.getDataTo()));
+            }
+        });
         this.add(filterPanel,BorderLayout.NORTH);
-        ORMManager ormManager = ORMManager.getOrmManager();
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
     }
 

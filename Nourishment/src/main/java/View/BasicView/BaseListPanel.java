@@ -66,6 +66,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public <E> void unpack(List<E> objectList) {
+        this.objectList.clear();
+        initObjectList.clear();
         for (E object : objectList){
             this.objectList.add((Serializable) object);
         } 

@@ -8,6 +8,7 @@ package View.BasicView;
 import Other.DateLabelFormatter;
 import java.awt.BorderLayout;
 import java.util.Properties;
+import javax.swing.JButton;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -17,14 +18,11 @@ import org.jdatepicker.impl.UtilDateModel;
  * @author Marek
  */
 public class FilterPanel extends javax.swing.JPanel {
+    private JDatePickerImpl datePickerFrom = null;
+    private JDatePickerImpl datePickerTo = null;   
 
-    /**
-     * Creates new form FilterPanel
-     */
     public FilterPanel() {
         initComponents();
-        JDatePickerImpl datePickerOd = null;
-        JDatePickerImpl datePickerDo = null;
         UtilDateModel modelOd = new UtilDateModel();
         UtilDateModel modelDo = new UtilDateModel();
         Properties p = new Properties();
@@ -32,10 +30,10 @@ public class FilterPanel extends javax.swing.JPanel {
         p.put("text.today", "Today");
         JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd, p);
         JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo, p);
-        datePickerOd = new JDatePickerImpl(datePanelOd, new DateLabelFormatter());
-        datePickerDo = new JDatePickerImpl(datePanelDo, new DateLabelFormatter());
-        pnlOd.add(datePickerOd,BorderLayout.CENTER);
-        pnlDo.add(datePickerDo,BorderLayout.CENTER);
+        datePickerFrom = new JDatePickerImpl(datePanelOd, new DateLabelFormatter());
+        datePickerTo = new JDatePickerImpl(datePanelDo, new DateLabelFormatter());
+        pnlOd.add(datePickerFrom, BorderLayout.CENTER);
+        pnlDo.add(datePickerTo, BorderLayout.CENTER);
     }
 
     /**
@@ -47,16 +45,21 @@ public class FilterPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblOd = new javax.swing.JLabel();
         lblDo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         pnlOd = new javax.swing.JPanel();
         pnlDo = new javax.swing.JPanel();
+        btnApply = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("Data"));
-        setPreferredSize(new java.awt.Dimension(142, 78));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setPreferredSize(new java.awt.Dimension(251, 78));
         setLayout(new java.awt.BorderLayout(5, 5));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Data"));
+        jPanel3.setLayout(new java.awt.BorderLayout(5, 5));
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 1));
 
@@ -68,7 +71,7 @@ public class FilterPanel extends javax.swing.JPanel {
         lblDo.setText("Do:");
         jPanel1.add(lblDo);
 
-        add(jPanel1, java.awt.BorderLayout.WEST);
+        jPanel3.add(jPanel1, java.awt.BorderLayout.WEST);
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -78,16 +81,44 @@ public class FilterPanel extends javax.swing.JPanel {
         pnlDo.setLayout(new java.awt.BorderLayout());
         jPanel2.add(pnlDo);
 
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        btnApply.setText("Odśwież");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyActionPerformed(evt);
+            }
+        });
+        add(btnApply, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnApplyActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnApply;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblDo;
     private javax.swing.JLabel lblOd;
     private javax.swing.JPanel pnlDo;
     private javax.swing.JPanel pnlOd;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getBtnApply() {
+        return btnApply;
+    }
+    
+    public String getDataFrom(){
+        return datePickerFrom.getJFormattedTextField().getText();
+    }
+ 
+    public String getDataTo(){
+        return datePickerTo.getJFormattedTextField().getText();
+    }
 }

@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import org.hibernate.Filter;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -123,4 +125,22 @@ public class ORMManager {
         sessionFactory.close();
         return true;
     }
+    
+    public List<? extends Serializable> filterByDate(String dateFrom, String  dateTo){
+        List<PotrawyWDniu> list = null;
+        Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
+
+        session = sessionFactory.openSession();
+        Filter filter = session.enableFilter("dataFilter");
+        filter.setParameter("dataFrom", dateFrom);
+        filter.setParameter("dataTo", dateTo);
+        session.beginTransaction();
+        for (PotrawyWDniu object : (List<PotrawyWDniu>) session.createCriteria(PotrawyWDniu.class).list()){
+            set.add(object);
+        } 
+        list = new ArrayList<PotrawyWDniu>(set);
+        session.disableFilter("dateFilter");
+        session.close();
+        return (List<PotrawyWDniu>) list;        
+    } 
 }

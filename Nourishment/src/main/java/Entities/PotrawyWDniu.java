@@ -22,6 +22,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 
 /**
  *
@@ -29,6 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "POTRAWY_W_DNIU")
+@FilterDef(name="dataFilter", parameters={
+    @ParamDef(name = "dataFrom", type="string"),
+    @ParamDef(name = "dataTo", type="string")
+})
+@Filters({
+    @Filter(name="dataFilter", condition = "data BETWEEN :dataFrom AND :dataTo")
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PotrawyWDniu.findAll", query = "SELECT p FROM PotrawyWDniu p"),
