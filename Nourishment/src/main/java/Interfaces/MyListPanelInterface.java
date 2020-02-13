@@ -7,6 +7,7 @@ package Interfaces;
 
 import View.BasicView.KonfigView;
 import java.util.List;
+import javax.swing.JButton;
 
 /**
  *
@@ -16,6 +17,6 @@ public interface MyListPanelInterface extends MyPanelInterface{
     public void updateView();//
     public <E> List<E> getObjectsList();//
     public <E> E getCurrentObject();//
-    public <E> List<E> getNewOrEditedObjectList();//    
-    
+    public <E> List<E> getNewOrEditedObjectList();//
+    public void addButton(JButton button);  
 }

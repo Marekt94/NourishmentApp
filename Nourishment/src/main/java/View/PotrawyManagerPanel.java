@@ -25,6 +25,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -39,6 +40,11 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
     BaseListPanel pnlListaProduktow = null;
     List<ProduktyWPotrawie> prodWPotrList = null;
     Set<Potrawy> newOrEditedList = null;
+
+    @Override
+    public void addButton(JButton button) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public <E> E getCurrentObject() {

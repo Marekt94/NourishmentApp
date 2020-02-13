@@ -11,12 +11,15 @@ import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.PotrawyView;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -37,6 +40,13 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> initObjectList = null;
     protected List<Serializable> objectList = null;
     protected List<Serializable> newOrEditedObjectList = null;
+
+    @Override
+    public void addButton(JButton button) {
+        GridLayout panelLayout = (GridLayout) jPanel2.getLayout();
+        panelLayout.setRows(panelLayout.getRows() + 1);
+        jPanel2.add(button);
+    }
     
     
     @Override
@@ -189,6 +199,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjects = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         btnEdit = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
 
@@ -211,7 +222,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
-        jPanel1.setLayout(new java.awt.GridLayout(20, 0, 5, 5));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
         btnEdit.setText("Edytuj");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +232,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
                 btnEditActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEdit);
+        jPanel2.add(btnEdit);
 
         btnAdd.setText("Dodaj");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +240,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
                 btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAdd);
+        jPanel2.add(btnAdd);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         add(jPanel1, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
@@ -245,6 +260,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected javax.swing.JButton btnAdd;
     protected javax.swing.JButton btnEdit;
     protected javax.swing.JPanel jPanel1;
+    protected javax.swing.JPanel jPanel2;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -50,6 +51,15 @@ public class ProduktyWDniuListView extends BaseListPanel {
             }
         });
         this.add(filterPanel,BorderLayout.NORTH);
+        
+        JButton printButton = new JButton("Drukuj");
+        printButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.print("");
+            }
+        });
+        addButton(printButton);
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
     }
 

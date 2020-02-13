@@ -12,6 +12,8 @@ import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
+import Interfaces.MyListPanelInterface;
+import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,8 +85,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         btnProdukty = new javax.swing.JButton();
         btnPotrawy = new javax.swing.JButton();
         btnJadlospis = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(132, 86));
+        setPreferredSize(new java.awt.Dimension(132, 113));
 
         btnProdukty.setText("Produkty");
         btnProdukty.setMaximumSize(new java.awt.Dimension(100, 21));
@@ -116,13 +119,22 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
             }
         });
         add(btnJadlospis);
+
+        jButton1.setText("PDFGenerator test");
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 21));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        BaseListPanel listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
+        MyListPanelInterface listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", listaProduktowPanel);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         
@@ -144,17 +156,25 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        BaseListPanel listaPotrawWDniu = new ProduktyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
+        MyListPanelInterface listaPotrawWDniu = new ProduktyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Jadłospis", listaPotrawWDniu);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
         
         mainWindow.setVisible(true);       
     }//GEN-LAST:event_btnJadlospisActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        PDFGenerator pdfGen = new PDFGenerator();
+        pdfGen.openDocument("C:/Users/Marek/Desktop/pdftest.pdf");
+        pdfGen.addTitle("Hello world");
+        pdfGen.closeDocument();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnJadlospis;
     private javax.swing.JButton btnPotrawy;
     private javax.swing.JButton btnProdukty;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
