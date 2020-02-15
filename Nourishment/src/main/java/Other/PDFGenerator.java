@@ -12,6 +12,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -24,6 +26,8 @@ import java.util.logging.Logger;
  */
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
+    Font titleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
+    Font subtitleFont = FontFactory.getFont(FontFactory.COURIER,BaseFont.CP1250, BaseFont.CACHED, 14, Font.BOLD);
     
     public PDFGenerator(){
         
@@ -51,10 +55,7 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     @Override
     public void addTitle(String text) {
         try {
-            Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-            Chunk chunk = new Chunk(text, font);
-            
-            document.add(chunk);           
+            document.add(new Paragraph(text,titleFont));
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,7 +63,11 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
 
     @Override
     public void addSubtitle(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            document.add(new Paragraph(text, subtitleFont));
+        } catch (DocumentException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -6,9 +6,12 @@
 package View;
 
 import Entities.Potrawy;
+import Entities.PotrawyWDniu;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
+import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
 import View.BasicView.MainDialog;
@@ -18,7 +21,9 @@ import java.awt.event.ActionListener;
 import java.beans.EventHandler;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -56,7 +61,7 @@ public class ProduktyWDniuListView extends BaseListPanel {
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("");
+                generateMenu(objectList);
             }
         });
         addButton(printButton);
@@ -123,6 +128,20 @@ public class ProduktyWDniuListView extends BaseListPanel {
                                    "czy5dni"};
         GlobalFun.updateTable(objectList, tblObjects, ommitedColumns);
     }
+    
+    private void generateMenu(List<Serializable> list){
+        MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // the day of the week spelled out completely
+        
+        pDFGenerator.openDocument("C:/Users/Marek/Desktop/pdftest.pdf");
+        pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
+        for (int i = 0; i < list.size(); i++) {
+           pDFGenerator.addSubtitle(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()));
+        }
+        pDFGenerator.closeDocument();
+    }
+    
+    //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
 
     /**
      * This method is called from within the constructor to initialize the form.
