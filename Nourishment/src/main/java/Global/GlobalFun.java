@@ -252,5 +252,14 @@ public class GlobalFun {
         }
     }
     
+    public static String returnStringOrEmpty(Serializable obj){
+        if (obj == null){
+            return "";
+        }
+        else{
+            return obj.toString();
+        }
+    }
+    
     
 }

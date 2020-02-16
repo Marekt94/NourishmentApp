@@ -27,7 +27,8 @@ import java.util.logging.Logger;
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
     Font titleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
-    Font subtitleFont = FontFactory.getFont(FontFactory.COURIER,BaseFont.CP1250, BaseFont.CACHED, 14, Font.BOLD);
+    Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 14, Font.BOLD);
+    Font listFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 14, Font.NORMAL);
     
     public PDFGenerator(){
         
@@ -72,7 +73,16 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
 
     @Override
     public void addList(String[] text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Paragraph paragraph = new Paragraph();
+            paragraph.setFont(listFont);
+            for (String line : text) {
+                paragraph.add(" - " + line + "\n");
+            }
+            document.add(paragraph);
+        } catch (DocumentException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

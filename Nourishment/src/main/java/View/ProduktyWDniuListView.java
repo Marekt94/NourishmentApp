@@ -8,6 +8,7 @@ package View;
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
 import Global.GlobalFun;
+import static Global.GlobalFun.returnStringOrEmpty;
 import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
@@ -15,6 +16,7 @@ import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
 import View.BasicView.MainDialog;
+import com.sun.xml.fastinfoset.util.StringArray;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -137,8 +139,29 @@ public class ProduktyWDniuListView extends BaseListPanel {
         pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
         for (int i = 0; i < list.size(); i++) {
            pDFGenerator.addSubtitle(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()));
+           pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) list.get(i)));
         }
         pDFGenerator.closeDocument();
+    }
+    
+    private String[] createPotrawyStringList(PotrawyWDniu potr){
+        String[] stringArray = null;
+        if ((potr.getCzy5dni() != null) && (potr.getCzy5dni() == '1')){
+            stringArray = new String[5];
+            stringArray[0] = "śniadanie: " + returnStringOrEmpty(potr.getSniadanie());
+            stringArray[1] = "drugie śniadanie: " + returnStringOrEmpty(potr.getDrugieSniadanie());
+            stringArray[2] = "obiad: " + returnStringOrEmpty(potr.getObiad().toString());
+            stringArray[3] = "podwieczorek: " + returnStringOrEmpty(potr.getPodwieczorek());
+            stringArray[4] = "kolacja: " + returnStringOrEmpty(potr.getKolacja());
+        }
+        else{
+            stringArray = new String[4];
+            stringArray[0] = "śniadanie: " + returnStringOrEmpty(potr.getSniadanie());
+            stringArray[1] = "drugie śniadanie: " + returnStringOrEmpty(potr.getDrugieSniadanie());
+            stringArray[2] = "lunch: " + returnStringOrEmpty(potr.getLunch());
+            stringArray[3] = "kolacja: " + returnStringOrEmpty(potr.getKolacja());
+        }
+        return stringArray;
     }
     
     //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
