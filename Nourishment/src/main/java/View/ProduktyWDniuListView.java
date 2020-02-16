@@ -24,6 +24,7 @@ import java.beans.EventHandler;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.hibernate.internal.util.compare.ComparableComparator;
 
 /**
  *
@@ -39,6 +41,7 @@ import javax.swing.JPanel;
  */
 public class ProduktyWDniuListView extends BaseListPanel {
     List<Potrawy> potrawyList = null;
+    Comparator comparatorByDate = null;
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -68,6 +71,13 @@ public class ProduktyWDniuListView extends BaseListPanel {
         });
         addButton(printButton);
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
+        
+        comparatorByDate = new Comparator<Serializable>() {
+            @Override
+            public int compare(Serializable o1, Serializable o2) {
+                return ((PotrawyWDniu) o1).getData().compareTo(((PotrawyWDniu) o2).getData());
+            }
+        };
     }
 
     @Override
@@ -128,6 +138,7 @@ public class ProduktyWDniuListView extends BaseListPanel {
                                    "mnoznikObiad", "mnoznikKolacja",
                                    "mnoznikPodwieczorek", "mnoznikLunch",
                                    "czy5dni"};
+        objectList.sort(comparatorByDate);
         GlobalFun.updateTable(objectList, tblObjects, ommitedColumns);
     }
     
@@ -135,6 +146,7 @@ public class ProduktyWDniuListView extends BaseListPanel {
         MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // the day of the week spelled out completely
         
+        objectList.sort(comparatorByDate);
         pDFGenerator.openDocument("C:/Users/Marek/Desktop/pdftest.pdf");
         pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
         for (int i = 0; i < list.size(); i++) {
@@ -148,20 +160,33 @@ public class ProduktyWDniuListView extends BaseListPanel {
         String[] stringArray = null;
         if ((potr.getCzy5dni() != null) && (potr.getCzy5dni() == '1')){
             stringArray = new String[5];
-            stringArray[0] = "śniadanie: " + returnStringOrEmpty(potr.getSniadanie());
-            stringArray[1] = "drugie śniadanie: " + returnStringOrEmpty(potr.getDrugieSniadanie());
-            stringArray[2] = "obiad: " + returnStringOrEmpty(potr.getObiad().toString());
-            stringArray[3] = "podwieczorek: " + returnStringOrEmpty(potr.getPodwieczorek());
-            stringArray[4] = "kolacja: " + returnStringOrEmpty(potr.getKolacja());
+            stringArray[0] = createMealString("śniadanie", potr.getSniadanie());
+            stringArray[1] = createMealString("drugie śniadanie", potr.getDrugieSniadanie());
+            stringArray[2] = createMealString("obiad", potr.getObiad());
+            stringArray[3] = createMealString("podwieczorek", potr.getPodwieczorek());
+            stringArray[4] = createMealString("kolacja", potr.getKolacja());
         }
         else{
             stringArray = new String[4];
-            stringArray[0] = "śniadanie: " + returnStringOrEmpty(potr.getSniadanie());
-            stringArray[1] = "drugie śniadanie: " + returnStringOrEmpty(potr.getDrugieSniadanie());
-            stringArray[2] = "lunch: " + returnStringOrEmpty(potr.getLunch());
-            stringArray[3] = "kolacja: " + returnStringOrEmpty(potr.getKolacja());
+            stringArray[0] = createMealString("śniadanie", potr.getSniadanie());
+            stringArray[1] = createMealString("drugie śniadanie", potr.getDrugieSniadanie());
+            stringArray[2] = createMealString("lunch", potr.getLunch());
+            stringArray[3] = createMealString("kolacja", potr.getKolacja());
         }
         return stringArray;
+    }
+    
+    private String createMealString(String mealType, Potrawy potr){
+        if (potr != null){
+            return mealType + ": " + potr.toString() +
+                    " b: " + GlobalFun.round(potr.getSumaBialko(),2).toString() +
+                    " w: " + GlobalFun.round(potr.getSumaCukrySuma(),2).toString() +
+                    " t: " + GlobalFun.round(potr.getSumaTluszcz(),2).toString() +
+                    " kcal: " + GlobalFun.round(potr.getSumaKcal(),2).toString();
+        }
+        else{
+            return mealType + ": ";
+        }
     }
     
     //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
