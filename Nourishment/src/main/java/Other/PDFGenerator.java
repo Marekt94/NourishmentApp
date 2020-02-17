@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
     Font titleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
-    Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 14, Font.BOLD);
+    Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 13, Font.BOLD);
     Font listFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
     
     public PDFGenerator(){

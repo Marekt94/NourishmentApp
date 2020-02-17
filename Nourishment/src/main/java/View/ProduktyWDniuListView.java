@@ -150,7 +150,7 @@ public class ProduktyWDniuListView extends BaseListPanel {
         pDFGenerator.openDocument("C:/Users/Marek/Desktop/pdftest.pdf");
         pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
         for (int i = 0; i < list.size(); i++) {
-           pDFGenerator.addSubtitle(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()));
+           pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()), (PotrawyWDniu) list.get(i)));
            pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) list.get(i)));
         }
         pDFGenerator.closeDocument();
@@ -176,16 +176,28 @@ public class ProduktyWDniuListView extends BaseListPanel {
         return stringArray;
     }
     
-    private String createMealString(String mealType, Potrawy potr){
+    private String createMealString(String prefix, Potrawy potr){
         if (potr != null){
-            return mealType + ": " + potr.toString() +
+            return prefix + ": " + potr.toString() +
                     " b: " + GlobalFun.round(potr.getSumaBialko(),2).toString() +
                     " w: " + GlobalFun.round(potr.getSumaCukrySuma(),2).toString() +
                     " t: " + GlobalFun.round(potr.getSumaTluszcz(),2).toString() +
                     " kcal: " + GlobalFun.round(potr.getSumaKcal(),2).toString();
         }
         else{
-            return mealType + ": ";
+            return prefix + ": ";
+        }
+    }
+    
+    private String createTitleString(String prefix, PotrawyWDniu potr){
+        if (potr != null){
+            return prefix + ": " + " b: " + GlobalFun.round(potr.getSumaBialko(),2).toString() +
+                    " w: " + GlobalFun.round(potr.getSumaCukrySuma(),2).toString() +
+                    " t: " + GlobalFun.round(potr.getSumaTluszcz(),2).toString() +
+                    " kcal: " + GlobalFun.round(potr.getSumaKcal(),2).toString();
+        }
+        else{
+            return prefix + ": ";
         }
     }
     

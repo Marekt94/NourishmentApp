@@ -53,7 +53,6 @@ import org.hibernate.annotations.ParamDef;
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikKolacja", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikKolacja = :mnoznikKolacja"),
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikLunch", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikLunch = :mnoznikLunch")})
 public class PotrawyWDniu implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,6 +95,22 @@ public class PotrawyWDniu implements Serializable {
     @JoinColumn(name = "KOLACJA", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private Potrawy kolacja;
+    @Column(name = "SUMA_KCAL")
+    private Double sumaKcal;
+    @Column(name = "SUMA_BIALKO")
+    private Double sumaBialko;
+    @Column(name = "SUMA_CUKRY_PROSTE")
+    private Double sumaCukryProste;
+    @Column(name = "SUMA_CUKRY_SUMA")
+    private Double sumaCukrySuma;
+    @Column(name = "SUMA_CUKRY_ZLOZONE")
+    private Double sumaCukryZlozone;
+    @Column(name = "SUMA_TLUSZCZ")
+    private Double sumaTluszcz;
+    @Column(name = "SUMA_BLONNIK")
+    private Double sumaBlonnik;
+    @Column(name = "SUMA_SOL")
+    private Double sumaSol;
 
     public PotrawyWDniu() {
     }
@@ -247,6 +262,70 @@ public class PotrawyWDniu implements Serializable {
     @Override
     public String toString() {
         return "Entities.PotrawyWDniu[ id=" + id + " ]";
+    }
+
+    public Double getSumaKcal() {
+        return sumaKcal;
+    }
+
+    public void setSumaKcal(Double sumaKcal) {
+        this.sumaKcal = sumaKcal;
+    }
+
+    public Double getSumaBialko() {
+        return sumaBialko;
+    }
+
+    public void setSumaBialko(Double sumaBialko) {
+        this.sumaBialko = sumaBialko;
+    }
+
+    public Double getSumaCukryProste() {
+        return sumaCukryProste;
+    }
+
+    public void setSumaCukryProste(Double sumaCukryProste) {
+        this.sumaCukryProste = sumaCukryProste;
+    }
+
+    public Double getSumaCukrySuma() {
+        return sumaCukrySuma;
+    }
+
+    public void setSumaCukrySuma(Double sumaCukrySuma) {
+        this.sumaCukrySuma = sumaCukrySuma;
+    }
+
+    public Double getSumaCukryZlozone() {
+        return sumaCukryZlozone;
+    }
+
+    public void setSumaCukryZlozone(Double sumaCukryZlozone) {
+        this.sumaCukryZlozone = sumaCukryZlozone;
+    }
+
+    public Double getSumaTluszcz() {
+        return sumaTluszcz;
+    }
+
+    public void setSumaTluszcz(Double sumaTluszcz) {
+        this.sumaTluszcz = sumaTluszcz;
+    }
+
+    public Double getSumaBlonnik() {
+        return sumaBlonnik;
+    }
+
+    public void setSumaBlonnik(Double sumaBlonnik) {
+        this.sumaBlonnik = sumaBlonnik;
+    }
+
+    public Double getSumaSol() {
+        return sumaSol;
+    }
+
+    public void setSumaSol(Double sumaSol) {
+        this.sumaSol = sumaSol;
     }
     
 }

@@ -149,6 +149,9 @@ public class GlobalFun {
     }
     
     public static Double round(Double number, Integer digits){
+        if (number == null){
+            return 0.0;
+        }
         if (digits != null){
             return new BigDecimal(number).setScale(digits, RoundingMode.HALF_UP).doubleValue();
         }
