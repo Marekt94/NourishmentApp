@@ -39,14 +39,14 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  *
  * @author Marek
  */
-public class ProduktyWDniuListView extends BaseListPanel {
+public class PotrawyWDniuListView extends BaseListPanel {
     List<Potrawy> potrawyList = null;
     Comparator comparatorByDate = null;
 
     /**
      * Creates new form ProduktyWDniuListView
      */
-    public ProduktyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
+    public PotrawyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
         ORMManager ormManager = ORMManager.getOrmManager();
         JPanel filterPanel = new JPanel();
