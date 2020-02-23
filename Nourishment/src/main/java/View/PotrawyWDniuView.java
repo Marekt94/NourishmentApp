@@ -58,6 +58,7 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setKolacja((Potrawy) GlobalFun.bind(cmbKolacja));
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
         potrWDniu.setData(GlobalFun.bind(datePicker));
+        potrWDniu.setCzy5dni('1');
     }
     
 
