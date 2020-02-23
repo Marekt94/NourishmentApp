@@ -196,30 +196,18 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblObjects = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnEdit = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblObjects = new javax.swing.JTable();
 
-        setPreferredSize(new java.awt.Dimension(900, 521));
+        setPreferredSize(new java.awt.Dimension(900, 450));
         setLayout(new java.awt.BorderLayout());
 
-        tblObjects.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tblObjects);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -244,7 +232,24 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
-        add(jPanel1, java.awt.BorderLayout.EAST);
+        jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
+
+        tblObjects.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblObjects);
+
+        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(jPanel3, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -261,6 +266,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected javax.swing.JButton btnEdit;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
+    protected javax.swing.JPanel jPanel3;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
