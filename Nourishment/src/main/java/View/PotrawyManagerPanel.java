@@ -98,11 +98,13 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
 
     @Override
     public Boolean execute() {
-        pnlListaProduktow.execute();
-        pnlListaPotraw.execute();
-        ORMManager ormManager = ORMManager.getOrmManager();
-        ormManager.addToDB(new ArrayList<Potrawy>(newOrEditedList));
-        return true;
+        if (pnlListaProduktow.execute()){
+            if (pnlListaPotraw.execute()){
+                ORMManager ormManager = ORMManager.getOrmManager();
+                return ormManager.addToDB(new ArrayList<Potrawy>(newOrEditedList));
+            }
+        }
+        return false;
     }
 
     @Override
