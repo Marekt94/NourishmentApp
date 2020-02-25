@@ -7,12 +7,16 @@ package View;
 
 import Entities.Potrawy;
 import Entities.Produkty;
+import Entities.ProduktyWPotrawie;
+import Global.GlobalFun;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
+import View.BasicView.MainDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,6 +26,8 @@ import javax.swing.JPanel;
  * @author Marek
  */
 public class PotrawyListView extends BaseListPanel {
+    BaseListPanel pnlPotrawyList = null;
+    BaseListPanel pnlProduktyList = null;
 
     /**
      * Creates new form PotrawyListView
@@ -38,7 +44,8 @@ public class PotrawyListView extends BaseListPanel {
         pnlPotrawy.setBorder(BorderFactory.createRaisedBevelBorder());
         pnlPotrawyButtons.add(btnPotrawyOk);
         pnlPotrawy.add(pnlPotrawyButtons, BorderLayout.SOUTH);
-        pnlPotrawy.add(new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class), BorderLayout.CENTER);
+        pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
+        pnlPotrawy.add(pnlPotrawyList, BorderLayout.CENTER);
         pnlPotrawy.setPreferredSize(new Dimension(450, 450));
         
         JPanel pnlProdukty = new JPanel();
@@ -51,14 +58,41 @@ public class PotrawyListView extends BaseListPanel {
         pnlProdukty.setBorder(BorderFactory.createRaisedBevelBorder());
         pnlProduktyButtons.add(btnProduktyOk);
         pnlProdukty.add(pnlProduktyButtons, BorderLayout.SOUTH);
-        pnlProdukty.add(new BaseListPanel(new ProduktView(), "Produkt", Produkty.class), BorderLayout.CENTER);
+        pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
+        pnlProdukty.add(pnlProduktyList, BorderLayout.CENTER);
         pnlProdukty.setPreferredSize(new Dimension(450, 450));
         
         this.add(pnlProdukty,BorderLayout.WEST);
         this.add(pnlPotrawy,BorderLayout.EAST);
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
         pack();
+        
+        btnAdd.setText("<<");
+        btnEdit.setText(">>");
     }
+
+    @Override
+    public void addObject(MyPanelInterface detailPanel, String title, Class objectType) {
+        if (pnlPotrawyList.getCurrentObject() != null){
+            ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
+            prodWPotr.setIdProduktu(pnlProduktyList.getCurrentObject());
+            prodWPotr.setIdPotrawy(pnlPotrawyList.getCurrentObject());
+            MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
+            wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
+            wagaProduktuDialog.setVisible(true);
+            if (wagaProduktuDialog.getResult()){
+                if (((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection() == null){
+                    ((Potrawy) pnlPotrawyList.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
+                }
+                ((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
+                //prodWPotrList = GlobalFun.toList(((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection());
+                newOrEditedObjectList.add((Potrawy) pnlPotrawyList.getCurrentObject());
+            }
+            updateView();
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
