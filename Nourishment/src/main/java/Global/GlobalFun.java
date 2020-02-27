@@ -161,7 +161,7 @@ public class GlobalFun {
     }
     
     public static <E> void updateTable(Collection<E> list, JTable table){
-        updateTable(toList(list), table);
+        updateTable(toList((Collection<? extends Serializable>) list), table);
     }
     
     private static Boolean isInOmmited(String columnName, String[] ommitedColumns){
@@ -240,7 +240,7 @@ public class GlobalFun {
         }
     }
     
-    public static <E> List<E> toList(Collection<E> collection){
+    public static List<? extends Serializable> toList(Collection<? extends Serializable> collection){
         if (collection != null){
             return collection.stream().collect(Collectors.toList());
         }

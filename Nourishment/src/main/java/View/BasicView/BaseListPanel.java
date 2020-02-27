@@ -65,8 +65,14 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public Boolean execute() {
+        Boolean result;
         ORMManager oRMManager = ORMManager.getOrmManager();
-        return oRMManager.addToDB(newOrEditedObjectList);
+        result = oRMManager.addToDB(newOrEditedObjectList); 
+        initObjectList.clear();
+        if (result){
+            GlobalFun.deepListCopy(objectList, initObjectList);
+        }
+        return result;
     }
 
     @Override

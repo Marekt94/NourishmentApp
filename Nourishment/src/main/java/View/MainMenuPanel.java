@@ -137,8 +137,8 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         
         MyListPanelInterface listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", Produkty.class);
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", listaPotrawy);
-        //mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
-        //mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
+        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
         
         mainDialog.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed

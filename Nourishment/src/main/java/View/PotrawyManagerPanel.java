@@ -145,7 +145,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
                 if ( !e.getValueIsAdjusting()){
                     Potrawy potrawa = pnlListaPotraw.getCurrentObject();
                     if (potrawa != null){
-                        prodWPotrList = GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
+                        prodWPotrList = (List<ProduktyWPotrawie>) GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
                     }
                     updateView();
                 }
@@ -301,7 +301,7 @@ public class PotrawyManagerPanel extends javax.swing.JPanel implements MyListPan
                     ((Potrawy) pnlListaPotraw.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
                 }
                 ((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
-                prodWPotrList = GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
+                prodWPotrList = (List<ProduktyWPotrawie>) GlobalFun.toList(((Potrawy) pnlListaPotraw.getCurrentObject()).getProduktyWPotrawieCollection());
                 newOrEditedList.add((Potrawy) pnlListaPotraw.getCurrentObject());
             }
             updateView();
