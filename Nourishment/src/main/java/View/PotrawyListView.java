@@ -57,7 +57,7 @@ public class PotrawyListView extends BaseListPanel {
         pnlPotrawy.add(pnlPotrawyButtons, BorderLayout.SOUTH);
         pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
         pnlPotrawy.add(pnlPotrawyList, BorderLayout.CENTER);
-        pnlPotrawy.setPreferredSize(new Dimension(450, 450));
+        pnlPotrawy.setPreferredSize(new Dimension(500, 450));
         
         JPanel pnlProdukty = new JPanel();
         JPanel pnlProduktyButtons = new JPanel();
@@ -76,7 +76,7 @@ public class PotrawyListView extends BaseListPanel {
         pnlProdukty.add(pnlProduktyButtons, BorderLayout.SOUTH);
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         pnlProdukty.add(pnlProduktyList, BorderLayout.CENTER);
-        pnlProdukty.setPreferredSize(new Dimension(450, 450));
+        pnlProdukty.setPreferredSize(new Dimension(500, 450));
         
         this.add(pnlProdukty,BorderLayout.EAST);
         this.add(pnlPotrawy,BorderLayout.WEST);
@@ -146,7 +146,7 @@ public class PotrawyListView extends BaseListPanel {
                     ((Potrawy) pnlPotrawyList.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
                 }
                 ((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
-                //prodWPotrList = GlobalFun.toList(((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection());
+                objectList = (List<Serializable>) GlobalFun.toList(((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection());
                 newOrEditedObjectList.add((Potrawy) pnlPotrawyList.getCurrentObject());
             }
             updateView();
@@ -170,6 +170,17 @@ public class PotrawyListView extends BaseListPanel {
         pnlPotrawyList.updateView();
         pnlProduktyList.updateView();
     }
+    @Override
+    public Boolean execute() {
+        if (pnlProduktyList.execute()){
+            if (pnlProduktyList.execute()){
+                return super.execute();
+            }           
+        }
+        return false;
+    }
+    
+    
     
     
     
