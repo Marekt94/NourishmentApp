@@ -51,7 +51,6 @@ public class PotrawyListView extends BaseListPanel {
         pnlPotrawy.setLayout(new BorderLayout());
         pnlPotrawyButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        pnlPotrawy.setBorder(BorderFactory.createRaisedBevelBorder());
         pnlPotrawyButtons.add(btnPotrawyOk);
         pnlPotrawyButtons.add(btnPotrawyCancel);
         pnlPotrawy.add(pnlPotrawyButtons, BorderLayout.SOUTH);
@@ -70,7 +69,6 @@ public class PotrawyListView extends BaseListPanel {
         pnlProdukty.setLayout(new BorderLayout());
         pnlProduktyButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        pnlProdukty.setBorder(BorderFactory.createRaisedBevelBorder());
         pnlProduktyButtons.add(btnProduktyOk);
         pnlProduktyButtons.add(btnProduktyCancel);
         pnlProdukty.add(pnlProduktyButtons, BorderLayout.SOUTH);
@@ -84,7 +82,6 @@ public class PotrawyListView extends BaseListPanel {
         pack();
         
         btnAdd.setText("<<");
-        btnEdit.setText(">>");
         
         pnlPotrawyList.getTblObjects().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -167,8 +164,6 @@ public class PotrawyListView extends BaseListPanel {
     public void updateView() {
         String[] omittedColumns = {"idPotrawy"};
         GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
-        pnlPotrawyList.updateView();
-        pnlProduktyList.updateView();
     }
     @Override
     public Boolean execute() {
