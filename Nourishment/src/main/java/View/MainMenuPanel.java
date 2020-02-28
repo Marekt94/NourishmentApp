@@ -135,7 +135,8 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", new PotrawyManagerPanel());
+        MyListPanelInterface listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", Produkty.class);
+        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", listaPotrawy);
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
         
