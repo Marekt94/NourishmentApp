@@ -40,6 +40,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> initObjectList = null;
     protected List<Serializable> objectList = null;
     protected List<Serializable> newOrEditedObjectList = null;
+    protected List<Serializable> objectToDeleteList = null;
 
     @Override
     public void addButton(JButton button) {
@@ -67,7 +68,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     public Boolean execute() {
         Boolean result;
         ORMManager oRMManager = ORMManager.getOrmManager();
-        result = oRMManager.addToDB(newOrEditedObjectList); 
+        result = oRMManager.addToDB(newOrEditedObjectList);
+        result = oRMManager.deleteFromDB(objectToDeleteList) && result;
         initObjectList.clear();
         if (result){
             GlobalFun.deepListCopy(objectList, initObjectList);
@@ -139,6 +141,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         initObjectList = new ArrayList<Serializable>();
         objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
+        objectToDeleteList = new ArrayList<Serializable>();
     }
     
     public JTable getTblObjects(){
@@ -192,6 +195,18 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
             updateView();
         }        
     }
+    
+    public void deleteObject(){
+        if (tblObjects.getSelectedRow() > -1){
+            Serializable object;
+            
+            object = objectList.get(tblObjects.getSelectedRow());           
+            objectToDeleteList.add(object);
+            objectList.remove(tblObjects.getSelectedRow());
+            
+            updateView();
+        } 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -207,6 +222,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jPanel2 = new javax.swing.JPanel();
         btnEdit = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        btnUsun = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjects = new javax.swing.JTable();
 
@@ -218,7 +234,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+        jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
 
         btnEdit.setText("Edytuj");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -235,6 +251,14 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
             }
         });
         jPanel2.add(btnAdd);
+
+        btnUsun.setText("Usuń");
+        btnUsun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsunActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnUsun);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
@@ -266,10 +290,15 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         addObject(detailPanel, detailPanelTitle, detailEntityClass);
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsunActionPerformed
+        deleteObject();
+    }//GEN-LAST:event_btnUsunActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;
     protected javax.swing.JButton btnEdit;
+    protected javax.swing.JButton btnUsun;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JPanel jPanel3;

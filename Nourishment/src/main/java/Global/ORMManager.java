@@ -126,6 +126,28 @@ public class ORMManager {
         return true;
     }
     
+    public <E> Boolean deleteFromDB(List<E> list){
+        if (session.isOpen()){ session.close();}
+        session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                session.delete(list.get(i));
+                if (i % GlobalConfig.BATCH_SIZE == 0){
+                    session.flush();
+                    session.clear();
+                }
+            }
+            transaction.commit();
+            session.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            session.close();
+            return false;      
+        }        
+        return true;
+    }
+    
     public List<? extends Serializable> filterByDate(String dateFrom, String  dateTo){
         List<PotrawyWDniu> list = null;
         Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
