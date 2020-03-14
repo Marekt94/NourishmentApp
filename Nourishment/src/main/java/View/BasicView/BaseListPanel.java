@@ -10,12 +10,14 @@ import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
+import View.ChoosenColumnsPanel;
 import View.PotrawyView;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> objectList = null;
     protected List<Serializable> newOrEditedObjectList = null;
     protected List<Serializable> objectToDeleteList = null;
+    protected List<String> omittedColumns = null;
 
     @Override
     public void addButton(JButton button) {
@@ -106,7 +109,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public void updateView() {
-        GlobalFun.updateTable(objectList, tblObjects);
+        Integer currentRow = tblObjects.getSelectedRow();
+        GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
+        tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
     }
 
     @Override
@@ -142,6 +147,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
         objectToDeleteList = new ArrayList<Serializable>();
+        omittedColumns = new ArrayList<String>();
+        
+        omittedColumns.add("serialVersionUID");
     }
     
     public JTable getTblObjects(){
@@ -223,6 +231,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         btnEdit = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnUsun = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        btnFiltruj = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjects = new javax.swing.JTable();
 
@@ -262,6 +272,18 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0, 5, 5));
+
+        btnFiltruj.setText("Filtruj");
+        btnFiltruj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrujActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnFiltruj);
+
+        jPanel1.add(jPanel4, java.awt.BorderLayout.SOUTH);
+
         jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
 
         tblObjects.setModel(new javax.swing.table.DefaultTableModel(
@@ -294,14 +316,26 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         deleteObject();
     }//GEN-LAST:event_btnUsunActionPerformed
 
+    private void btnFiltrujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrujActionPerformed
+        List<Object> list = new ArrayList<>();
+        list.add(detailEntityClass);
+        list.add(omittedColumns);
+        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Widoczne kolumny", new ChoosenColumnsPanel());
+        mainDialog.getMyWindowManager().unpackWindow(list);
+        mainDialog.setVisible(true);
+        updateView();
+    }//GEN-LAST:event_btnFiltrujActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;
     protected javax.swing.JButton btnEdit;
+    protected javax.swing.JButton btnFiltruj;
     protected javax.swing.JButton btnUsun;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JPanel jPanel3;
+    protected javax.swing.JPanel jPanel4;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables

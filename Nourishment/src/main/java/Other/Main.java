@@ -31,13 +31,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MainWindow mainWindow = new MainWindow(new KonfigView(), "Menu", new MainMenuPanel());
-        mainWindow.setVisible(true);
         MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie", new LoginPanel());
         connectinDialog.setVisible(true);
         if (connectinDialog.getResult() == false){
             System.exit(0);
         }
+        MainWindow mainWindow = new MainWindow(new KonfigView(), "Menu", new MainMenuPanel());
+        mainWindow.setVisible(true);
     }
     
 }

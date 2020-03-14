@@ -24,9 +24,11 @@ import java.beans.EventHandler;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -39,7 +41,7 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  *
  * @author Marek
  */
-public class PotrawyWDniuListView extends BaseListPanel {
+public class PotrawyWDniuListView extends BaseListPanel{
     List<Potrawy> potrawyList = null;
     Comparator comparatorByDate = null;
 
@@ -48,6 +50,13 @@ public class PotrawyWDniuListView extends BaseListPanel {
      */
     public PotrawyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
+        omittedColumns.add("mnoznikSniadanie");
+        omittedColumns.add("mnoznikDrugieSniadanie");
+        omittedColumns.add("mnoznikObiad");
+        omittedColumns.add("mnoznikKolacja");
+        omittedColumns.add("mnoznikPodwieczorek");
+        omittedColumns.add("mnoznikLunch");
+        omittedColumns.add("czy5dni");
         ORMManager ormManager = ORMManager.getOrmManager();
         JPanel filterPanel = new JPanel();
         FilterPanel filter = new FilterPanel();
@@ -57,9 +66,10 @@ public class PotrawyWDniuListView extends BaseListPanel {
         filter.btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                unpack(ORMManager.getOrmManager().filterByDate(filter.getDataFrom(), filter.getDataTo()));
+                unpack(ORMManager.getOrmManager().filterByDate(filter.getDataFrom(), filter.getDataTo()));  
             }
         });
+        
         this.add(filterPanel,BorderLayout.NORTH);
         
         JButton printButton = new JButton("Drukuj");
@@ -134,12 +144,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
     
     @Override
     public void updateView() {
-        String[] ommitedColumns = {"mnoznikSniadanie", "mnoznikDrugieSniadanie",
-                                   "mnoznikObiad", "mnoznikKolacja",
-                                   "mnoznikPodwieczorek", "mnoznikLunch",
-                                   "czy5dni"};
         objectList.sort(comparatorByDate);
-        GlobalFun.updateTable(objectList, tblObjects, ommitedColumns);
+        super.updateView();
     }
     
     private void generateMenu(List<Serializable> list){

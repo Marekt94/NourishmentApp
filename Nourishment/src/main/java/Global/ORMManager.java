@@ -151,17 +151,37 @@ public class ORMManager {
     public List<? extends Serializable> filterByDate(String dateFrom, String  dateTo){
         List<PotrawyWDniu> list = null;
         Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
-
-        session = sessionFactory.openSession();
-        Filter filter = session.enableFilter("dataFilter");
-        filter.setParameter("dataFrom", dateFrom);
-        filter.setParameter("dataTo", dateTo);
+        String filterName = null;
+        
+        if (dateFrom.isEmpty() && dateTo.isEmpty()){
+          list = (List<PotrawyWDniu>) askForObjects(PotrawyWDniu.class); 
+          return list;
+        }
+        else{
+            session = sessionFactory.openSession();
+            if (!dateFrom.isEmpty() && !dateTo.isEmpty()){
+                filterName = "dataFilterBoth";
+                Filter filter = session.enableFilter(filterName);
+                filter.setParameter("dataFrom", dateFrom);
+                filter.setParameter("dataTo", dateTo);
+            }
+            else if(!dateFrom.isEmpty() && dateTo.isEmpty()){
+                filterName = "dataFilterFrom";
+                Filter filter = session.enableFilter(filterName);
+                filter.setParameter("dataFrom", dateFrom);          
+            }
+            else{
+                filterName = "dataFilterTo";
+                Filter filter = session.enableFilter(filterName);
+                filter.setParameter("dataTo", dateTo);            
+            }
+        }
         session.beginTransaction();
         for (PotrawyWDniu object : (List<PotrawyWDniu>) session.createCriteria(PotrawyWDniu.class).list()){
             set.add(object);
-        } 
+        }
         list = new ArrayList<PotrawyWDniu>(set);
-        session.disableFilter("dateFilter");
+        session.disableFilter(filterName);
         session.close();
         return (List<PotrawyWDniu>) list;        
     } 

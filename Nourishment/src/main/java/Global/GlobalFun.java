@@ -164,8 +164,8 @@ public class GlobalFun {
         updateTable(toList((Collection<? extends Serializable>) list), table);
     }
     
-    private static Boolean isInOmmited(String columnName, String[] ommitedColumns){
-        if (ommitedColumns.length == 0){
+    private static Boolean isInOmmited(String columnName, List<String> ommitedColumns){
+        if ((ommitedColumns == null) || (ommitedColumns.size() == 0)){
             return false;
         }
         for (String columnNameTemp : ommitedColumns){
@@ -177,22 +177,19 @@ public class GlobalFun {
     }
     
     public static <E> void updateTable(List<E> list, JTable table){
-        updateTable(list, table, new String[0]);
+        updateTable(list, table, null);
     }
     
-    public static <E> void updateTable(List<E> list, JTable table, String[] ommitedColumns){
+    public static <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
         if ((list == null) || (list.size() < 1)){
             ((DefaultTableModel) table.getModel()).setRowCount(0);
             return;
         }
         List<Field> fieldsList = new ArrayList<>();
         for (Field field : list.get(0).getClass().getDeclaredFields()) {
-            if ((field.getName() != "serialVersionUID") && (!field.getType().equals(Collection.class))){
-                if (!isInOmmited(field.getName(), ommitedColumns)){
-                    fieldsList.add(field);
-                }
+            if ((!isInOmmited(field.getName(), ommitedColumns)) && (!field.getType().equals(Collection.class))){
+                fieldsList.add(field);
             }
-
         }
         Field[] fields = fieldsList.toArray(new Field[fieldsList.size()]);
         

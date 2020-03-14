@@ -40,6 +40,7 @@ public class PotrawyListView extends BaseListPanel {
      */
     public PotrawyListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
+        omittedColumns.add("idPotrawy");
         JPanel pnlPotrawy = new JPanel();
         JPanel pnlPotrawyButtons = new JPanel();
         JButton btnPotrawyOk = new JButton();
@@ -100,7 +101,7 @@ public class PotrawyListView extends BaseListPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pnlPotrawyList.execute();
-                updateView();
+                pnlPotrawyList.updateView();
             }
         });
         
@@ -108,7 +109,7 @@ public class PotrawyListView extends BaseListPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pnlProduktyList.execute();
-                updateView();
+                pnlProduktyList.updateView();
             }
         });
         
@@ -116,7 +117,7 @@ public class PotrawyListView extends BaseListPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pnlPotrawyList.rollback();
-                updateView();
+                pnlPotrawyList.updateView();
             }
         });
         
@@ -124,7 +125,7 @@ public class PotrawyListView extends BaseListPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pnlProduktyList.rollback();
-                updateView();
+                pnlProduktyList.updateView();
             }
         });
     }
@@ -160,11 +161,6 @@ public class PotrawyListView extends BaseListPanel {
         }
     }
 
-    @Override
-    public void updateView() {
-        String[] omittedColumns = {"idPotrawy"};
-        GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
-    }
     @Override
     public Boolean execute() {
         if (pnlProduktyList.execute()){

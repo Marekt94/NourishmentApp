@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 
@@ -31,14 +32,18 @@ import org.hibernate.annotations.ParamDef;
  *
  * @author Marek
  */
+
 @Entity
 @Table(name = "POTRAWY_W_DNIU")
-@FilterDef(name="dataFilter", parameters={
-    @ParamDef(name = "dataFrom", type="string"),
-    @ParamDef(name = "dataTo", type="string")
+@FilterDefs({
+    @FilterDef(name = "dataFilterBoth", parameters = {@ParamDef(name = "dataFrom", type="string"), @ParamDef(name = "dataTo", type="string")}),
+    @FilterDef(name = "dataFilterFrom", parameters = {@ParamDef(name = "dataFrom", type="string")}),
+    @FilterDef(name = "dataFilterTo", parameters = {@ParamDef(name = "dataTo", type="string")})
 })
 @Filters({
-    @Filter(name="dataFilter", condition = "data BETWEEN :dataFrom AND :dataTo")
+    @Filter(name="dataFilterBoth", condition = "data BETWEEN :dataFrom AND :dataTo"),
+    @Filter(name="dataFilterFrom", condition = "data >= :dataFrom"),
+    @Filter(name="dataFilterTo", condition = "data <= :dataTo"),
 })
 @XmlRootElement
 @NamedQueries({

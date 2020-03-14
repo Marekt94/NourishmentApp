@@ -28,6 +28,9 @@ import javax.swing.WindowConstants;
 public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
     private KonfigView konfigView;
     private ORMManager ormManager;
+    private MyListPanelInterface listaProduktowPanel = null;
+    private MyListPanelInterface listaPotrawy = null;
+    private MyListPanelInterface listaPotrawWDniu = null;
     
     @Override
     public <E> void unpack(List<E> objectList) {
@@ -71,6 +74,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     public MainMenuPanel() {
         initComponents();
         ormManager = ORMManager.getOrmManager();
+        listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
+        listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", Produkty.class);
+        listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
     }
 
     /**
@@ -124,7 +130,6 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MyListPanelInterface listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", listaProduktowPanel);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         
@@ -135,7 +140,6 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MyListPanelInterface listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", Produkty.class);
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", listaPotrawy);
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
@@ -147,7 +151,6 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MyListPanelInterface listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
         MainDialog mainWindow = new MainDialog(null, true, konfigView, "Jadłospis", listaPotrawWDniu);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
         

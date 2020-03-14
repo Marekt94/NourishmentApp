@@ -52,7 +52,9 @@ public class FilterPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         pnlOd = new javax.swing.JPanel();
         pnlDo = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         btnApply = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setPreferredSize(new java.awt.Dimension(251, 78));
@@ -85,34 +87,50 @@ public class FilterPanel extends javax.swing.JPanel {
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
 
+        jPanel4.setLayout(new java.awt.GridLayout(2, 0));
+
         btnApply.setText("Odśwież");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyActionPerformed(evt);
             }
         });
-        add(btnApply, java.awt.BorderLayout.EAST);
+        jPanel4.add(btnApply);
+
+        btnReset.setText("Resetuj");
+        btnReset.setToolTipText("");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnReset);
+
+        add(jPanel4, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnApplyActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        datePickerFrom.getJFormattedTextField().setText("");
+        datePickerTo.getJFormattedTextField().setText("");
+    }//GEN-LAST:event_btnResetActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnApply;
+    public javax.swing.JButton btnReset;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblDo;
     private javax.swing.JLabel lblOd;
     private javax.swing.JPanel pnlDo;
     private javax.swing.JPanel pnlOd;
     // End of variables declaration//GEN-END:variables
-
-    public JButton getBtnApply() {
-        return btnApply;
-    }
     
     public String getDataFrom(){
         return datePickerFrom.getJFormattedTextField().getText();
