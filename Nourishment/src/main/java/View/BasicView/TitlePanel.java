@@ -60,7 +60,7 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
         
         init(konfigView);
         if (title != ""){
-            jLabel1.setText(title);
+            jLabel1.setText("  " + title + "  ");
         }
     }
 

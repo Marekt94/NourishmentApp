@@ -169,7 +169,7 @@ public class GlobalFun {
             return false;
         }
         for (String columnNameTemp : ommitedColumns){
-            if (columnName == columnNameTemp){
+            if (columnName.equals(columnNameTemp)){
                 return true;
             }
         }

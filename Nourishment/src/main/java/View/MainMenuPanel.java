@@ -12,6 +12,7 @@ import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
+import Entities.ProduktyWPotrawie;
 import Interfaces.MyListPanelInterface;
 import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
@@ -75,7 +76,7 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
         initComponents();
         ormManager = ORMManager.getOrmManager();
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
-        listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", Produkty.class);
+        listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
         listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
     }
 

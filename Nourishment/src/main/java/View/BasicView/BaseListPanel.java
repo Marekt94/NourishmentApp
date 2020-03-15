@@ -232,7 +232,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         btnAdd = new javax.swing.JButton();
         btnUsun = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        btnFiltruj = new javax.swing.JButton();
+        btnWybierzKolumny = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjects = new javax.swing.JTable();
 
@@ -241,7 +241,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 300));
+        jPanel1.setPreferredSize(new java.awt.Dimension(135, 300));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
@@ -274,13 +274,13 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 5, 5));
 
-        btnFiltruj.setText("Filtruj");
-        btnFiltruj.addActionListener(new java.awt.event.ActionListener() {
+        btnWybierzKolumny.setText("Wybierz kolumny");
+        btnWybierzKolumny.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltrujActionPerformed(evt);
+                btnWybierzKolumnyActionPerformed(evt);
             }
         });
-        jPanel4.add(btnFiltruj);
+        jPanel4.add(btnWybierzKolumny);
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
@@ -316,7 +316,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         deleteObject();
     }//GEN-LAST:event_btnUsunActionPerformed
 
-    private void btnFiltrujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrujActionPerformed
+    private void btnWybierzKolumnyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWybierzKolumnyActionPerformed
         List<Object> list = new ArrayList<>();
         list.add(detailEntityClass);
         list.add(omittedColumns);
@@ -324,14 +324,14 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         mainDialog.getMyWindowManager().unpackWindow(list);
         mainDialog.setVisible(true);
         updateView();
-    }//GEN-LAST:event_btnFiltrujActionPerformed
+    }//GEN-LAST:event_btnWybierzKolumnyActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;
     protected javax.swing.JButton btnEdit;
-    protected javax.swing.JButton btnFiltruj;
     protected javax.swing.JButton btnUsun;
+    protected javax.swing.JButton btnWybierzKolumny;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JPanel jPanel3;
