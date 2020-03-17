@@ -12,6 +12,7 @@ import static Global.GlobalFun.returnStringOrEmpty;
 import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
+import Other.MyComparator;
 import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
@@ -43,7 +44,7 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  */
 public class PotrawyWDniuListView extends BaseListPanel{
     List<Potrawy> potrawyList = null;
-    Comparator comparatorByDate = null;
+    MyComparator comparatorByDate = null;
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -81,13 +82,12 @@ public class PotrawyWDniuListView extends BaseListPanel{
         });
         addButton(printButton);
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
-        
-        comparatorByDate = new Comparator<Serializable>() {
-            @Override
-            public int compare(Serializable o1, Serializable o2) {
-                return ((PotrawyWDniu) o1).getData().compareTo(((PotrawyWDniu) o2).getData());
-            }
-        };
+        comparatorByDate = new MyComparator();
+        try {
+            comparatorByDate.init("data", PotrawyWDniu.class, true);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ package Other;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,9 @@ public class MyComparator implements Comparator{
                 }
                 else if(field.getType().equals(String.class)){
                     result = ((String)field.get(o2)).compareTo((String) field.get(o1));
+                }
+                else if(field.getType().equals(Date.class)){
+                    result = ((Date)field.get(o2)).compareTo((Date) field.get(o1));
                 }
                 
                 if (ascending){
