@@ -10,12 +10,16 @@ import Entities.PotrawyWDniu;
 import Global.GlobalConfig;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Other.MyComparator;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Filter;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -83,8 +87,12 @@ public class ORMManager {
         }
         return true;
     } 
-    
+   
     public List<? extends Serializable> askForObjects(Class myType){
+        return askForObjects(myType, "id", true);
+    }
+    
+    public List<? extends Serializable> askForObjects(Class myType, String sortedColumn, Boolean ascending){
         List<Serializable> list = null;
         Set<Serializable> set = new HashSet<Serializable>();
 
@@ -95,6 +103,15 @@ public class ORMManager {
         } 
         list = new ArrayList<Serializable>(set);
         session.close();
+        if (!sortedColumn.equals("")){
+            MyComparator comparator = new MyComparator();
+            try {
+                comparator.init(sortedColumn, myType, ascending);
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(ORMManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            list.sort(comparator);
+        }
         return (List<Serializable>) list;
     }
     
