@@ -144,7 +144,6 @@ public class PotrawyWDniuListView extends BaseListPanel{
     
     @Override
     public void updateView() {
-        objectList.sort(comparatorByDate);
         super.updateView();
     }
     

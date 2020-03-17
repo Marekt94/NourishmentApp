@@ -10,8 +10,11 @@ import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
+import Other.AfterClickSorter;
+import Other.AfterClickSorterModel;
 import View.ChoosenColumnsPanel;
 import View.PotrawyView;
+import java.awt.AWTEventMulticaster;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.Serializable;
@@ -35,6 +38,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     private MyPanelInterface detailPanel = null;
     private String detailPanelTitle = null;
     private Class detailEntityClass = null;
+    private AfterClickSorterModel sorterModel = null;
     
     protected KonfigView konfigView = null;
     protected KonfigView detailPanelKonfigView = null;
@@ -150,6 +154,14 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         omittedColumns = new ArrayList<String>();
         
         omittedColumns.add("serialVersionUID");
+        
+        sorterModel = new AfterClickSorterModel();
+        sorterModel.setAscending(true);
+        sorterModel.setList(objectList);
+        sorterModel.setManagerPanel(this);
+        sorterModel.setTable(tblObjects);
+        sorterModel.setObjectType(detailEntityClass);
+        tblObjects.getTableHeader().addMouseListener(new AfterClickSorter(sorterModel));
     }
     
     public JTable getTblObjects(){

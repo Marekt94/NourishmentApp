@@ -33,20 +33,46 @@ public class MyComparator implements Comparator{
         try {
             if (field != null){
                 Boolean oldAccess = field.canAccess(o1);
-                Integer result = null;
-                
+                Integer result = 0;
                 field.setAccessible(true);
+                Object value1 = field.get(o1);
+                Object value2 = field.get(o2);
+                
                 if (field.getType().equals(Integer.class)){
-                    result = ((Integer) field.get(o2)) - ((Integer) field.get(o1));
+                    if (value1 == null){
+                        value1 = 0;
+                    }
+                    if (value2 == null){
+                        value2 = 0;
+                    }
+                    result = ((Integer) value2) - ((Integer) value1);
                 }
                 else if(field.getType().equals(Double.class)){
-                    result = (Integer) Math.round((float) (((Double) field.get(o1)) - ((Double) field.get(o2))));    
+                    if (value1 == null){
+                        value1 = 0.0;
+                    }
+                    if (value2 == null){
+                        value2 = 0.0;
+                    }
+                    result = (Integer) Math.round((float) (((Double) value2) - ((Double) value1)));    
                 }
                 else if(field.getType().equals(String.class)){
-                    result = ((String)field.get(o2)).compareTo((String) field.get(o1));
+                    if (value1 == null){
+                        value1 = "";
+                    }
+                    if (value2 == null){
+                        value2 = "";
+                    }
+                    result = ((String) value2).compareTo((String) value1);
                 }
                 else if(field.getType().equals(Date.class)){
-                    result = ((Date)field.get(o2)).compareTo((Date) field.get(o1));
+                    if (value1 == null){
+                        value1 = 0;
+                    }
+                    if (value2 == null){
+                        value2 = 0;
+                    }
+                    result = ((Date) value2).compareTo((Date) value1);
                 }
                 
                 if (ascending){
