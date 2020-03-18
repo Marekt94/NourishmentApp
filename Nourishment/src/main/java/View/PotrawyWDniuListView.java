@@ -67,7 +67,7 @@ public class PotrawyWDniuListView extends BaseListPanel{
         filter.btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                unpack(ORMManager.getOrmManager().filterByDate(filter.getDataFrom(), filter.getDataTo()));  
+                unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));  
             }
         });
         

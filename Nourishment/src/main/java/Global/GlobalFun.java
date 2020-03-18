@@ -9,6 +9,7 @@ import Entities.Potrawy;
 import Entities.Produkty;
 import static Global.GlobalConfig.*;
 import Other.DateLabelFormatter;
+import Other.TableUpdater;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
@@ -181,54 +182,8 @@ public class GlobalFun {
     }
     
     public static <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
-        if ((list == null) || (list.size() < 1)){
-            ((DefaultTableModel) table.getModel()).setRowCount(0);
-            return;
-        }
-        List<Field> fieldsList = new ArrayList<>();
-        for (Field field : list.get(0).getClass().getDeclaredFields()) {
-            if ((!isInOmmited(field.getName(), ommitedColumns)) && (!field.getType().equals(Collection.class))){
-                fieldsList.add(field);
-            }
-        }
-        Field[] fields = fieldsList.toArray(new Field[fieldsList.size()]);
-        
-        ((DefaultTableModel) table.getModel()).setColumnCount(0);
-        while(table.getColumnCount() < fields.length){
-            TableColumn tblcol = new TableColumn();
-            ((DefaultTableModel) table.getModel()).addColumn("");
-        }
-        
-        for (int i = 0; i < fields.length; i++) {
-            table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(fields[i].getName());
-        }
-        
-        ((DefaultTableModel) table.getModel()).setRowCount(0);
-        for (int j = 0; j < list.size(); j++) {
-            String[] row = new String[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                try {
-                    Boolean oldAccess;
-                    oldAccess =  fields[i].canAccess(list.get(j));
-                    fields[i].setAccessible(true);
-                    if (fields[i].get(list.get(j)) != null){
-                        if (fields[i].get(list.get(j)).getClass().equals(Double.class)){
-                            row[i] = GlobalFun.round((Double) fields[i].get(list.get(j)), null).toString();
-                        }
-                        else{
-                            row[i] = fields[i].get(list.get(j)).toString();
-                        }
-                    }
-                    fields[i].setAccessible(oldAccess);
-                } catch (IllegalArgumentException ex) {
-                    System.out.print("Error in updateTable\n");
-                } catch (IllegalAccessException ex) {
-                    System.out.print("Error in updateTable\n");
-                }
-
-            }
-            ((DefaultTableModel) table.getModel()).addRow(row);
-        }        
+        TableUpdater tableUpdater = new TableUpdater();
+        tableUpdater.updateTabel(list, table, ommitedColumns);     
     }
     
     public static <E extends Serializable> void deepListCopy(List<E> referenceList, List<E> newList){

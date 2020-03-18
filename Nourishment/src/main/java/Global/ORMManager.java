@@ -165,13 +165,13 @@ public class ORMManager {
         return true;
     }
     
-    public List<? extends Serializable> filterByDate(String dateFrom, String  dateTo){
-        List<PotrawyWDniu> list = null;
-        Set<PotrawyWDniu> set = new HashSet<PotrawyWDniu>();
+    public List<? extends Serializable> filterByDate(Class myType, String dateFrom, String  dateTo){
+        List<Serializable> list = null;
+        Set<Serializable> set = new HashSet<Serializable>();
         String filterName = null;
         
         if (dateFrom.isEmpty() && dateTo.isEmpty()){
-          list = (List<PotrawyWDniu>) askForObjects(PotrawyWDniu.class); 
+          list = (List<Serializable>) askForObjects(myType); 
           return list;
         }
         else{
@@ -194,12 +194,13 @@ public class ORMManager {
             }
         }
         session.beginTransaction();
-        for (PotrawyWDniu object : (List<PotrawyWDniu>) session.createCriteria(PotrawyWDniu.class).list()){
-            set.add(object);
+        list = session.createCriteria(myType).list();
+        for (int i = 0; i < list.size(); i++) {
+            set.add(list.get(i));
         }
-        list = new ArrayList<PotrawyWDniu>(set);
+        list = new ArrayList<Serializable>(set);
         session.disableFilter(filterName);
         session.close();
-        return (List<PotrawyWDniu>) list;        
+        return list;        
     } 
 }
