@@ -19,12 +19,21 @@ import javax.swing.table.TableColumn;
  * @author Marek
  */
 public class TableUpdater {
+    List<String> columnOrder = null;
     
-    public <E> void updateTabel(List<E> list, JTable table, List<String> ommitedColumns){
+    public TableUpdater(){
+        columnOrder = new ArrayList<String>();
+    }
+            
+    public <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
         if (!checkRequirements(list, table)){return;}
+//        getColumnOrder(table);
         Field[] fields = setFieldsToShow(list, ommitedColumns);
         createColumns(fields, table);
         fillTable(table, list, fields);
+//        setColumnOrder(table);
+//        ColumnsAutoSizer columnAutoSizer = new ColumnsAutoSizer();
+//        columnAutoSizer.sizeColumnsToFit(table);
     }
     
     private <E> Boolean checkRequirements(List<E> list, JTable table){
@@ -98,5 +107,31 @@ public class TableUpdater {
             }
             ((DefaultTableModel) table.getModel()).addRow(row);
         }         
+    }
+    
+    private void getColumnOrder(JTable table){
+        columnOrder.clear();
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            columnOrder.add(table.getColumnModel().getColumn(i).getHeaderValue().toString());
+        }
+    }
+    
+    private void setColumnOrder(JTable table){
+        List<Integer> movedColumns = new ArrayList<Integer>();
+        
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            TableColumn tblColumn = table.getColumnModel().getColumn(i);
+            if ((i < columnOrder.size()) && (!tblColumn.getIdentifier().equals(columnOrder.get(i)))){
+                if (!movedColumns.contains(i)){
+                    if (columnOrder.contains(tblColumn.getIdentifier())){
+                        int newIndex = columnOrder.indexOf(tblColumn.getIdentifier());
+                        movedColumns.add(newIndex);
+                        if (newIndex <= (table.getColumnCount() - 1)){
+                            table.moveColumn(i, newIndex);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

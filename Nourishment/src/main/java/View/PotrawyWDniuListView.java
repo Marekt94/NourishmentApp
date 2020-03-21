@@ -148,11 +148,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         }
     }
 
-    @Override
-    public void updateView() {
-        super.updateView();
-    }
-
     private void generateMenu(List<Serializable> list) {
         String fileName = chooseSavePath();
         if (!fileName.equals("")) {

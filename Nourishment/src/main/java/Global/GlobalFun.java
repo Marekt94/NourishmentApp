@@ -183,7 +183,7 @@ public class GlobalFun {
     
     public static <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
         TableUpdater tableUpdater = new TableUpdater();
-        tableUpdater.updateTabel(list, table, ommitedColumns);     
+        tableUpdater.updateTable(list, table, ommitedColumns);     
     }
     
     public static <E extends Serializable> void deepListCopy(List<E> referenceList, List<E> newList){
