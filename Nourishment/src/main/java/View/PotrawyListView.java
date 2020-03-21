@@ -42,37 +42,17 @@ public class PotrawyListView extends BaseListPanel {
         super(detailPanel, detailPanelTitle, detailEntityClass);
         omittedColumns.add("idPotrawy");
         JPanel pnlPotrawy = new JPanel();
-        JPanel pnlPotrawyButtons = new JPanel();
-        JButton btnPotrawyOk = new JButton();
-        JButton btnPotrawyCancel = new JButton();
-        
-        btnPotrawyOk.setText("OK");
-        btnPotrawyCancel.setText("Anuluj");
         
         pnlPotrawy.setLayout(new BorderLayout());
-        pnlPotrawyButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        pnlPotrawyButtons.add(btnPotrawyOk);
-        pnlPotrawyButtons.add(btnPotrawyCancel);
-        pnlPotrawy.add(pnlPotrawyButtons, BorderLayout.SOUTH);
         pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
         pnlPotrawy.add(pnlPotrawyList, BorderLayout.CENTER);
         pnlPotrawy.setPreferredSize(new Dimension(500, 450));
         
         JPanel pnlProdukty = new JPanel();
-        JPanel pnlProduktyButtons = new JPanel();
-        JButton btnProduktyOk = new JButton();
-        JButton btnProduktyCancel = new JButton();
-        
-        btnProduktyOk.setText("OK");
-        btnProduktyCancel.setText("Anuluj");
         
         pnlProdukty.setLayout(new BorderLayout());
-        pnlProduktyButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        pnlProduktyButtons.add(btnProduktyOk);
-        pnlProduktyButtons.add(btnProduktyCancel);
-        pnlProdukty.add(pnlProduktyButtons, BorderLayout.SOUTH);
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         pnlProdukty.add(pnlProduktyList, BorderLayout.CENTER);
         pnlProdukty.setPreferredSize(new Dimension(500, 450));
@@ -94,38 +74,6 @@ public class PotrawyListView extends BaseListPanel {
                     }
                     updateView();
                 }
-            }
-        });
-        
-        btnPotrawyOk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pnlPotrawyList.execute();
-                pnlPotrawyList.updateView();
-            }
-        });
-        
-        btnProduktyOk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pnlProduktyList.execute();
-                pnlProduktyList.updateView();
-            }
-        });
-        
-        btnPotrawyCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pnlPotrawyList.rollback();
-                pnlPotrawyList.updateView();
-            }
-        });
-        
-        btnProduktyCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pnlProduktyList.rollback();
-                pnlProduktyList.updateView();
             }
         });
     }
@@ -164,7 +112,7 @@ public class PotrawyListView extends BaseListPanel {
     @Override
     public Boolean execute() {
         if (pnlProduktyList.execute()){
-            if (pnlProduktyList.execute()){
+            if (pnlPotrawyList.execute()){
                 return super.execute();
             }           
         }

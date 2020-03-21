@@ -183,9 +183,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
     private String addExtensionIfNecessery(String fileName) {
         int dotPosition = fileName.lastIndexOf(".");
         if (dotPosition > 0) {
-            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".pdf";
+            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + "." + fileExtension;
         } else {
-            fileName = fileName + ".pdf";
+            fileName = fileName + "." + fileExtension;
         }
         return fileName;
     }
