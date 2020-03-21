@@ -247,6 +247,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         btnWybierzKolumny = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjects = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        btnApply = new javax.swing.JButton();
+        btnUndo = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(900, 450));
         setLayout(new java.awt.BorderLayout());
@@ -314,6 +317,26 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 5));
+
+        btnApply.setText("Zastosuj");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnApply);
+
+        btnUndo.setText("Cofnij wprowadzone zmiany");
+        btnUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUndoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnUndo);
+
+        add(jPanel5, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -338,16 +361,29 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         updateView();
     }//GEN-LAST:event_btnWybierzKolumnyActionPerformed
 
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
+        execute();
+        updateView();
+    }//GEN-LAST:event_btnApplyActionPerformed
+
+    private void btnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndoActionPerformed
+        rollback();
+        updateView();
+    }//GEN-LAST:event_btnUndoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;
+    protected javax.swing.JButton btnApply;
     protected javax.swing.JButton btnEdit;
+    protected javax.swing.JButton btnUndo;
     protected javax.swing.JButton btnUsun;
     protected javax.swing.JButton btnWybierzKolumny;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JPanel jPanel3;
     protected javax.swing.JPanel jPanel4;
+    protected javax.swing.JPanel jPanel5;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
