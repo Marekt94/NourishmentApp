@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -27,13 +29,33 @@ public class TableUpdater {
             
     public <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
         if (!checkRequirements(list, table)){return;}
-//        getColumnOrder(table);
-        Field[] fields = setFieldsToShow(list, ommitedColumns);
+        List<String> choosenColumns = createChosenColumsList(list.get(0).getClass(), ommitedColumns);
+        Field[] fields = setFieldsToShow(table, list, choosenColumns);
         createColumns(fields, table);
         fillTable(table, list, fields);
-//        setColumnOrder(table);
-//        ColumnsAutoSizer columnAutoSizer = new ColumnsAutoSizer();
-//        columnAutoSizer.sizeColumnsToFit(table);
+    }
+    
+    private List<String> createChosenColumsList(Class objectClass, List<String> ommitedColumns){
+        List<String> choosenColumns = new ArrayList<String>();
+        for (Field field : objectClass.getDeclaredFields()) {
+            String fieldName = field.getName();
+            if (!isInOmmited(fieldName, ommitedColumns) && (!field.getType().equals(Collection.class))){
+                choosenColumns.add(fieldName);
+            }
+        }
+        return choosenColumns;
+    }
+    
+    private Boolean isInOmmited(String columnName, List<String> ommitedColumns){
+        if (ommitedColumns == null || ommitedColumns.size() == 0) {
+            return false;
+        }
+        for (String name : ommitedColumns){
+            if (name.equals(columnName)){
+                return true;
+            }
+        }
+        return false;
     }
     
     private <E> Boolean checkRequirements(List<E> list, JTable table){
@@ -46,21 +68,39 @@ public class TableUpdater {
         }
     }
     
-    private <E> Field[] setFieldsToShow(List<E> list, List<String> ommitedColumns){
+    private <E> Field[] setFieldsToShow(JTable table, List<E> list, List<String> choosenColumns){
         List<Field> fieldsList = new ArrayList<>();
-        for (Field field : list.get(0).getClass().getDeclaredFields()) {
-            if ((!isInOmmited(field.getName(), ommitedColumns)) && (!field.getType().equals(Collection.class))){
-                fieldsList.add(field);
+        
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            String columnName = table.getColumnModel().getColumn(i).getHeaderValue().toString(); 
+            if (isInChoosen(columnName, choosenColumns)) {
+                try {
+                    fieldsList.add(list.get(0).getClass().getDeclaredField(columnName));
+                    choosenColumns.remove(columnName);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(TableUpdater.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SecurityException ex) {
+                    Logger.getLogger(TableUpdater.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
-        return fieldsList.toArray(new Field[fieldsList.size()]); 
+        for (String choosenColumn : choosenColumns) {
+            try {
+                fieldsList.add(list.get(0).getClass().getDeclaredField(choosenColumn));
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(TableUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(TableUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return fieldsList.toArray(new Field[fieldsList.size()]);
     }
     
-    private Boolean isInOmmited(String columnName, List<String> ommitedColumns){
-        if ((ommitedColumns == null) || (ommitedColumns.size() == 0)){
+    private Boolean isInChoosen(String columnName, List<String> choosenColumns){
+        if ((choosenColumns == null) || (choosenColumns.size() == 0)){
             return false;
         }
-        for (String columnNameTemp : ommitedColumns){
+        for (String columnNameTemp : choosenColumns){
             if (columnName.equals(columnNameTemp)){
                 return true;
             }

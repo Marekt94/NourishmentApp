@@ -40,7 +40,7 @@ public class PotrawyListView extends BaseListPanel {
      */
     public PotrawyListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
-        omittedColumns.add("idPotrawy");
+        ommitedColumns.add("idPotrawy");
         JPanel pnlPotrawy = new JPanel();
         
         pnlPotrawy.setLayout(new BorderLayout());

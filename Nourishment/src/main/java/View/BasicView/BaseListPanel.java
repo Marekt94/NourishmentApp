@@ -18,6 +18,7 @@ import java.awt.AWTEventMulticaster;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> objectList = null;
     protected List<Serializable> newOrEditedObjectList = null;
     protected List<Serializable> objectToDeleteList = null;
-    protected List<String> omittedColumns = null;
+    protected List<String> ommitedColumns = null;
 
     @Override
     public void addButton(JButton button) {
@@ -114,7 +115,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     @Override
     public void updateView() {
         Integer currentRow = tblObjects.getSelectedRow();
-        GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
+        GlobalFun.updateTable(objectList, tblObjects, ommitedColumns);
         tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
     }
 
@@ -151,9 +152,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
         objectToDeleteList = new ArrayList<Serializable>();
-        omittedColumns = new ArrayList<String>();
+        ommitedColumns = new ArrayList<String>();
         
-        omittedColumns.add("serialVersionUID");
+        ommitedColumns.add("serialVersionUID");
         
         sorterModel = new AfterClickSorterModel();
         sorterModel.setAscending(true);
@@ -354,7 +355,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     private void btnWybierzKolumnyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWybierzKolumnyActionPerformed
         List<Object> list = new ArrayList<>();
         list.add(detailEntityClass);
-        list.add(omittedColumns);
+        list.add(ommitedColumns);
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Widoczne kolumny", new ChoosenColumnsPanel());
         mainDialog.getMyWindowManager().unpackWindow(list);
         mainDialog.setVisible(true);
