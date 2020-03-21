@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.EventHandler;
+import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
@@ -34,17 +35,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.hibernate.internal.util.compare.ComparableComparator;
 
 /**
  *
  * @author Marek
  */
-public class PotrawyWDniuListView extends BaseListPanel{
+public class PotrawyWDniuListView extends BaseListPanel {
+
     List<Potrawy> potrawyList = null;
     MyComparator comparatorByDate = null;
+    String defaultDirectory = "";
+    String fileExtension = "pdf";
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -63,16 +69,16 @@ public class PotrawyWDniuListView extends BaseListPanel{
         FilterPanel filter = new FilterPanel();
         filterPanel.setLayout(new BorderLayout());
         filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
-        filterPanel.add(filter,BorderLayout.WEST);
+        filterPanel.add(filter, BorderLayout.WEST);
         filter.btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));  
+                unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
             }
         });
-        
-        this.add(filterPanel,BorderLayout.NORTH);
-        
+
+        this.add(filterPanel, BorderLayout.NORTH);
+
         JButton printButton = new JButton("Drukuj");
         printButton.addActionListener(new ActionListener() {
             @Override
@@ -113,65 +119,92 @@ public class PotrawyWDniuListView extends BaseListPanel{
         }
         mainWindow.getMyWindowManager().unpackWindow(potrawyList);
         mainWindow.getMyWindowManager().unpackWindow(object);
-        
+
         mainWindow.setVisible(true);
-        if (mainWindow.getResult()){
+        if (mainWindow.getResult()) {
             objectList.add(object);
             newOrEditedObjectList.add(object);
             updateView();
-        } 
+        }
     }
 
     @Override
     public void editObject(MyPanelInterface detailPanel, String title) {
-        if (tblObjects.getSelectedRow() > -1){
+        if (tblObjects.getSelectedRow() > -1) {
             Serializable object;
-            
+
             MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);
             object = objectList.get(tblObjects.getSelectedRow());
             mainWindow.getMyWindowManager().unpackWindow(potrawyList);
             mainWindow.getMyWindowManager().unpackWindow(object);
-            
+
             mainWindow.setVisible(true);
-            
-            if (mainWindow.getResult()){
+
+            if (mainWindow.getResult()) {
                 newOrEditedObjectList.add(object);
             }
-            
+
             updateView();
         }
     }
-    
+
     @Override
     public void updateView() {
         super.updateView();
     }
-    
-    private void generateMenu(List<Serializable> list){
-        MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
-        SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // the day of the week spelled out completely
-        
-        objectList.sort(comparatorByDate);
-        pDFGenerator.openDocument("C:/Users/Marek/Desktop/pdftest.pdf");
-        pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
-        for (int i = 0; i < list.size(); i++) {
-           pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()), (PotrawyWDniu) list.get(i)));
-           pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) list.get(i)));
+
+    private void generateMenu(List<Serializable> list) {
+        String fileName = chooseSavePath();
+        if (!fileName.equals("")) {
+            MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // the day of the week spelled out completely
+            objectList.sort(comparatorByDate);
+            pDFGenerator.openDocument(fileName);
+            pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
+            for (int i = 0; i < list.size(); i++) {
+                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()), (PotrawyWDniu) list.get(i)));
+                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) list.get(i)));
+            }
+            pDFGenerator.closeDocument();
         }
-        pDFGenerator.closeDocument();
     }
-    
-    private String[] createPotrawyStringList(PotrawyWDniu potr){
+
+    private String chooseSavePath() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter(fileExtension.toUpperCase(), "*." + fileExtension, fileExtension));
+        if (defaultDirectory.equals("")) {
+            defaultDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop";
+        }
+        fileChooser.setCurrentDirectory(new File(defaultDirectory));
+        int result = fileChooser.showSaveDialog(this);
+        defaultDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return addExtensionIfNecessery(fileChooser.getSelectedFile().getAbsolutePath());
+        } else {
+            return "";
+        }
+    }
+
+    private String addExtensionIfNecessery(String fileName) {
+        int dotPosition = fileName.lastIndexOf(".");
+        if (dotPosition > 0) {
+            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".pdf";
+        } else {
+            fileName = fileName + ".pdf";
+        }
+        return fileName;
+    }
+
+    private String[] createPotrawyStringList(PotrawyWDniu potr) {
         String[] stringArray = null;
-        if ((potr.getCzy5dni() != null) && (potr.getCzy5dni() == '1')){
+        if ((potr.getCzy5dni() != null) && (potr.getCzy5dni() == '1')) {
             stringArray = new String[5];
             stringArray[0] = createMealString("śniadanie", potr.getSniadanie());
             stringArray[1] = createMealString("drugie śniadanie", potr.getDrugieSniadanie());
             stringArray[2] = createMealString("obiad", potr.getObiad());
             stringArray[3] = createMealString("podwieczorek", potr.getPodwieczorek());
             stringArray[4] = createMealString("kolacja", potr.getKolacja());
-        }
-        else{
+        } else {
             stringArray = new String[4];
             stringArray[0] = createMealString("śniadanie", potr.getSniadanie());
             stringArray[1] = createMealString("drugie śniadanie", potr.getDrugieSniadanie());
@@ -180,34 +213,31 @@ public class PotrawyWDniuListView extends BaseListPanel{
         }
         return stringArray;
     }
-    
-    private String createMealString(String prefix, Potrawy potr){
-        if (potr != null){
-            return prefix + ": " + potr.toString() +
-                    " b: " + GlobalFun.round(potr.getSumaBialko(),2).toString() +
-                    " w: " + GlobalFun.round(potr.getSumaCukrySuma(),2).toString() +
-                    " t: " + GlobalFun.round(potr.getSumaTluszcz(),2).toString() +
-                    " kcal: " + GlobalFun.round(potr.getSumaKcal(),2).toString();
-        }
-        else{
-            return prefix + ": ";
-        }
-    }
-    
-    private String createTitleString(String prefix, PotrawyWDniu potr){
-        if (potr != null){
-            return prefix + ": " + " b: " + GlobalFun.round(potr.getSumaBialko(),2).toString() +
-                    " w: " + GlobalFun.round(potr.getSumaCukrySuma(),2).toString() +
-                    " t: " + GlobalFun.round(potr.getSumaTluszcz(),2).toString() +
-                    " kcal: " + GlobalFun.round(potr.getSumaKcal(),2).toString();
-        }
-        else{
-            return prefix + ": ";
-        }
-    }
-    
-    //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
 
+    private String createMealString(String prefix, Potrawy potr) {
+        if (potr != null) {
+            return prefix + ": " + potr.toString()
+                    + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
+                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
+                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+        } else {
+            return prefix + ": ";
+        }
+    }
+
+    private String createTitleString(String prefix, PotrawyWDniu potr) {
+        if (potr != null) {
+            return prefix + ": " + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
+                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
+                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+        } else {
+            return prefix + ": ";
+        }
+    }
+
+    //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
