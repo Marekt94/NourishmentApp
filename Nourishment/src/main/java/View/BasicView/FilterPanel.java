@@ -7,8 +7,11 @@ package View.BasicView;
 
 import Other.DateLabelFormatter;
 import java.awt.BorderLayout;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Properties;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -34,6 +37,14 @@ public class FilterPanel extends javax.swing.JPanel {
         datePickerTo = new JDatePickerImpl(datePanelDo, new DateLabelFormatter());
         pnlOd.add(datePickerFrom, BorderLayout.CENTER);
         pnlDo.add(datePickerTo, BorderLayout.CENTER);
+    }
+
+    public JFormattedTextField getDatePickerFromTextField() {
+        return datePickerFrom.getJFormattedTextField();
+    }
+
+    public JFormattedTextField getDatePickerToTextField() {
+        return datePickerTo.getJFormattedTextField();
     }
 
     /**
@@ -99,9 +110,9 @@ public class FilterPanel extends javax.swing.JPanel {
 
         btnReset.setText("Resetuj");
         btnReset.setToolTipText("");
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+        btnReset.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                btnResetStateChanged(evt);
             }
         });
         jPanel4.add(btnReset);
@@ -113,10 +124,14 @@ public class FilterPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnApplyActionPerformed
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        datePickerFrom.getJFormattedTextField().setText("");
-        datePickerTo.getJFormattedTextField().setText("");
-    }//GEN-LAST:event_btnResetActionPerformed
+    private void btnResetStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnResetStateChanged
+        if (btnReset.getModel().isPressed()) {
+            datePickerFrom.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
+            datePickerTo.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
+            datePickerFrom.getJFormattedTextField().setText("");
+            datePickerTo.getJFormattedTextField().setText("");
+        }
+    }//GEN-LAST:event_btnResetStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -22,6 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.EventHandler;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -70,12 +72,25 @@ public class PotrawyWDniuListView extends BaseListPanel {
         filterPanel.setLayout(new BorderLayout());
         filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
         filterPanel.add(filter, BorderLayout.WEST);
-        filter.btnApply.addActionListener(new ActionListener() {
+        ActionListener actionListener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
+            }            
+        };
+        filter.btnApply.addActionListener(actionListener);
+        filter.btnReset.addActionListener(actionListener);
+        PropertyChangeListener dateChange = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getOldValue() != evt.getNewValue()){
+                    unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
+                }
             }
-        });
+        };
+        filter.getDatePickerFromTextField().addPropertyChangeListener("value", dateChange);
+        filter.getDatePickerToTextField().addPropertyChangeListener("value", dateChange);
+        filter.btnReset.addPropertyChangeListener(dateChange);
 
         this.add(filterPanel, BorderLayout.NORTH);
 

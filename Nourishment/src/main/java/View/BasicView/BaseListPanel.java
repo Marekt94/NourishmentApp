@@ -319,7 +319,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 5));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 5);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel5.setLayout(flowLayout1);
 
         btnApply.setText("Zastosuj");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
