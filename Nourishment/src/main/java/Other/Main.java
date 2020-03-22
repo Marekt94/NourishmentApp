@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import Entities.Produkty;
+import Global.ORMManager;
 import View.LoginPanel;
 import View.BasicView.MainDialog;
 import View.MainMenuPanel;
@@ -32,6 +33,7 @@ public class Main {
      */
     public static void main(String[] args) {
         MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie", new LoginPanel());
+        connectinDialog.getMyWindowManager().unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
         connectinDialog.setVisible(true);
         if (connectinDialog.getResult() == false){
             System.exit(0);

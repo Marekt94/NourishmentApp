@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -54,36 +55,22 @@ public class ORMManager {
     }
     
     private ORMManager(){
-        
-        
+        configuration = new Configuration(); 
+        configuration.configure();
     }
     
-    public Boolean connect(String username, String password){
-        configuration = new Configuration();
-        if (username.isEmpty()){
-            configuration.setProperty("hibernate.connection.username", "sysdba");
-        }
-        else{
-            configuration.setProperty("hibernate.connection.username", username);
-        }
-        if (password.isEmpty()){
-            configuration.setProperty("hibernate.connection.password", "masterkey");
-        }
-        else{
-            configuration.setProperty("hibernate.connection.password", password);
-        }
-        configuration.setProperty("hibernate.jdbc.batch_size", GlobalConfig.BATCH_SIZE.toString());
-        
+    public Boolean connect(Properties properties){
         try {
-            configuration.configure();
+            configuration.setProperties(properties);
+            configuration.setProperty("hibernate.jdbc.batch_size", GlobalConfig.BATCH_SIZE.toString());
             
             sessionFactory = configuration.buildSessionFactory();
             
             session = sessionFactory.openSession();
             session.close();
         } catch (Exception e){
-          e.printStackTrace();
-          return false;      
+            e.printStackTrace();
+            return false;      
         }
         return true;
     } 

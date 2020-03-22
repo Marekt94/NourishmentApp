@@ -8,41 +8,42 @@ package View;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
+import View.BasicView.BasePanel;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Properties;
+import org.hibernate.cfg.Configuration;
 
 /**
  *
  * @author Marek
  */
-public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
+public class LoginPanel extends BasePanel{
     private KonfigView konfigView;
     private ORMManager ormManager;
-     
-    @Override
-    public <E> void unpack(List<E> objectList) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void rollback() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private Properties properties;
     
     @Override
     public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.unpack(object);
+        properties = (Properties) object;
+        edtUsername.setText(properties.getProperty("hibernate.connection.username"));
+        edtPassword.setText(properties.getProperty("hibernate.connection.password"));
+        edtAresDB.setText(properties.getProperty("hibernate.connection.url"));
     }
 
     @Override
     public void pack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        properties.setProperty("hibernate.connection.username", edtUsername.getText());
+        properties.setProperty("hibernate.connection.password", new String(edtPassword.getPassword()));
+        properties.setProperty("hibernate.connection.url", edtAresDB.getText());
     }
     
     @Override
     public Boolean execute() {
+        super.execute();
         ormManager = ORMManager.getOrmManager();
-        return ormManager.connect(edtUsername.getText(), new String(edtPassword.getPassword()));
+        return ormManager.connect(properties);
     }
 
     @Override
@@ -71,33 +72,58 @@ public class LoginPanel extends javax.swing.JPanel implements MyPanelInterface{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblUsername = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         edtUsername = new javax.swing.JTextField();
-        lblPassword = new javax.swing.JLabel();
         edtPassword = new javax.swing.JPasswordField();
+        edtAresDB = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        lblUsername = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblAdresDB = new javax.swing.JLabel();
 
-        setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+        setLayout(new java.awt.BorderLayout(5, 5));
+
+        jPanel1.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
+
+        edtUsername.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel1.add(edtUsername);
+
+        edtPassword.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel1.add(edtPassword);
+
+        edtAresDB.setText("jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/NourishmentApp/Nourishment/DB/NOURISHMENT.FDB");
+        edtAresDB.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel1.add(edtAresDB);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
 
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblUsername.setText("Użytkownik");
-        add(lblUsername);
-
-        edtUsername.setPreferredSize(new java.awt.Dimension(100, 20));
-        add(edtUsername);
+        jPanel2.add(lblUsername);
 
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblPassword.setText("Hasło");
         lblPassword.setRequestFocusEnabled(false);
-        add(lblPassword);
+        jPanel2.add(lblPassword);
 
-        edtPassword.setPreferredSize(new java.awt.Dimension(100, 20));
-        add(edtPassword);
+        lblAdresDB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblAdresDB.setText("Adres bazy danych");
+        lblAdresDB.setRequestFocusEnabled(false);
+        jPanel2.add(lblAdresDB);
+
+        add(jPanel2, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField edtAresDB;
     private javax.swing.JPasswordField edtPassword;
     private javax.swing.JTextField edtUsername;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblAdresDB;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsername;
     // End of variables declaration//GEN-END:variables

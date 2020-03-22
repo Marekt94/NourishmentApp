@@ -8,6 +8,7 @@ package View;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalFun;
 import Interfaces.MyPanelInterface;
+import View.BasicView.BasePanel;
 import View.BasicView.KonfigView;
 import java.util.List;
 
@@ -15,14 +16,9 @@ import java.util.List;
  *
  * @author Marek
  */
-public class WagaProduktuPanel extends javax.swing.JPanel implements MyPanelInterface {
+public class WagaProduktuPanel extends BasePanel {
     private KonfigView konfigView = null;
     private ProduktyWPotrawie prodWPotr = null;
-    
-    @Override
-    public <E> void unpack(List<E> objectList) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      * Creates new form WagaProduktuPanel
@@ -70,23 +66,13 @@ public class WagaProduktuPanel extends javax.swing.JPanel implements MyPanelInte
     }
 
     @Override
-    public Boolean execute() {
-        pack();
-        return true;
-    }
-
-    @Override
     public <E> void unpack(E object) {
         prodWPotr = (ProduktyWPotrawie) object;
+        GlobalFun.bind(prodWPotr.getIloscWG(), edtWagaProdruktu);
     }
 
     @Override
     public void pack() {
         prodWPotr.setIloscWG((Double) GlobalFun.bind(edtWagaProdruktu, Double.class));
-    }
-
-    @Override
-    public void rollback() {
-        
     }
 }

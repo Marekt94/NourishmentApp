@@ -87,7 +87,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public <E> void unpack(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      
     }
 
     @Override
@@ -157,7 +157,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         ommitedColumns.add("serialVersionUID");
         
         sorterModel = new AfterClickSorterModel();
-        sorterModel.setAscending(true);
+        sorterModel.setAscending(false);
         sorterModel.setList(objectList);
         sorterModel.setManagerPanel(this);
         sorterModel.setTable(tblObjects);
