@@ -64,7 +64,6 @@ public class FilterPanel extends javax.swing.JPanel {
         pnlOd = new javax.swing.JPanel();
         pnlDo = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnApply = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -98,15 +97,7 @@ public class FilterPanel extends javax.swing.JPanel {
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setLayout(new java.awt.GridLayout(2, 0));
-
-        btnApply.setText("Odśwież");
-        btnApply.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnApplyActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnApply);
+        jPanel4.setLayout(new java.awt.GridLayout());
 
         btnReset.setText("Resetuj");
         btnReset.setToolTipText("");
@@ -120,10 +111,6 @@ public class FilterPanel extends javax.swing.JPanel {
         add(jPanel4, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
-
-    }//GEN-LAST:event_btnApplyActionPerformed
-
     private void btnResetStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnResetStateChanged
         if (btnReset.getModel().isPressed()) {
             datePickerFrom.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
@@ -135,7 +122,6 @@ public class FilterPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnApply;
     public javax.swing.JButton btnReset;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

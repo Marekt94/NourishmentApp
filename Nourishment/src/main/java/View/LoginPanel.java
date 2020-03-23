@@ -5,6 +5,7 @@
  */
 package View;
 
+import Global.GlobalFun;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
@@ -27,9 +28,9 @@ public class LoginPanel extends BasePanel{
     public <E> void unpack(E object) {
         super.unpack(object);
         properties = (Properties) object;
-        edtUsername.setText(properties.getProperty("hibernate.connection.username"));
-        edtPassword.setText(properties.getProperty("hibernate.connection.password"));
-        edtAresDB.setText(properties.getProperty("hibernate.connection.url"));
+        GlobalFun.bind(properties.getProperty("hibernate.connection.username"), edtUsername);
+        GlobalFun.bind(properties.getProperty("hibernate.connection.password"), edtPassword);
+        GlobalFun.bind(properties.getProperty("hibernate.connection.url"), edtAresDB);
     }
 
     @Override
@@ -44,12 +45,6 @@ public class LoginPanel extends BasePanel{
         super.execute();
         ormManager = ORMManager.getOrmManager();
         return ormManager.connect(properties);
-    }
-
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        return true;
     }
 
     @Override

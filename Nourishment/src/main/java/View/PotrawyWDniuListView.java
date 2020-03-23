@@ -78,7 +78,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
             }            
         };
-        filter.btnApply.addActionListener(actionListener);
         filter.btnReset.addActionListener(actionListener);
         PropertyChangeListener dateChange = new PropertyChangeListener() {
             @Override

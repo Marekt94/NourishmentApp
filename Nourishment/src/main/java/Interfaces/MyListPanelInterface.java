@@ -14,9 +14,9 @@ import javax.swing.JButton;
  * @author Marek
  */
 public interface MyListPanelInterface extends MyPanelInterface{
-    public void updateView();//
-    public <E> List<E> getObjectsList();//
-    public <E> E getCurrentObject();//
-    public <E> List<E> getNewOrEditedObjectList();//
+    public void updateView();
+    public <E> List<E> getObjectsList();
+    public <E> E getCurrentObject();
+    public <E> List<E> getNewOrEditedObjectList();
     public void addButton(JButton button);  
 }

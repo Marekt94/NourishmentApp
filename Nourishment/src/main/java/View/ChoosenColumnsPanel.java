@@ -23,11 +23,6 @@ public class ChoosenColumnsPanel extends BasePanel{
     protected String rbTextPrefix = "lbl";
 
     @Override
-    public void rollback() {
-        super.rollback(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void pack() {
         ommitedColums.clear();
         for (JRadioButton rb : radioButtonsList){
@@ -65,10 +60,10 @@ public class ChoosenColumnsPanel extends BasePanel{
         }
     }
     
-    public void setRadioButtonsSelected(List<String> omitedColumns){      
+    public void setRadioButtonsSelected(List<String> omittedColumns){      
         for (JRadioButton rb : radioButtonsList){
             rb.setSelected(true);
-            for (String columnName : omitedColumns){
+            for (String columnName : omittedColumns){
                 if (rb.getName().equals(rbTextPrefix + columnName)){
                     rb.setSelected(false);
                 }

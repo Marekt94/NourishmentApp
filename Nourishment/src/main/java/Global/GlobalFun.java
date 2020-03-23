@@ -165,20 +165,8 @@ public class GlobalFun {
         updateTable(toList((Collection<? extends Serializable>) list), table);
     }
     
-    private static Boolean isInOmmited(String columnName, List<String> ommitedColumns){
-        if ((ommitedColumns == null) || (ommitedColumns.size() == 0)){
-            return false;
-        }
-        for (String columnNameTemp : ommitedColumns){
-            if (columnName.equals(columnNameTemp)){
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public static <E> void updateTable(List<E> list, JTable table){
-        updateTable(list, table, null);
+        updateTable(list, table, new ArrayList<String>());
     }
     
     public static <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){

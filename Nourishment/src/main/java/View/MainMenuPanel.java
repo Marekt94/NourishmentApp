@@ -16,6 +16,7 @@ import Entities.ProduktyWPotrawie;
 import Interfaces.MyListPanelInterface;
 import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
+import View.BasicView.BasePanel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,48 +27,11 @@ import javax.swing.WindowConstants;
  *
  * @author Marek
  */
-public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterface{
-    private KonfigView konfigView;
+public class MainMenuPanel extends BasePanel{
     private ORMManager ormManager;
     private MyListPanelInterface listaProduktowPanel = null;
     private MyListPanelInterface listaPotrawy = null;
     private MyListPanelInterface listaPotrawWDniu = null;
-    
-    @Override
-    public <E> void unpack(List<E> objectList) {
-        
-    }
-
-    @Override
-    public void rollback() {
-        
-    }
-    
-    @Override
-    public <E> void unpack(E object) {
-        
-    }
-
-    @Override
-    public void pack() {
-        
-    }
-    
-    @Override
-    public Boolean execute() {
-        return true;
-    }
-
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        return true;
-    }
-
-    @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
 
     /**
      * Creates new form MainMenuPanel
@@ -89,22 +53,13 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnProdukty = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         btnPotrawy = new javax.swing.JButton();
+        btnProdukty = new javax.swing.JButton();
         btnJadlospis = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(132, 86));
-
-        btnProdukty.setText("Produkty");
-        btnProdukty.setMaximumSize(new java.awt.Dimension(100, 21));
-        btnProdukty.setMinimumSize(new java.awt.Dimension(100, 21));
-        btnProdukty.setPreferredSize(new java.awt.Dimension(100, 21));
-        btnProdukty.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProduktyActionPerformed(evt);
-            }
-        });
-        add(btnProdukty);
+        setLayout(new java.awt.BorderLayout());
 
         btnPotrawy.setText("Potrawy");
         btnPotrawy.setMaximumSize(new java.awt.Dimension(100, 21));
@@ -115,7 +70,18 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
                 btnPotrawyActionPerformed(evt);
             }
         });
-        add(btnPotrawy);
+        jPanel1.add(btnPotrawy);
+
+        btnProdukty.setText("Produkty");
+        btnProdukty.setMaximumSize(new java.awt.Dimension(100, 21));
+        btnProdukty.setMinimumSize(new java.awt.Dimension(100, 21));
+        btnProdukty.setPreferredSize(new java.awt.Dimension(100, 21));
+        btnProdukty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduktyActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnProdukty);
 
         btnJadlospis.setText("Jadłospis");
         btnJadlospis.setPreferredSize(new java.awt.Dimension(100, 21));
@@ -124,7 +90,9 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
                 btnJadlospisActionPerformed(evt);
             }
         });
-        add(btnJadlospis);
+        jPanel1.add(btnJadlospis);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
@@ -163,5 +131,6 @@ public class MainMenuPanel extends javax.swing.JPanel implements MyPanelInterfac
     private javax.swing.JButton btnJadlospis;
     private javax.swing.JButton btnPotrawy;
     private javax.swing.JButton btnProdukty;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
