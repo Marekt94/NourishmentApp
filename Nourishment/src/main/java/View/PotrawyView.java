@@ -40,9 +40,8 @@ public class PotrawyView extends BasePanel{
      * Creates new form ProduktView
      */
     public PotrawyView() {
+        super();
         initComponents();
-        edtID.addFocusListener(focusListener);
-        edtNazwa.addFocusListener(focusListener);
     }
 
     /**
@@ -68,33 +67,14 @@ public class PotrawyView extends BasePanel{
         add(lblID);
 
         edtID.setEnabled(false);
-        edtID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtIDActionPerformed(evt);
-            }
-        });
         add(edtID);
 
         lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNazwa.setText("Nazwa");
         lblNazwa.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         add(lblNazwa);
-
-        edtNazwa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtNazwaActionPerformed(evt);
-            }
-        });
         add(edtNazwa);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void edtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtIDActionPerformed
-
-    private void edtNazwaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNazwaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtNazwaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

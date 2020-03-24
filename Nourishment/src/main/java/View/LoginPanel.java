@@ -20,9 +20,13 @@ import org.hibernate.cfg.Configuration;
  * @author Marek
  */
 public class LoginPanel extends BasePanel{
-    private KonfigView konfigView;
     private ORMManager ormManager;
     private Properties properties;
+    
+    public LoginPanel(){
+        super();
+        initComponents();
+    }
     
     @Override
     public <E> void unpack(E object) {
@@ -35,9 +39,9 @@ public class LoginPanel extends BasePanel{
 
     @Override
     public void pack() {
-        properties.setProperty("hibernate.connection.username", edtUsername.getText());
+        properties.setProperty("hibernate.connection.username", (String) GlobalFun.bind(edtUsername, String.class));
         properties.setProperty("hibernate.connection.password", new String(edtPassword.getPassword()));
-        properties.setProperty("hibernate.connection.url", edtAresDB.getText());
+        properties.setProperty("hibernate.connection.url", (String) GlobalFun.bind(edtAresDB, String.class));
     }
     
     @Override
@@ -45,17 +49,6 @@ public class LoginPanel extends BasePanel{
         super.execute();
         ormManager = ORMManager.getOrmManager();
         return ormManager.connect(properties);
-    }
-
-    @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
-    /**
-     * Creates new form LoginPanel
-     */
-    public LoginPanel() {
-        initComponents();
     }
 
     /**

@@ -122,6 +122,7 @@ public class GlobalFun {
                 return "";
             }
         }
+        
         return NULL_SIGN;
     }
     
@@ -169,9 +170,9 @@ public class GlobalFun {
         updateTable(list, table, new ArrayList<String>());
     }
     
-    public static <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
+    public static <E> void updateTable(List<E> list, JTable table, List<String> omittedColumns){
         TableUpdater tableUpdater = new TableUpdater();
-        tableUpdater.updateTable(list, table, ommitedColumns);     
+        tableUpdater.updateTable(list, table, omittedColumns);     
     }
     
     public static <E extends Serializable> void deepListCopy(List<E> referenceList, List<E> newList){

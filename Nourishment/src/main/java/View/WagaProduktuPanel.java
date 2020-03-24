@@ -17,13 +17,13 @@ import java.util.List;
  * @author Marek
  */
 public class WagaProduktuPanel extends BasePanel {
-    private KonfigView konfigView = null;
     private ProduktyWPotrawie prodWPotr = null;
 
     /**
      * Creates new form WagaProduktuPanel
      */
     public WagaProduktuPanel() {
+        super();
         initComponents();
     }
 
@@ -53,17 +53,6 @@ public class WagaProduktuPanel extends BasePanel {
     private javax.swing.JTextField edtWagaProdruktu;
     private javax.swing.JLabel lblWagaProduktu;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        return true;
-    }
-
-    @Override
-    public KonfigView getKonfigView() {
-        return this.konfigView;
-    }
 
     @Override
     public <E> void unpack(E object) {

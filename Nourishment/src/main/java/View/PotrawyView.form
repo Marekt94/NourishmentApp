@@ -37,9 +37,6 @@
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtIDActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNazwa">
       <Properties>
@@ -49,9 +46,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="edtNazwa">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtNazwaActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

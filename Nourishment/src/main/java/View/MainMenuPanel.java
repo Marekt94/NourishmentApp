@@ -37,6 +37,7 @@ public class MainMenuPanel extends BasePanel{
      * Creates new form MainMenuPanel
      */
     public MainMenuPanel() {
+        super();
         initComponents();
         ormManager = ORMManager.getOrmManager();
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);

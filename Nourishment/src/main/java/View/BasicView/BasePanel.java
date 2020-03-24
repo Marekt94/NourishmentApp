@@ -6,9 +6,12 @@
 package View.BasicView;
 
 import Interfaces.MyPanelInterface;
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -25,7 +28,6 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     }
     
     public BasePanel() {
-        initComponents();
         focusListener = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -38,7 +40,7 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
                 JTextField field = (JTextField)e.getSource();
                 field.select(0, 0);
             }
-        };        
+        };
     }
 
     /**
@@ -70,7 +72,19 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     @Override
     public Boolean init(KonfigView konfigView) {
         this.konfigView = new KonfigView(konfigView);
+        setFocusListenerToAll(this);
         return true;
+    }
+    
+    private void setFocusListenerToAll(JPanel panel){
+        for (Component component : panel.getComponents()){
+            if (component.getClass().equals(JPanel.class)){
+                setFocusListenerToAll((JPanel) component);
+            }
+            if (component instanceof JTextField){
+                component.addFocusListener(focusListener);
+            }
+        }        
     }
 
     @Override

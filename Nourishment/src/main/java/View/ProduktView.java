@@ -57,19 +57,8 @@ public class ProduktView extends BasePanel{
      * Creates new form ProduktView
      */
     public ProduktView() {
+        super();
         initComponents();
-        
-        edtBialko.addFocusListener(focusListener);
-        edtBlonnik.addFocusListener(focusListener);
-        edtCukryProste.addFocusListener(focusListener);
-        edtCukrySuma.addFocusListener(focusListener);
-        edtCukryZlozone.addFocusListener(focusListener);
-        edtID.addFocusListener(focusListener);
-        edtKcalNa100g.addFocusListener(focusListener);
-        edtNazwa.addFocusListener(focusListener);
-        edtSol.addFocusListener(focusListener);
-        edtTluszcz.addFocusListener(focusListener);
-        edtWagaJednostki.addFocusListener(focusListener);
     }
 
     /**

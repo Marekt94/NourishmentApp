@@ -48,7 +48,6 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  * @author Marek
  */
 public class PotrawyWDniuListView extends BaseListPanel {
-
     List<Potrawy> potrawyList = null;
     MyComparator comparatorByDate = null;
     String defaultDirectory = "";
@@ -59,14 +58,15 @@ public class PotrawyWDniuListView extends BaseListPanel {
      */
     public PotrawyWDniuListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
-        ommitedColumns.add("mnoznikSniadanie");
-        ommitedColumns.add("mnoznikDrugieSniadanie");
-        ommitedColumns.add("mnoznikObiad");
-        ommitedColumns.add("mnoznikKolacja");
-        ommitedColumns.add("mnoznikPodwieczorek");
-        ommitedColumns.add("mnoznikLunch");
-        ommitedColumns.add("czy5dni");
+        omittedColumns.add("mnoznikSniadanie");
+        omittedColumns.add("mnoznikDrugieSniadanie");
+        omittedColumns.add("mnoznikObiad");
+        omittedColumns.add("mnoznikKolacja");
+        omittedColumns.add("mnoznikPodwieczorek");
+        omittedColumns.add("mnoznikLunch");
+        omittedColumns.add("czy5dni");
         ORMManager ormManager = ORMManager.getOrmManager();
+        
         JPanel filterPanel = new JPanel();
         FilterPanel filter = new FilterPanel();
         filterPanel.setLayout(new BorderLayout());
@@ -90,7 +90,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         filter.getDatePickerFromTextField().addPropertyChangeListener("value", dateChange);
         filter.getDatePickerToTextField().addPropertyChangeListener("value", dateChange);
         filter.btnReset.addPropertyChangeListener(dateChange);
-
         this.add(filterPanel, BorderLayout.NORTH);
 
         JButton printButton = new JButton("Drukuj");

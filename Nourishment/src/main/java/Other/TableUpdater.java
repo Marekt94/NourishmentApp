@@ -27,30 +27,30 @@ public class TableUpdater {
         columnOrder = new ArrayList<String>();
     }
             
-    public <E> void updateTable(List<E> list, JTable table, List<String> ommitedColumns){
+    public <E> void updateTable(List<E> list, JTable table, List<String> omittedColumns){
         if (!checkRequirements(list, table)){return;}
-        List<String> choosenColumns = createChosenColumsList(list.get(0).getClass(), ommitedColumns);
+        List<String> choosenColumns = createChosenColumsList(list.get(0).getClass(), omittedColumns);
         Field[] fields = setFieldsToShow(table, list, choosenColumns);
         createColumns(fields, table);
         fillTable(table, list, fields);
     }
     
-    private List<String> createChosenColumsList(Class objectClass, List<String> ommitedColumns){
+    private List<String> createChosenColumsList(Class objectClass, List<String> omittedColumns){
         List<String> choosenColumns = new ArrayList<String>();
         for (Field field : objectClass.getDeclaredFields()) {
             String fieldName = field.getName();
-            if (!isInOmmited(fieldName, ommitedColumns) && (!field.getType().equals(Collection.class))){
+            if (!isInOmitted(fieldName, omittedColumns) && (!field.getType().equals(Collection.class))){
                 choosenColumns.add(fieldName);
             }
         }
         return choosenColumns;
     }
     
-    private Boolean isInOmmited(String columnName, List<String> ommitedColumns){
-        if (ommitedColumns == null || ommitedColumns.size() == 0) {
+    private Boolean isInOmitted(String columnName, List<String> omittedColumns){
+        if (omittedColumns == null || omittedColumns.size() == 0) {
             return false;
         }
-        for (String name : ommitedColumns){
+        for (String name : omittedColumns){
             if (name.equals(columnName)){
                 return true;
             }

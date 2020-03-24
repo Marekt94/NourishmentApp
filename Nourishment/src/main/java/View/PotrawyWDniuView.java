@@ -64,6 +64,7 @@ public class PotrawyWDniuView extends BasePanel {
 
     
     public PotrawyWDniuView() {
+        super();
         initComponents();
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();

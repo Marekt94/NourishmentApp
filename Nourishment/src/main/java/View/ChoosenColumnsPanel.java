@@ -19,15 +19,15 @@ import javax.swing.JRadioButton;
  */
 public class ChoosenColumnsPanel extends BasePanel{
     protected List<JRadioButton> radioButtonsList = null;
-    protected List<String> ommitedColums = null;
+    protected List<String> omittedColumns = null;
     protected String rbTextPrefix = "lbl";
 
     @Override
     public void pack() {
-        ommitedColums.clear();
+        omittedColumns.clear();
         for (JRadioButton rb : radioButtonsList){
             if (!rb.isSelected()){
-                ommitedColums.add(rb.getText());
+                omittedColumns.add(rb.getText());
             }
         }
     }
@@ -35,14 +35,15 @@ public class ChoosenColumnsPanel extends BasePanel{
     @Override
     public <E> void unpack(List<E> objectList) {
         addRadioButtons(objectList.get(0));
-        ommitedColums = (List<String>) objectList.get(1);
-        setRadioButtonsSelected(ommitedColums);
+        omittedColumns = (List<String>) objectList.get(1);
+        setRadioButtonsSelected(omittedColumns);
     }
 
     /**
      * Creates new form FilterPanel
      */
     public ChoosenColumnsPanel() {
+        super();
         initComponents();
         radioButtonsList = new ArrayList<JRadioButton>();
     }

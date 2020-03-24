@@ -48,7 +48,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> objectList = null;
     protected List<Serializable> newOrEditedObjectList = null;
     protected List<Serializable> objectToDeleteList = null;
-    protected List<String> ommitedColumns = null;
+    protected List<String> omittedColumns = null;
 
     @Override
     public void addButton(JButton button) {
@@ -115,7 +115,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     @Override
     public void updateView() {
         Integer currentRow = tblObjects.getSelectedRow();
-        GlobalFun.updateTable(objectList, tblObjects, ommitedColumns);
+        GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
         tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
     }
 
@@ -152,9 +152,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
         objectToDeleteList = new ArrayList<Serializable>();
-        ommitedColumns = new ArrayList<String>();
+        omittedColumns = new ArrayList<String>();
         
-        ommitedColumns.add("serialVersionUID");
+        omittedColumns.add("serialVersionUID");
         
         sorterModel = new AfterClickSorterModel();
         sorterModel.setAscending(false);
@@ -357,7 +357,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     private void btnWybierzKolumnyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWybierzKolumnyActionPerformed
         List<Object> list = new ArrayList<>();
         list.add(detailEntityClass);
-        list.add(ommitedColumns);
+        list.add(omittedColumns);
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Widoczne kolumny", new ChoosenColumnsPanel());
         mainDialog.getMyWindowManager().unpackWindow(list);
         mainDialog.setVisible(true);

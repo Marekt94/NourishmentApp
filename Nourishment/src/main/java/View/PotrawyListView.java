@@ -40,25 +40,16 @@ public class PotrawyListView extends BaseListPanel {
      */
     public PotrawyListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
-        ommitedColumns.add("idPotrawy");
-        JPanel pnlPotrawy = new JPanel();
-        
-        pnlPotrawy.setLayout(new BorderLayout());
+        omittedColumns.add("idPotrawy");
         
         pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
-        pnlPotrawy.add(pnlPotrawyList, BorderLayout.CENTER);
-        pnlPotrawy.setPreferredSize(new Dimension(500, 450));
-        
-        JPanel pnlProdukty = new JPanel();
-        
-        pnlProdukty.setLayout(new BorderLayout());
+        pnlPotrawyList.setPreferredSize(new Dimension(500, 450));
         
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
-        pnlProdukty.add(pnlProduktyList, BorderLayout.CENTER);
-        pnlProdukty.setPreferredSize(new Dimension(500, 450));
+        pnlProduktyList.setPreferredSize(new Dimension(500, 450));
         
-        this.add(pnlProdukty,BorderLayout.EAST);
-        this.add(pnlPotrawy,BorderLayout.WEST);
+        this.add(pnlProduktyList,BorderLayout.EAST);
+        this.add(pnlPotrawyList,BorderLayout.WEST);
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
         pack();
         
@@ -84,9 +75,11 @@ public class PotrawyListView extends BaseListPanel {
             ProduktyWPotrawie prodWPotr = new ProduktyWPotrawie();
             prodWPotr.setIdProduktu(pnlProduktyList.getCurrentObject());
             prodWPotr.setIdPotrawy(pnlPotrawyList.getCurrentObject());
+            
             MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
             wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
             wagaProduktuDialog.setVisible(true);
+            
             if (wagaProduktuDialog.getResult()){
                 if (((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection() == null){
                     ((Potrawy) pnlPotrawyList.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
