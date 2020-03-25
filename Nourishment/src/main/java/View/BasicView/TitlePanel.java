@@ -14,51 +14,10 @@ import javax.swing.JPanel;
  *
  * @author Marek
  */
-public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
-
-    @Override
-    public <E> void unpack(List<E> objectList) {
-        
-    }
-    
-    @Override
-    public void rollback() {
-        
-    }
-
-    @Override
-    public <E> void unpack(E object) {
-        
-    }
-
-    @Override
-    public void pack() {
-        
-    }
-    private KonfigView konfigView;
-
-    @Override
-    public Boolean execute() {
-        return true;
-    }    
-    
-    @Override
-    public Boolean init(KonfigView konfigView) {
-        if (this.konfigView == null){
-            this.konfigView = new KonfigView(konfigView);
-        }
-        return true;
-    }
-
-    @Override
-    public KonfigView getKonfigView() {
-        return konfigView;
-    }
-    
-    public TitlePanel(KonfigView konfigView, String title) {
+public class TitlePanel extends BasePanel{   
+    public TitlePanel(String title) {
+        super();
         initComponents();
-        
-        init(konfigView);
         if (title != ""){
             jLabel1.setText("  " + title + "  ");
         }
@@ -74,7 +33,7 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        pnlWorkingPanel = new javax.swing.JPanel();
 
         setName(""); // NOI18N
         setLayout(new java.awt.BorderLayout(5, 5));
@@ -84,19 +43,19 @@ public class TitlePanel extends javax.swing.JPanel implements MyPanelInterface{
         jLabel1.setText("jLabel1");
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        pnlWorkingPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        pnlWorkingPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlWorkingPanel.setLayout(new java.awt.BorderLayout());
+        add(pnlWorkingPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnlWorkingPanel;
     // End of variables declaration//GEN-END:variables
 
-    public JPanel getjPanel1() {
-        return jPanel1;
+    public JPanel getWorkingPanel() {
+        return pnlWorkingPanel;
     }
 }

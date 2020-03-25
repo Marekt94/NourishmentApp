@@ -7,6 +7,7 @@ package View;
 
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
+import static Global.GlobalConfig.dataFormat;
 import Global.GlobalFun;
 import static Global.GlobalFun.returnStringOrEmpty;
 import Global.ORMManager;
@@ -89,7 +90,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         };
         filter.getDatePickerFromTextField().addPropertyChangeListener("value", dateChange);
         filter.getDatePickerToTextField().addPropertyChangeListener("value", dateChange);
-        filter.btnReset.addPropertyChangeListener(dateChange);
         this.add(filterPanel, BorderLayout.NORTH);
 
         JButton printButton = new JButton("Drukuj");
@@ -161,17 +161,17 @@ public class PotrawyWDniuListView extends BaseListPanel {
         }
     }
 
-    private void generateMenu(List<Serializable> list) {
+    private void generateMenu(List<Serializable> listOfDays) {
         String fileName = chooseSavePath();
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
-            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // the day of the week spelled out completely
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             objectList.sort(comparatorByDate);
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) list.get(0)).getData().toString() + " do " + ((PotrawyWDniu) list.get(list.size() - 1)).getData().toString());
-            for (int i = 0; i < list.size(); i++) {
-                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) list.get(i)).getData()), (PotrawyWDniu) list.get(i)));
-                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) list.get(i)));
+            pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            for (int i = 0; i < listOfDays.size(); i++) {
+                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
+                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
             }
             pDFGenerator.closeDocument();
         }

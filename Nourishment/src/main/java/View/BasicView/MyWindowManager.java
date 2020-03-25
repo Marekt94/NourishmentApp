@@ -47,9 +47,9 @@ public class MyWindowManager implements MyWindowManagerInterface{
         this.konfigView = new KonfigView(konfigView);
         workingPanel = panel;
         
-        titlePanel = new TitlePanel(konfigView, title);
+        titlePanel = new TitlePanel(title);
         if (workingPanel != null){
-            titlePanel.getjPanel1().add((JPanel) workingPanel, BorderLayout.CENTER);
+            titlePanel.getWorkingPanel().add((JPanel) workingPanel, BorderLayout.CENTER);
             setKonfigViewToChildPanel((JPanel)titlePanel);
         }
         mainWindow.add(titlePanel, BorderLayout.CENTER);

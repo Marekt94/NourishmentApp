@@ -20,11 +20,12 @@ import org.jdatepicker.impl.UtilDateModel;
  *
  * @author Marek
  */
-public class FilterPanel extends javax.swing.JPanel {
+public class FilterPanel extends BasePanel {
     private JDatePickerImpl datePickerFrom = null;
     private JDatePickerImpl datePickerTo = null;   
 
     public FilterPanel() {
+        super();
         initComponents();
         UtilDateModel modelOd = new UtilDateModel();
         UtilDateModel modelDo = new UtilDateModel();
