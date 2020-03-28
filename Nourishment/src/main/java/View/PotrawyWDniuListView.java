@@ -7,6 +7,8 @@ package View;
 
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
+import Entities.Produkty;
+import Entities.ProduktyWPotrawie;
 import static Global.GlobalConfig.dataFormat;
 import Global.GlobalFun;
 import static Global.GlobalFun.returnStringOrEmpty;
@@ -15,6 +17,7 @@ import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
 import Other.MyComparator;
 import Other.PDFGenerator;
+import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
 import View.BasicView.MainDialog;
@@ -92,14 +95,22 @@ public class PotrawyWDniuListView extends BaseListPanel {
         filter.getDatePickerToTextField().addPropertyChangeListener("value", dateChange);
         this.add(filterPanel, BorderLayout.NORTH);
 
-        JButton printButton = new JButton("Drukuj");
-        printButton.addActionListener(new ActionListener() {
+        JButton btnPrintMenu = new JButton("Drukuj");
+        btnPrintMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 generateMenu(objectList);
             }
         });
-        addButton(printButton);
+        addButton(btnPrintMenu);
+        JButton btnPrintShoppingList = new JButton("Drukuj liste zakupów");
+        btnPrintShoppingList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createShoppingList(objectList);
+            }
+        });
+        addButton(btnPrintShoppingList);
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
         comparatorByDate = new MyComparator();
         try {
@@ -243,6 +254,65 @@ public class PotrawyWDniuListView extends BaseListPanel {
         } else {
             return prefix + ": ";
         }
+    }
+    
+    private void generateShoppingList(List<Serializable> listOfDays){
+        String fileName = chooseSavePath();
+        if (!fileName.equals("")) {
+            MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
+            objectList.sort(comparatorByDate);
+            pDFGenerator.openDocument(fileName);
+            pDFGenerator.addTitle("Lisa zakupów od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            for (int i = 0; i < listOfDays.size(); i++) {
+                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
+                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
+            }
+            pDFGenerator.closeDocument();
+        }        
+    }
+    
+    private void createShoppingList(List<Serializable> listOfDays){
+        List<ProductRecord> productsList = new ArrayList<ProductRecord>();
+        for (Serializable day : listOfDays){
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getSniadanie());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getDrugieSniadanie());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getObiad());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja());
+        }
+    }
+    
+    private Boolean addToShoppingList(List<ProductRecord> productsList, Potrawy meal){
+            Boolean result = false;
+            if (meal != null){
+                List<ProduktyWPotrawie> prodWPotr = (List<ProduktyWPotrawie>) meal.getProduktyWPotrawieCollection();
+                for (ProduktyWPotrawie product : prodWPotr){
+                    Integer indexOfProduct = returnIndexInProductList(productsList, product.getIdProduktu());
+                    if (indexOfProduct == -1){
+                        ProductRecord productRecord = new ProductRecord();
+                        productRecord.productName = ((ProduktyWPotrawie) product).getIdProduktu().getNazwa();
+                        productRecord.weight = ((ProduktyWPotrawie) product).getIloscWG();
+                        productsList.add(productRecord);
+                        result = true;
+                    }
+                    else{
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + product.getIloscWG();
+                        result = true;
+                    }
+                }
+            }
+            return result;
+    }
+    
+    private Integer returnIndexInProductList (List<ProductRecord> productsList, Produkty product){
+        for (ProductRecord productRecord : productsList){
+            if (productRecord.productName.equals(product.getNazwa())){
+                return productsList.indexOf(productRecord);
+            }
+        }
+        return -1;
     }
 
     //TODO zrobić, żeby wybierało sie ścieżkę gdzie zapisać plik z jadłospisem
