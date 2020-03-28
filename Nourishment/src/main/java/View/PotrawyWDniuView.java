@@ -9,11 +9,14 @@ import Entities.Potrawy;
 import Entities.PotrawyWDniu;
 import Global.GlobalFun;
 import Other.DateLabelFormatter;
+import Other.MyComparator;
 import View.BasicView.BasePanel;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -41,6 +44,13 @@ public class PotrawyWDniuView extends BasePanel {
 
     @Override
     public <E> void unpack(List<E> objectList) {
+        MyComparator comparator = new MyComparator();
+        try {
+            comparator.init("nazwa", Potrawy.class, true);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(PotrawyWDniuView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        objectList.sort(comparator);
         GlobalFun.unpackComboBox(cmbSniadanie, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbDrugieSniadanie, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbObiad, (List<Serializable>) objectList);
