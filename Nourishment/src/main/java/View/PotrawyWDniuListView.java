@@ -9,6 +9,7 @@ import Entities.Potrawy;
 import Entities.PotrawyWDniu;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Global.GlobalConfig;
 import static Global.GlobalConfig.dataFormat;
 import Global.GlobalFun;
 import static Global.GlobalFun.returnStringOrEmpty;
@@ -107,7 +108,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         btnPrintShoppingList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createShoppingList(objectList);
+                generateShoppingList(objectList);
             }
         });
         addButton(btnPrintShoppingList);
@@ -261,18 +262,21 @@ public class PotrawyWDniuListView extends BaseListPanel {
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
-            objectList.sort(comparatorByDate);
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Lisa zakupów od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
-            for (int i = 0; i < listOfDays.size(); i++) {
-                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
-                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
-            }
+            List<ProductRecord> productList = createShoppingList(listOfDays);
+            productList.sort(new Comparator<ProductRecord>() {
+                @Override
+                public int compare(ProductRecord o1, ProductRecord o2) {
+                    return o1.productName.compareTo(o2.productName);
+                }
+            });
+            pDFGenerator.addList(createShoppingStringList(productList));
             pDFGenerator.closeDocument();
         }        
     }
     
-    private void createShoppingList(List<Serializable> listOfDays){
+    private List<ProductRecord> createShoppingList(List<Serializable> listOfDays){
         List<ProductRecord> productsList = new ArrayList<ProductRecord>();
         for (Serializable day : listOfDays){
             addToShoppingList(productsList, ((PotrawyWDniu) day).getSniadanie());
@@ -282,6 +286,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
             addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch());
             addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja());
         }
+        
+        return productsList; 
     }
     
     private Boolean addToShoppingList(List<ProductRecord> productsList, Potrawy meal){
@@ -294,16 +300,41 @@ public class PotrawyWDniuListView extends BaseListPanel {
                         ProductRecord productRecord = new ProductRecord();
                         productRecord.productName = ((ProduktyWPotrawie) product).getIdProduktu().getNazwa();
                         productRecord.weight = ((ProduktyWPotrawie) product).getIloscWG();
+                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
+                            productRecord.packages = productRecord.weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        }
+                        else{
+                            productRecord.packages = 0.0;
+                        }
                         productsList.add(productRecord);
                         result = true;
                     }
                     else{
                         productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + product.getIloscWG();
+                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
+                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        }
+                        else{
+                            productsList.get(indexOfProduct).packages = 0.0;
+                        }                        
                         result = true;
                     }
                 }
             }
             return result;
+    }
+    
+    private String[] createShoppingStringList(List<ProductRecord> productList){
+        Integer size = productList.size();
+        String [] list = new String[size];
+        for (int i = 0; i < size; i++) {
+            list[i] = productList.get(i).productName + ": "
+                      + GlobalFun.round(productList.get(i).weight,1) + "g";
+            if (!productList.get(i).packages.equals(0.0)){
+                list[i] = list[i] + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)";
+            }
+        }
+        return list;
     }
     
     private Integer returnIndexInProductList (List<ProductRecord> productsList, Produkty product){
