@@ -18,7 +18,6 @@ import javax.swing.JTable;
  * @author Marek
  */
 public class AfterClickSorter extends MouseAdapter{
-    private MyComparator comparator = null;
     private AfterClickSorterModel model = null;
 
     public AfterClickSorterModel getModel() {
@@ -30,7 +29,6 @@ public class AfterClickSorter extends MouseAdapter{
     }
     
     public <E> AfterClickSorter(AfterClickSorterModel model){
-        comparator = new MyComparator();
         this.model = model;
     }
     
@@ -39,12 +37,7 @@ public class AfterClickSorter extends MouseAdapter{
         Point point = e.getPoint();
         Integer column = model.getTable().columnAtPoint(point);
         model.setAscending(!model.getAscending());
-        try {
-            comparator.init((String) model.getTable().getColumnModel().getColumn(column).getHeaderValue(), model.getObjectType(), model.getAscending());
-        } catch (NoSuchFieldException ex) {
-            Logger.getLogger(AfterClickSorter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        model.getList().sort(comparator);
+        model.getList().sort(new MyComparator((String) model.getTable().getColumnModel().getColumn(column).getHeaderValue(), model.getObjectType(), model.getAscending()));
         model.getManagerPanel().updateView();
     }
     

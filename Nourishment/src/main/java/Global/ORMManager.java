@@ -91,13 +91,7 @@ public class ORMManager {
         list = new ArrayList<Serializable>(set);
         session.close();
         if (!sortedColumn.equals("")){
-            MyComparator comparator = new MyComparator();
-            try {
-                comparator.init(sortedColumn, myType, ascending);
-            } catch (NoSuchFieldException ex) {
-                Logger.getLogger(ORMManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            list.sort(comparator);
+            list.sort(new MyComparator(sortedColumn, myType, ascending));
         }
         return (List<Serializable>) list;
     }

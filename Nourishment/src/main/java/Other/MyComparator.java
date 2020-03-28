@@ -19,14 +19,21 @@ public class MyComparator implements Comparator{
     Field field = null;
     Boolean ascending = null;
     
-    public MyComparator(){
-        
+    public MyComparator(String fieldName, Class objectClass, Boolean ascending){
+        try {
+            field = objectClass.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(MyComparator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(MyComparator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.ascending = ascending;        
     }
     
-    public void init(String fieldName, Class objectClass, Boolean ascending) throws NoSuchFieldException{
-        field = objectClass.getDeclaredField(fieldName);
-        this.ascending = ascending;
-    }
+//    public void init(String fieldName, Class objectClass, Boolean ascending) throws NoSuchFieldException{
+//        field = objectClass.getDeclaredField(fieldName);
+//        this.ascending = ascending;
+//    }
     
     @Override
     public int compare(Object o1, Object o2) {

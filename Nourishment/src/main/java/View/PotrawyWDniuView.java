@@ -44,13 +44,7 @@ public class PotrawyWDniuView extends BasePanel {
 
     @Override
     public <E> void unpack(List<E> objectList) {
-        MyComparator comparator = new MyComparator();
-        try {
-            comparator.init("nazwa", Potrawy.class, true);
-        } catch (NoSuchFieldException ex) {
-            Logger.getLogger(PotrawyWDniuView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        objectList.sort(comparator);
+        objectList.sort(new MyComparator("nazwa", Potrawy.class, true));
         GlobalFun.unpackComboBox(cmbSniadanie, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbDrugieSniadanie, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbObiad, (List<Serializable>) objectList);

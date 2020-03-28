@@ -54,7 +54,6 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  */
 public class PotrawyWDniuListView extends BaseListPanel {
     List<Potrawy> potrawyList = null;
-    MyComparator comparatorByDate = null;
     String defaultDirectory = "";
     String fileExtension = "pdf";
 
@@ -113,12 +112,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         });
         addButton(btnPrintShoppingList);
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
-        comparatorByDate = new MyComparator();
-        try {
-            comparatorByDate.init("data", PotrawyWDniu.class, true);
-        } catch (NoSuchFieldException ex) {
-            Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -178,7 +171,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
-            objectList.sort(comparatorByDate);
+            objectList.sort(new MyComparator("data", PotrawyWDniu.class, true));
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
             for (int i = 0; i < listOfDays.size(); i++) {
