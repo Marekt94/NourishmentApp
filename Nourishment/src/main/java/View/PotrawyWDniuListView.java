@@ -35,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observer;
@@ -111,8 +112,57 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
         });
         addButton(btnPrintShoppingList);
+        JButton btnPrintReceipts = new JButton("Drukuj przpepisy");
+        btnPrintReceipts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generateReceipts(objectList);
+            }
+        });
+        addButton(btnPrintReceipts);
+        
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
     }
+    
+    public void generateReceipts(List<Serializable> listOfDays){
+        String fileName = chooseSavePath();
+        if (!fileName.equals("")) {
+            MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
+            pDFGenerator.openDocument(fileName);
+            pDFGenerator.addTitle("Potrawy od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            createReceipts(listOfDays, pDFGenerator);
+            pDFGenerator.closeDocument();
+        }          
+    }
+    
+    private void createReceipts(List<Serializable> listOfDays, MyPDFGeneratorInterface pDFGenerator){
+        List<Potrawy> potrawyList = new ArrayList<Potrawy>();
+        for (int i = 0; i < listOfDays.size(); i++) {
+            PotrawyWDniu pwd = (PotrawyWDniu) listOfDays.get(i);
+            addToReceipt(pwd.getSniadanie(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getDrugieSniadanie(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getObiad(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getPodwieczorek(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getLunch(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getKolacja(), potrawyList, pDFGenerator);
+        }
+    }
+    
+   private void addToReceipt(Potrawy ptr, List<Potrawy> existingOnReceiptMeals, MyPDFGeneratorInterface pDFGenerator){
+        if ((ptr != null) && (!existingOnReceiptMeals.contains(ptr))){
+            existingOnReceiptMeals.add(ptr);
+            pDFGenerator.addSubtitle(ptr.getNazwa());
+            HashSet<String> prodList = new HashSet<String>();
+            for (ProduktyWPotrawie prod : ptr.getProduktyWPotrawieCollection()){
+                prodList.add(prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()));
+            }
+            String [] prodListArray = prodList.toArray(new String[0]); 
+            pDFGenerator.addList(prodListArray);
+        }       
+   } 
+    
+    
 
     @Override
     public void addObject(MyPanelInterface detailPanel, String title, Class objectType) {
