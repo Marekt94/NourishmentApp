@@ -5,8 +5,8 @@
         <property name="hibernate.connection.username">sysdba</property>
         <property name="hibernate.connection.password">masterkey</property>
         <property name="hibernate.connection.driver_class">org.firebirdsql.jdbc.FBDriver</property>
-        <property name="hibernate.connection.url">jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/NourishmentApp/Nourishment/DB/NOURISHMENT.FDB</property>
         <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.dbPrefixFromDriver">jdbc:firebirdsql://localhost:3050/</property>
         <property name="hibernate.dialect">org.hibernate.dialect.FirebirdDialect</property> 
         <property name="hibernate.connection.useUnicode">true</property> 
         <property name="hibernate.connection.characterEncoding">UTF-8</property> 

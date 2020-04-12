@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import Entities.Produkty;
+import Global.GlobalConfig;
 import Global.ORMManager;
 import View.LoginPanel;
 import View.BasicView.MainDialog;
@@ -20,7 +21,26 @@ import View.BasicView.MainWindow;
 import View.ProduktView;
 import View.BasicView.TitlePanel;
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import javax.swing.JFrame;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+import org.w3c.dom.*;
 
 /**
  *
@@ -35,11 +55,10 @@ public class Main {
         MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(), "Logowanie", new LoginPanel());
         connectinDialog.getMyWindowManager().unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
         connectinDialog.setVisible(true);
-        if (connectinDialog.getResult() == false){
+        if (!connectinDialog.getResult()){
             System.exit(0);
         }
         MainWindow mainWindow = new MainWindow(new KonfigView(), "Menu", new MainMenuPanel());
         mainWindow.setVisible(true);
     }
-    
 }

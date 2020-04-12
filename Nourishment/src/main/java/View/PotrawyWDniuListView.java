@@ -16,6 +16,7 @@ import static Global.GlobalFun.returnStringOrEmpty;
 import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
+import static Other.FileDialogFunctionType.fdftSave;
 import Other.MyComparator;
 import Other.PDFGenerator;
 import Other.ProductRecord;
@@ -125,7 +126,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
     }
     
     public void generateReceipts(List<Serializable> listOfDays){
-        String fileName = chooseSavePath();
+        String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
@@ -217,7 +218,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
     }
 
     private void generateMenu(List<Serializable> listOfDays) {
-        String fileName = chooseSavePath();
+        String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
@@ -230,32 +231,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
             pDFGenerator.closeDocument();
         }
-    }
-
-    private String chooseSavePath() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter(fileExtension.toUpperCase(), "*." + fileExtension, fileExtension));
-        if (defaultDirectory.equals("")) {
-            defaultDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop";
-        }
-        fileChooser.setCurrentDirectory(new File(defaultDirectory));
-        int result = fileChooser.showSaveDialog(this);
-        defaultDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
-        if (result == JFileChooser.APPROVE_OPTION) {
-            return addExtensionIfNecessery(fileChooser.getSelectedFile().getAbsolutePath());
-        } else {
-            return "";
-        }
-    }
-
-    private String addExtensionIfNecessery(String fileName) {
-        int dotPosition = fileName.lastIndexOf(".");
-        if (dotPosition > 0) {
-            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + "." + fileExtension;
-        } else {
-            fileName = fileName + "." + fileExtension;
-        }
-        return fileName;
     }
 
     private String[] createPotrawyStringList(PotrawyWDniu potr) {
@@ -301,7 +276,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
     }
     
     private void generateShoppingList(List<Serializable> listOfDays){
-        String fileName = chooseSavePath();
+        String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia

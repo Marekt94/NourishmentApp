@@ -10,6 +10,8 @@ import Entities.PotrawyWDniu;
 import Global.GlobalConfig;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import static Global.GlobalConfig.PREF_DBPATH;
+import static Global.GlobalConfig.PREF_NODE_GLOBAL;
 import Other.MyComparator;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import org.hibernate.Filter;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -60,9 +63,14 @@ public class ORMManager {
     }
     
     public Boolean connect(Properties properties){
+        String dbPrefixFromDriver = "";
+        String dbPath = "";
         try {
+            dbPath = Preferences.userRoot().node(PREF_NODE_GLOBAL).get(PREF_DBPATH, "");
+            dbPrefixFromDriver = configuration.getProperty("hibernate.dbPrefixFromDriver");
             configuration.setProperties(properties);
             configuration.setProperty("hibernate.jdbc.batch_size", GlobalConfig.BATCH_SIZE.toString());
+            configuration.setProperty("hibernate.connection.url", dbPrefixFromDriver + dbPath);
             
             sessionFactory = configuration.buildSessionFactory();
             

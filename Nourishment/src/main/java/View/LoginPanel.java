@@ -5,15 +5,40 @@
  */
 package View;
 
+import static Global.GlobalConfig.*;
 import Global.GlobalFun;
 import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
+import Other.FileDialogFunctionType;
+import Other.Main;
 import View.BasicView.BasePanel;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.hibernate.cfg.Configuration;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -32,23 +57,38 @@ public class LoginPanel extends BasePanel{
     public <E> void unpack(E object) {
         super.unpack(object);
         properties = (Properties) object;
+        Preferences pref = Preferences.userRoot().node(PREF_NODE_GLOBAL);
         GlobalFun.bind(properties.getProperty("hibernate.connection.username"), edtUsername);
         GlobalFun.bind(properties.getProperty("hibernate.connection.password"), edtPassword);
-        GlobalFun.bind(properties.getProperty("hibernate.connection.url"), edtAresDB);
+        GlobalFun.bind(pref.get(PREF_DBPATH, ""), edtAresDB);
     }
 
     @Override
     public void pack() {
         properties.setProperty("hibernate.connection.username", (String) GlobalFun.bind(edtUsername, String.class));
         properties.setProperty("hibernate.connection.password", new String(edtPassword.getPassword()));
-        properties.setProperty("hibernate.connection.url", (String) GlobalFun.bind(edtAresDB, String.class));
+        packDbPathToPreferences((String) GlobalFun.bind(edtAresDB, String.class));
     }
     
     @Override
     public Boolean execute() {
         super.execute();
+        Boolean result;
         ormManager = ORMManager.getOrmManager();
-        return ormManager.connect(properties);
+        result = ormManager.connect(properties);
+        return result; 
+    }
+    
+    private Boolean packDbPathToPreferences(String path){
+        try{
+            Preferences pref = Preferences.userRoot().node(PREF_NODE_GLOBAL);
+            pref.put(PREF_DBPATH, path);
+            return true;
+        }
+        catch(Exception E){
+            Logger.getLogger(E.toString() + "\n");
+            return false;
+        }
     }
 
     /**
@@ -69,6 +109,7 @@ public class LoginPanel extends BasePanel{
         lblPassword = new javax.swing.JLabel();
         lblAdresDB = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(720, 70));
         setLayout(new java.awt.BorderLayout(5, 5));
 
         jPanel1.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
@@ -79,8 +120,13 @@ public class LoginPanel extends BasePanel{
         edtPassword.setPreferredSize(new java.awt.Dimension(100, 20));
         jPanel1.add(edtPassword);
 
-        edtAresDB.setText("jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/NourishmentApp/Nourishment/DB/NOURISHMENT.FDB");
+        edtAresDB.setText("C:/Users/Marek/Documents/GitHub/NourishmentApp/NourishmentApp/Nourishment/DB/NOURISHMENT.FDB");
         edtAresDB.setPreferredSize(new java.awt.Dimension(100, 20));
+        edtAresDB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                edtAresDBMouseClicked(evt);
+            }
+        });
         jPanel1.add(edtAresDB);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -104,6 +150,16 @@ public class LoginPanel extends BasePanel{
         add(jPanel2, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void edtAresDBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_edtAresDBMouseClicked
+        if ((evt.getClickCount() % 2 == 0) && (!evt.isConsumed())){
+            String path;
+            evt.consume();
+            path = GlobalFun.choosePath(this, "FDB", FileDialogFunctionType.fdftOpen, "");
+            if (!path.equals("")){
+                edtAresDB.setText(path);
+            }
+        }
+    }//GEN-LAST:event_edtAresDBMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField edtAresDB;

@@ -9,7 +9,10 @@ import Entities.Potrawy;
 import Entities.Produkty;
 import static Global.GlobalConfig.*;
 import Other.DateLabelFormatter;
+import Other.FileDialogFunctionType;
 import Other.TableUpdater;
+import java.awt.Component;
+import java.io.File;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
@@ -33,8 +36,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.apache.commons.lang3.SerializationUtils;
@@ -46,11 +51,11 @@ import org.jdatepicker.impl.JDatePickerImpl;
  */
 public class GlobalFun {
     public static void bind(String text, JTextField edt){
-        if (text != null){
-            edt.setText(text);
+        if (text == null || text.equals("")){
+            edt.setText(NULL_SIGN);
         }
         else{
-            edt.setText(NULL_SIGN);
+            edt.setText(text);
         }
     }
     
@@ -203,6 +208,46 @@ public class GlobalFun {
         else{
             return obj.toString();
         }
+    }
+   
+    public static String choosePath(Component parent, String fileExtension, FileDialogFunctionType type, String defaultDirectory) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter(fileExtension.toUpperCase(), "*." + fileExtension, fileExtension));
+        if (defaultDirectory.equals("")) {
+            defaultDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop";
+        }
+        int result = 0;
+        switch (type){
+            case fdftOpen:{
+                result = fileChooser.showOpenDialog(parent);
+                break;
+            }
+            case fdftSave:{
+                result = fileChooser.showSaveDialog(parent);   
+                break;
+            }
+            default:{
+                result = fileChooser.showDialog(parent, "Wybierz"); 
+                break;
+            }
+        }
+        fileChooser.setCurrentDirectory(new File(defaultDirectory));
+        defaultDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return addExtensionIfNecessery(fileChooser.getSelectedFile().getAbsolutePath(), fileExtension);
+        } else {
+            return "";
+        }
+    }
+    
+     private static String addExtensionIfNecessery(String fileName, String fileExtension) {
+        int dotPosition = fileName.lastIndexOf(".");
+        if (dotPosition > 0) {
+            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + "." + fileExtension;
+        } else {
+            fileName = fileName + "." + fileExtension;
+        }
+        return fileName;
     }
     
     

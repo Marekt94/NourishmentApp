@@ -78,6 +78,11 @@
             <artifactId>jaybird-jdk17</artifactId>
             <version>3.0.7</version>
         </dependency>
+        <dependency>
+            <groupId>javax.xml.parsers</groupId>
+            <artifactId>jaxp-api</artifactId>
+            <version>1.4.5</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
