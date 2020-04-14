@@ -19,10 +19,9 @@ import javax.swing.JPanel;
  */
 public class MainDialog extends javax.swing.JDialog implements MyWindowInterface{
     private MyWindowManager myWindowManager = null;
-    private Boolean result;
  
     public Boolean getResult() {
-        return result;
+        return myWindowManager.getResult();
     }
     
     public MainDialog(java.awt.Frame parent, boolean modal, KonfigView konfigView, String title, MyPanelInterface panel) {
@@ -36,7 +35,7 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
     
     @Override
     public void init(){
-        result = false;
+
     }
 
     @Override
@@ -57,48 +56,10 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        btnOK = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        btnOK.setText("OK");
-        btnOK.setPreferredSize(new java.awt.Dimension(100, 20));
-        btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOKActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnOK);
-
-        btnCancel.setText("Anuluj");
-        btnCancel.setPreferredSize(new java.awt.Dimension(100, 20));
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnCancel);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        myWindowManager.getWorkingPanel().rollback();
-        setVisible(false);
-    }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        result = myWindowManager.getWorkingPanel().execute();
-        if (result == true){
-            setVisible(false);
-        }
-    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,9 +109,6 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnOK;
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
 }

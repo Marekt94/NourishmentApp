@@ -17,6 +17,15 @@ public class KonfigView {
     private PreviewType preview;
     private int defaultOperationOnClose;
     private int extendedState;
+    private Boolean isBtnVisible;
+
+    public Boolean getIsBtnVisible() {
+        return isBtnVisible;
+    }
+
+    public void setIsBtnVisible(Boolean isBtnVisible) {
+        this.isBtnVisible = isBtnVisible;
+    }
 
     public int getExtendedState() {
         return extendedState;
@@ -46,11 +55,13 @@ public class KonfigView {
         preview = GlobalConfig.PREVIEW;
         defaultOperationOnClose = GlobalConfig.DEFAULT_OPERATION_ON_CLOSE;
         extendedState = JFrame.NORMAL;
+        isBtnVisible = true;
     } 
     
     public KonfigView(KonfigView konfigView){
         this.preview = konfigView.getPreview();
         this.defaultOperationOnClose = konfigView.getDefaultOperationOnClose();
         this.extendedState = konfigView.getExtendedState();
+        this.isBtnVisible = konfigView.getIsBtnVisible();
     }
 }

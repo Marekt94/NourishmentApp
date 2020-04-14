@@ -82,6 +82,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         if (result){
             GlobalFun.deepListCopy(objectList, initObjectList);
         }
+        newOrEditedObjectList.clear();
+        objectToDeleteList.clear();
         return result;
     }
 

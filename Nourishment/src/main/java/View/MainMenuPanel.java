@@ -98,8 +98,10 @@ public class MainMenuPanel extends BasePanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
+        KonfigView konfigView = new KonfigView(this.konfigView);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        konfigView.setIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Produkty", listaProduktowPanel);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
@@ -108,8 +110,10 @@ public class MainMenuPanel extends BasePanel{
     }//GEN-LAST:event_btnProduktyActionPerformed
 
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
+        KonfigView konfigView = new KonfigView(this.konfigView);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        konfigView.setIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
@@ -119,8 +123,10 @@ public class MainMenuPanel extends BasePanel{
     }//GEN-LAST:event_btnPotrawyActionPerformed
 
     private void btnJadlospisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadlospisActionPerformed
+        KonfigView konfigView = new KonfigView(this.konfigView);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        konfigView.setIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Jadłospis", listaPotrawWDniu);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));

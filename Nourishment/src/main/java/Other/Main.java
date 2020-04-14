@@ -58,7 +58,9 @@ public class Main {
         if (!connectinDialog.getResult()){
             System.exit(0);
         }
-        MainWindow mainWindow = new MainWindow(null, new KonfigView(), "Menu", new MainMenuPanel());
+        KonfigView konfigView = new KonfigView();
+        konfigView.setIsBtnVisible(false);
+        MainWindow mainWindow = new MainWindow(null, konfigView, "Menu", new MainMenuPanel());
         mainWindow.setVisible(true);
     }
 }

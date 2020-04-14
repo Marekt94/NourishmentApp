@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
@@ -33,6 +35,11 @@ public class MyWindowManager implements MyWindowManagerInterface{
     private TitlePanel titlePanel = null;
     private KonfigView konfigView;
     private MyPanelInterface workingPanel;
+    private Boolean result;
+
+    public Boolean getResult() {
+        return result;
+    }
     
     public TitlePanel getTitlePanlel() {
         return titlePanel;
@@ -56,6 +63,23 @@ public class MyWindowManager implements MyWindowManagerInterface{
             setKonfigViewToChildPanel((JPanel)titlePanel);
         }
         mainWindow.add(titlePanel, BorderLayout.CENTER);
+        titlePanel.getPnlBtnPanel().setVisible(this.konfigView.getIsBtnVisible());
+        if (konfigView.getIsBtnVisible()){
+            titlePanel.getBtnOk().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    result = workingPanel.execute();
+                    mainWindow.setVisible(!result);
+                }
+            });
+            titlePanel.getBtnCancel().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    workingPanel.rollback();
+                    mainWindow.setVisible(false);
+                }
+            });
+        }
         setTraversalKeys(mainWindow);
     }
     

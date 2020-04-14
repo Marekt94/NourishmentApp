@@ -8,6 +8,7 @@ package View.BasicView;
 import Interfaces.MyPanelInterface;
 import java.io.Serializable;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -23,6 +24,14 @@ public class TitlePanel extends BasePanel{
         }
     }
 
+    public JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    public JButton getBtnOk() {
+        return btnOk;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,6 +42,9 @@ public class TitlePanel extends BasePanel{
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        pnlBtnPanel = new javax.swing.JPanel();
+        btnOk = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         pnlWorkingPanel = new javax.swing.JPanel();
 
         setName(""); // NOI18N
@@ -43,6 +55,18 @@ public class TitlePanel extends BasePanel{
         jLabel1.setText("jLabel1");
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
+        pnlBtnPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnOk.setText("OK");
+        btnOk.setPreferredSize(new java.awt.Dimension(100, 20));
+        pnlBtnPanel.add(btnOk);
+
+        btnCancel.setText("Anuluj");
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 20));
+        pnlBtnPanel.add(btnCancel);
+
+        add(pnlBtnPanel, java.awt.BorderLayout.SOUTH);
+
         pnlWorkingPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlWorkingPanel.setMinimumSize(new java.awt.Dimension(0, 0));
         pnlWorkingPanel.setLayout(new java.awt.BorderLayout());
@@ -51,11 +75,18 @@ public class TitlePanel extends BasePanel{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOk;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel pnlBtnPanel;
     private javax.swing.JPanel pnlWorkingPanel;
     // End of variables declaration//GEN-END:variables
 
     public JPanel getWorkingPanel() {
         return pnlWorkingPanel;
+    }
+
+    public JPanel getPnlBtnPanel() {
+        return pnlBtnPanel;
     }
 }
