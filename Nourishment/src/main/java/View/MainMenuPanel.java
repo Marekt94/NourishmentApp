@@ -17,6 +17,7 @@ import Interfaces.MyListPanelInterface;
 import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.BasePanel;
+import View.BasicView.MainWindow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class MainMenuPanel extends BasePanel{
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Produkty", listaProduktowPanel);        
+        MainWindow mainWindow = new MainWindow(this, konfigView, "Produkty", listaProduktowPanel);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
         
         mainWindow.setVisible(true);
@@ -110,18 +111,18 @@ public class MainMenuPanel extends BasePanel{
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainDialog = new MainDialog(null, true, konfigView, "Zarządzanie potrawami", listaPotrawy);
-        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
-        mainDialog.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
+        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
+        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
         
-        mainDialog.setVisible(true);
+        mainWindow.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
 
     private void btnJadlospisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadlospisActionPerformed
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        MainDialog mainWindow = new MainDialog(null, true, konfigView, "Jadłospis", listaPotrawWDniu);        
+        MainWindow mainWindow = new MainWindow(this, konfigView, "Jadłospis", listaPotrawWDniu);        
         mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
         
         mainWindow.setVisible(true);       

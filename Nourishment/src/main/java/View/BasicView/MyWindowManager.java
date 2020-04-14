@@ -15,10 +15,13 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import javax.swing.KeyStroke;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
@@ -29,7 +32,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 public class MyWindowManager implements MyWindowManagerInterface{
     private TitlePanel titlePanel = null;
     private KonfigView konfigView;
-    private MyPanelInterface workingPanel;  
+    private MyPanelInterface workingPanel;
     
     public TitlePanel getTitlePanlel() {
         return titlePanel;
@@ -97,22 +100,24 @@ public class MyWindowManager implements MyWindowManagerInterface{
     public void setResizeListener(Window window){
         window.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                Integer taskbarHeight = Toolkit.getDefaultToolkit().getScreenInsets(window.getGraphicsConfiguration()).bottom; 
-                
-                Integer screenHeight = window.getSize().height;
-                Integer screenWidth = window.getSize().width;
-                
-                if (screenHeight > screenSize.height){
-                    screenHeight = screenSize.height - taskbarHeight;
+                if ((window instanceof JFrame) && (((JFrame) window).getExtendedState() == JFrame.NORMAL)){
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    Integer taskbarHeight = Toolkit.getDefaultToolkit().getScreenInsets(window.getGraphicsConfiguration()).bottom; 
+
+                    Integer screenHeight = window.getSize().height;
+                    Integer screenWidth = window.getSize().width;
+
+                    if (screenHeight > screenSize.height){
+                        screenHeight = screenSize.height - taskbarHeight;
+                    }
+
+                    if (screenWidth > screenSize.width){
+                        screenWidth = screenSize.width;
+                    }
+
+                    window.setSize(screenWidth, screenHeight); 
                 }
-                
-                if (screenWidth > screenSize.width){
-                    screenWidth = screenSize.width;
-                }
-                
-                window.setSize(screenWidth, screenHeight);
             }
-        });        
+        });
     }
 }
