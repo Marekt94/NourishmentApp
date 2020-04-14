@@ -11,6 +11,7 @@ import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -20,13 +21,29 @@ import javax.swing.JPanel;
  */
 public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
     private MyWindowManager myWindowManager = null;
+    private JFrame parent;
     
-    public MainWindow(KonfigView konfigView, String title, MyPanelInterface panel) {
+    public MainWindow(MyPanelInterface parent, KonfigView konfigView, String title, MyPanelInterface panel) {
         initComponents();        
         
         myWindowManager = new MyWindowManager();
         myWindowManager.create(this, konfigView, title, panel);
+        if (parent != null){
+            this.parent = getOldestParent ((JPanel) parent);
+        }
+        else{
+            this.parent = null;
+        }
         init();
+    }
+    
+    private JFrame getOldestParent(JComponent panel){
+        if (!(panel.getParent() instanceof JFrame)){
+          return getOldestParent((JComponent) panel.getParent());
+        }
+        else {
+            return (JFrame) panel.getParent();
+        }
     }
     
     @Override
@@ -42,6 +59,7 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
             setExtendedState(myWindowManager.getKonfigView().getExtendedState());
             myWindowManager.setResizeListener(this);
         }
+        if (parent != null){parent.setVisible(!b);}
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -96,7 +114,7 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow(new KonfigView(), "", null).setVisible(true);
+                new MainWindow(null, new KonfigView(), "", null).setVisible(true);
             }
         });
     }
