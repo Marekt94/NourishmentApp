@@ -22,4 +22,11 @@ public class GlobalConfig {
     public static final String dataFormat = "yyyy-MM-dd"; 
     public static final String PREF_NODE_GLOBAL = "GlobalSettings";
     public static final String PREF_DBPATH = "dbPath";
+    
+    public static final Byte LOGIN_PANEL_ID = 0;
+    public static final Byte MENU_ID = 1;
+    public static final Byte PRODUKTY_ID = 2;
+    public static final Byte PRODUKTY_W_POTRAWIE = 3;
+    public static final Byte POTRAWY_W_DNIU_ID = 4;
+    public static final Byte POTRAWY_ID = 5;
 }

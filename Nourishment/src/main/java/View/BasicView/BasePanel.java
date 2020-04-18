@@ -23,6 +23,16 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     protected KonfigView konfigView = null;
 
     @Override
+    public void loadPreferences() {
+        
+    }
+
+    @Override
+    public void savePreferences() {
+        
+    }
+
+    @Override
     public <E> void unpack(List<E> objectList) {
         //do eventualnego pokrycia w potomnych
     }
@@ -71,7 +81,7 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
+        this.konfigView = new KonfigView(konfigView, konfigView.getPanelID());
         setFocusListenerToAll(this);
         return true;
     }

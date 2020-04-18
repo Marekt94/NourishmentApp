@@ -18,6 +18,15 @@ public class KonfigView {
     private int defaultOperationOnClose;
     private int extendedState;
     private Boolean isBtnVisible;
+    private Byte panelID;
+
+    public Byte getPanelID() {
+        return panelID;
+    }
+
+    public void setPanelID(Byte panelID) {
+        this.panelID = panelID;
+    }
 
     public Boolean getIsBtnVisible() {
         return isBtnVisible;
@@ -51,17 +60,19 @@ public class KonfigView {
         this.preview = preview;
     }
     
-    public KonfigView(){
+    public KonfigView(Byte panelID){
         preview = GlobalConfig.PREVIEW;
         defaultOperationOnClose = GlobalConfig.DEFAULT_OPERATION_ON_CLOSE;
         extendedState = JFrame.NORMAL;
         isBtnVisible = true;
+        this.panelID = panelID;
     } 
     
-    public KonfigView(KonfigView konfigView){
+    public KonfigView(KonfigView konfigView, Byte panelID){
         this.preview = konfigView.getPreview();
         this.defaultOperationOnClose = konfigView.getDefaultOperationOnClose();
         this.extendedState = konfigView.getExtendedState();
         this.isBtnVisible = konfigView.getIsBtnVisible();
+        this.panelID = panelID;
     }
 }

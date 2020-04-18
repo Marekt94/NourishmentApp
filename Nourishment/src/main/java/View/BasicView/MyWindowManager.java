@@ -54,7 +54,7 @@ public class MyWindowManager implements MyWindowManagerInterface{
     }  
     
     public void create(Window mainWindow, KonfigView konfigView, String title, MyPanelInterface panel){
-        this.konfigView = new KonfigView(konfigView);
+        this.konfigView = new KonfigView(konfigView, konfigView.getPanelID());
         workingPanel = panel;
         
         titlePanel = new TitlePanel(title);

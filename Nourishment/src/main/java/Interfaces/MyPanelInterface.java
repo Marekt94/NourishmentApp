@@ -16,6 +16,8 @@ import java.util.List;
 public interface MyPanelInterface {
     public KonfigView getKonfigView();
     public Boolean init(KonfigView konfigView);
+    public void savePreferences();
+    public void loadPreferences();
     public <E> void unpack(E object);
     public <E> void unpack(List<E> objectList);
     public void pack();

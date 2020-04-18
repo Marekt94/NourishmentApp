@@ -12,6 +12,7 @@ import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import Other.AfterClickSorter;
 import Other.AfterClickSorterModel;
+import Other.PreferencesManager;
 import View.ChoosenColumnsPanel;
 import View.PotrawyView;
 import java.awt.AWTEventMulticaster;
@@ -25,6 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,6 +51,16 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected List<Serializable> newOrEditedObjectList = null;
     protected List<Serializable> objectToDeleteList = null;
     protected List<String> omittedColumns = null;
+    
+    protected String columnPrefix = "column";
+
+    @Override
+    public void savePreferences() {
+        if (konfigView != null){
+            String [] prefixes = {konfigView.getPanelID().toString(), columnPrefix};
+            PreferencesManager.saveOmittedColumns(prefixes, this.getClass(), omittedColumns);
+        }
+    }
 
     @Override
     public void addButton(JButton button) {
@@ -60,11 +72,18 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     
     @Override
     public Boolean init(KonfigView konfigView) {
-        this.konfigView = new KonfigView(konfigView);
-        detailPanelKonfigView = new KonfigView(konfigView);
+        this.konfigView = new KonfigView(konfigView, konfigView.getPanelID());
+        detailPanelKonfigView = new KonfigView(konfigView, konfigView.getPanelID());
         detailPanelKonfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        detailPanelKonfigView.setExtendedState(JFrame.NORMAL);
+        detailPanelKonfigView.setExtendedState(JFrame.NORMAL); 
         return true;
+    }
+    
+    @Override
+    public void loadPreferences(){
+        String [] prefixes = {konfigView.getPanelID().toString(), columnPrefix};
+        PreferencesManager.loadOmittedColumns(prefixes, this.getClass(),omittedColumns);
+        updateView();
     }
 
     @Override
@@ -111,7 +130,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public void pack() {
-
+        savePreferences();
     }
 
     @Override
@@ -375,7 +394,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         rollback();
         updateView();
     }//GEN-LAST:event_btnUndoActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;

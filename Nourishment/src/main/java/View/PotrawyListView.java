@@ -8,9 +8,11 @@ package View;
 import Entities.Potrawy;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Global.GlobalConfig;
 import Global.GlobalFun;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
+import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -34,6 +36,7 @@ import javax.swing.event.ListSelectionListener;
 public class PotrawyListView extends BaseListPanel {
     BaseListPanel pnlPotrawyList = null;
     BaseListPanel pnlProduktyList = null;
+    Integer newID = 0;
 
     /**
      * Creates new form PotrawyListView
@@ -51,7 +54,6 @@ public class PotrawyListView extends BaseListPanel {
         this.add(pnlProduktyList,BorderLayout.EAST);
         this.add(pnlPotrawyList,BorderLayout.WEST);
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
-        pack();
         
         btnAdd.setText("<<");
         
@@ -67,6 +69,29 @@ public class PotrawyListView extends BaseListPanel {
                 }
             }
         });
+    }
+
+    @Override
+    public Boolean init(KonfigView konfigView) {
+        newID = konfigView.getPanelID() * 10 + GlobalConfig.POTRAWY_ID;
+        pnlPotrawyList.getKonfigView().setPanelID(newID.byteValue());
+        newID = konfigView.getPanelID() * 10 + GlobalConfig.PRODUKTY_ID;
+        pnlProduktyList.getKonfigView().setPanelID(newID.byteValue());
+        return super.init(konfigView); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void loadPreferences() {
+        pnlPotrawyList.loadPreferences();
+        pnlProduktyList.loadPreferences();
+        super.loadPreferences(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void savePreferences() { 
+        pnlPotrawyList.savePreferences();
+        pnlProduktyList.savePreferences();
+        super.savePreferences(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -112,14 +137,6 @@ public class PotrawyListView extends BaseListPanel {
         return false;
     }
     
-    
-    
-    
-    
-    
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

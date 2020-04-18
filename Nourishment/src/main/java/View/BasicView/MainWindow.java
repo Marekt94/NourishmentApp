@@ -9,6 +9,8 @@ import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
 import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.swing.JComponent;
@@ -29,7 +31,7 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         myWindowManager = new MyWindowManager();
         myWindowManager.create(this, konfigView, title, panel);
         if (parent != null){
-            this.parent = getOldestParent ((JPanel) parent);
+            this.parent = getOlderParent ((JPanel) parent);
         }
         else{
             this.parent = null;
@@ -37,9 +39,9 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         init();
     }
     
-    private JFrame getOldestParent(JComponent panel){
+    private JFrame getOlderParent(JComponent panel){
         if (!(panel.getParent() instanceof JFrame)){
-          return getOldestParent((JComponent) panel.getParent());
+            return getOlderParent((JComponent) panel.getParent());
         }
         else {
             return (JFrame) panel.getParent();
@@ -58,6 +60,10 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
             setLocationRelativeTo(null);
             setExtendedState(myWindowManager.getKonfigView().getExtendedState());
             myWindowManager.setResizeListener(this);
+            myWindowManager.getWorkingPanel().loadPreferences();
+        }
+        else{
+            myWindowManager.getWorkingPanel().savePreferences();
         }
         if (parent != null){parent.setVisible(!b);}
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
@@ -68,8 +74,6 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         return myWindowManager;
     }
     
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -114,7 +118,7 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow(null, new KonfigView(), "", null).setVisible(true);
+                new MainWindow(null, null, "", null).setVisible(true);
             }
         });
     }

@@ -13,6 +13,7 @@ import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
 import Entities.ProduktyWPotrawie;
+import Global.GlobalConfig;
 import Interfaces.MyListPanelInterface;
 import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
@@ -98,7 +99,7 @@ public class MainMenuPanel extends BasePanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
-        KonfigView konfigView = new KonfigView(this.konfigView);
+        KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_ID);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         konfigView.setIsBtnVisible(true);
@@ -110,7 +111,7 @@ public class MainMenuPanel extends BasePanel{
     }//GEN-LAST:event_btnProduktyActionPerformed
 
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
-        KonfigView konfigView = new KonfigView(this.konfigView);
+        KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_W_POTRAWIE);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         konfigView.setIsBtnVisible(true);
@@ -123,7 +124,7 @@ public class MainMenuPanel extends BasePanel{
     }//GEN-LAST:event_btnPotrawyActionPerformed
 
     private void btnJadlospisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadlospisActionPerformed
-        KonfigView konfigView = new KonfigView(this.konfigView);
+        KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.POTRAWY_W_DNIU_ID);
         konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
         konfigView.setIsBtnVisible(true);
