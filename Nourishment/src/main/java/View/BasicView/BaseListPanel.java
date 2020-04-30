@@ -18,6 +18,7 @@ import View.PotrawyView;
 import java.awt.AWTEventMulticaster;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -184,6 +185,12 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         sorterModel.setTable(tblObjects);
         sorterModel.setObjectType(detailEntityClass);
         tblObjects.getTableHeader().addMouseListener(new AfterClickSorter(sorterModel));
+        btnEdit.setMnemonic(KeyEvent.VK_E);
+        btnAdd.setMnemonic(KeyEvent.VK_D);
+        btnUsun.setMnemonic(KeyEvent.VK_U);
+        btnWybierzKolumny.setMnemonic(KeyEvent.VK_W);
+        btnApply.setMnemonic(KeyEvent.VK_Z);
+        btnUndo.setMnemonic(KeyEvent.VK_C);
     }
     
     public JTable getTblObjects(){
@@ -268,7 +275,11 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jPanel4 = new javax.swing.JPanel();
         btnWybierzKolumny = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblObjects = new javax.swing.JTable();
+        tblObjects = new javax.swing.JTable(){
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }
+        };
         jPanel5 = new javax.swing.JPanel();
         btnApply = new javax.swing.JButton();
         btnUndo = new javax.swing.JButton();

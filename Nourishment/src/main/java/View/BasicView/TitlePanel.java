@@ -6,6 +6,7 @@
 package View.BasicView;
 
 import Interfaces.MyPanelInterface;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.swing.JButton;
@@ -22,6 +23,8 @@ public class TitlePanel extends BasePanel{
         if (title != ""){
             jLabel1.setText("  " + title + "  ");
         }
+        btnOk.setMnemonic(KeyEvent.VK_O);
+        btnCancel.setMnemonic(KeyEvent.VK_A);
     }
 
     public JButton getBtnCancel() {
