@@ -141,7 +141,12 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     public void updateView() {
         Integer currentRow = tblObjects.getSelectedRow();
         GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
-        tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
+        if (currentRow < tblObjects.getRowCount()){
+            tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
+        } 
+        else{
+            tblObjects.getSelectionModel().setSelectionInterval(currentRow - 1, currentRow - 1);
+        }
     }
 
     @Override
