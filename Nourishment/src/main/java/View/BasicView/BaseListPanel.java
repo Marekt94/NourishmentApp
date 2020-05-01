@@ -19,6 +19,8 @@ import java.awt.AWTEventMulticaster;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -30,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
@@ -185,12 +188,21 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         sorterModel.setTable(tblObjects);
         sorterModel.setObjectType(detailEntityClass);
         tblObjects.getTableHeader().addMouseListener(new AfterClickSorter(sorterModel));
+        
         btnEdit.setMnemonic(KeyEvent.VK_E);
         btnAdd.setMnemonic(KeyEvent.VK_D);
         btnUsun.setMnemonic(KeyEvent.VK_U);
         btnWybierzKolumny.setMnemonic(KeyEvent.VK_W);
         btnApply.setMnemonic(KeyEvent.VK_Z);
         btnUndo.setMnemonic(KeyEvent.VK_C);
+        
+        tblObjects.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me){
+                if (me.getClickCount() == 2){
+                    editObject(detailPanel, detailPanelTitle);
+                }
+            }
+        });
     }
     
     public JTable getTblObjects(){
@@ -212,7 +224,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
             }
             
             updateView();
-        }        
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Wybierz rekord", "Wybierz rekord", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     public void addObject(MyPanelInterface detailPanel, String title, Class objectType){        
@@ -239,9 +254,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         
         mainWindow.setVisible(true);
         if (mainWindow.getResult()){
-            objectList.add(object);
-            newOrEditedObjectList.add(object);
-            updateView();
+            addObject(object);
         }        
     }
     
@@ -255,6 +268,12 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
             
             updateView();
         } 
+    }
+    
+    public void addObject(Serializable object){
+        objectList.add(object);
+        newOrEditedObjectList.add(object);
+        updateView();        
     }
 
     /**

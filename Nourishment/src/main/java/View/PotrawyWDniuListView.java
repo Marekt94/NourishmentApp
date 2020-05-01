@@ -46,6 +46,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.hibernate.internal.util.compare.ComparableComparator;
@@ -214,6 +215,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
 
             updateView();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Wybierz dzień", "Wybierz dzień", JOptionPane.WARNING_MESSAGE);
         }
     }
 

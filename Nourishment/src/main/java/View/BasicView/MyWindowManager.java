@@ -76,6 +76,7 @@ public class MyWindowManager implements MyWindowManagerInterface{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     workingPanel.rollback();
+                    result = false;
                     mainWindow.setVisible(false);
                 }
             });
