@@ -19,6 +19,7 @@ import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.BasePanel;
 import View.BasicView.MainWindow;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,9 @@ public class MainMenuPanel extends BasePanel{
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
         listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
+        btnJadlospis.setMnemonic(KeyEvent.VK_J);
+        btnPotrawy.setMnemonic(KeyEvent.VK_P);
+        btnProdukty.setMnemonic(KeyEvent.VK_R);
     }
 
     /**

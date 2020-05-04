@@ -47,7 +47,7 @@ public class WagaProduktuPanel extends BasePanel {
         setLayout(new java.awt.GridLayout(2, 2, 5, 5));
 
         lblWagaProduktu.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblWagaProduktu.setText("Waga produktu");
+        lblWagaProduktu.setText("Waga/objętość produktu");
         add(lblWagaProduktu);
 
         edtWagaProdruktu.addKeyListener(new java.awt.event.KeyAdapter() {

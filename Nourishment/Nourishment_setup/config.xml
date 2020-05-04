@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\Users\Marek\Documents\GitHub\NourishmentApp\NourishmentApp\Nourishment\target\Nourishment-1.0-jar-with-dependencies.jar</jar>
-  <outfile>C:\Users\Marek\Documents\Nourishment_setup\nourishment.exe</outfile>
+  <outfile>C:\Users\Marek\Documents\GitHub\NourishmentApp\NourishmentApp\Nourishment\Nourishment_setup\nourishment.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

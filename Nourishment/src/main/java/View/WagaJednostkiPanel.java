@@ -47,7 +47,7 @@ public class WagaJednostkiPanel extends BasePanel {
         setLayout(new java.awt.GridLayout(1, 2, 5, 5));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Waga jednostki");
+        jLabel1.setText("Waga/objętość jednostki");
         add(jLabel1);
         add(jTextField1);
     }// </editor-fold>//GEN-END:initComponents

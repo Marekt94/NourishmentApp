@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -67,10 +68,13 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     }
 
     @Override
-    public void addButton(JButton button) {
+    public void addButton(JButton button, Integer keyboardKey) {
         GridLayout panelLayout = (GridLayout) jPanel2.getLayout();
         panelLayout.setRows(panelLayout.getRows() + 1);
         jPanel2.add(button);
+        if (keyboardKey != null){
+            button.setMnemonic(keyboardKey);
+        }
     }
     
     
@@ -196,7 +200,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         
         btnEdit.setMnemonic(KeyEvent.VK_E);
         btnAdd.setMnemonic(KeyEvent.VK_D);
-        btnUsun.setMnemonic(KeyEvent.VK_U);
+        btnDelete.setMnemonic(KeyEvent.VK_U);
         btnWybierzKolumny.setMnemonic(KeyEvent.VK_W);
         btnApply.setMnemonic(KeyEvent.VK_Z);
         btnUndo.setMnemonic(KeyEvent.VK_C);
@@ -210,10 +214,12 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         });
     }
     
-    public JTable getTblObjects(){
+    @Override
+    public JComponent getComponentWihtListOfRecords(){
         return tblObjects;
     }
     
+    @Override
     public void editObject(MyPanelInterface detailPanel, String title){
         if (tblObjects.getSelectedRow() > -1){
             Serializable object;
@@ -235,6 +241,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         }
     }
     
+    @Override
     public void addObject(MyPanelInterface detailPanel, String title, Class objectType){        
         MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);
         Serializable object = null;
@@ -263,6 +270,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         }        
     }
     
+    @Override
     public void deleteObject(){
         if (tblObjects.getSelectedRow() > -1){
             Serializable object;
@@ -275,9 +283,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         } 
     }
     
-    public void addObject(Serializable object){
-        objectList.add(object);
-        newOrEditedObjectList.add(object);
+    @Override
+    public <E> void addObject(E object){
+        objectList.add((Serializable) object);
+        newOrEditedObjectList.add((Serializable) object);
         updateView();        
     }
 
@@ -295,7 +304,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         jPanel2 = new javax.swing.JPanel();
         btnEdit = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
-        btnUsun = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnWybierzKolumny = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -334,13 +343,13 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         });
         jPanel2.add(btnAdd);
 
-        btnUsun.setText("Usuń");
-        btnUsun.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setText("Usuń");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsunActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        jPanel2.add(btnUsun);
+        jPanel2.add(btnDelete);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
@@ -406,9 +415,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         addObject(detailPanel, detailPanelTitle, detailEntityClass);
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void btnUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsunActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         deleteObject();
-    }//GEN-LAST:event_btnUsunActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnWybierzKolumnyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWybierzKolumnyActionPerformed
         List<Object> list = new ArrayList<>();
@@ -434,9 +443,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAdd;
     protected javax.swing.JButton btnApply;
+    protected javax.swing.JButton btnDelete;
     protected javax.swing.JButton btnEdit;
     protected javax.swing.JButton btnUndo;
-    protected javax.swing.JButton btnUsun;
     protected javax.swing.JButton btnWybierzKolumny;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;

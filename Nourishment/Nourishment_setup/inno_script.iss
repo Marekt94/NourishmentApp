@@ -35,10 +35,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}";
 Name: "firebirdServer"; Description: "Zainstaluj server Firebird {#FirebirdServerVersion}"; 
 
 [Files]
-Source: "C:\Users\Marek\Documents\Nourishment_setup\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Marek\Documents\GitHub\NourishmentApp\NourishmentApp\Nourishment\Nourishment_setup\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Marek\Documents\GitHub\NourishmentApp\NourishmentApp\Nourishment\DB\NOURISHMENT.FDB"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Program Files\Java\jdk-13.0.1\*"; DestDir: "{app}\Java\"; Flags: ignoreversion recursesubdirs 
-Source: "C:\Users\Marek\Documents\Nourishment_setup\{#MyFirebirdServerExeName}"; DestDir: "{app}"; Tasks: firebirdServer; Flags: ignoreversion
+Source: "C:\Users\Marek\Documents\GitHub\NourishmentApp\NourishmentApp\Nourishment\Nourishment_setup\{#MyFirebirdServerExeName}"; DestDir: "{app}"; Tasks: firebirdServer; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

@@ -11,6 +11,7 @@ import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
@@ -21,6 +22,7 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -36,9 +39,10 @@ import javax.swing.event.ListSelectionListener;
  * @author Marek
  */
 public class PotrawyListView extends BaseListPanel {
-    BaseListPanel pnlPotrawyList = null;
-    BaseListPanel pnlProduktyList = null;
+    MyListPanelInterface pnlPotrawyList = null;
+    MyListPanelInterface pnlProduktyList = null;
     Integer newID = 0;
+    Boolean isCurrentlyUpdated = false;
 
     /**
      * Creates new form PotrawyListView
@@ -48,13 +52,13 @@ public class PotrawyListView extends BaseListPanel {
         omittedColumns.add("idPotrawy");
         
         pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
-        pnlPotrawyList.setPreferredSize(new Dimension(500, 450));
+        ((JPanel) pnlPotrawyList).setPreferredSize(new Dimension(500, 450));
         
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
-        pnlProduktyList.setPreferredSize(new Dimension(500, 450));
+        ((JPanel) pnlProduktyList).setPreferredSize(new Dimension(500, 450));
         
-        this.add(pnlProduktyList,BorderLayout.EAST);
-        this.add(pnlPotrawyList,BorderLayout.WEST);
+        this.add((JPanel) pnlProduktyList,BorderLayout.EAST);
+        this.add((JPanel) pnlPotrawyList,BorderLayout.WEST);
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
         
         btnAdd.setText("<<");
@@ -65,13 +69,15 @@ public class PotrawyListView extends BaseListPanel {
                     Potrawy potrawa = pnlPotrawyList.getCurrentObject();
                     if (potrawa != null){
                         changeMealToProduct(potrawa);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Wybierz potrawę", "Wybierz potrawę", JOptionPane.WARNING_MESSAGE);
                     }
                     updateView();
             }
         });
-        pnlPotrawyList.addButton(btnMealToProduct);
+        pnlPotrawyList.addButton(btnMealToProduct, KeyEvent.VK_M);
         
-        pnlPotrawyList.getTblObjects().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        ((JTable) pnlPotrawyList.getComponentWihtListOfRecords()).getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if ( !e.getValueIsAdjusting()){
@@ -85,17 +91,21 @@ public class PotrawyListView extends BaseListPanel {
         });
     }
     
+    private Double evaluateProductValuePer100(Double value, Double weight){
+        return (value / weight) * 100; 
+    }
+    
     private void changeMealToProduct(Potrawy meal){
         Produkty product = new Produkty();
         product.setNazwa(meal.getNazwa());
-        product.setBialko(meal.getSumaBialko());
-        product.setBlonnik(meal.getSumaBlonnik());
-        product.setCukryProste(meal.getSumaCukryProste());
-        product.setCukrySuma(meal.getSumaCukrySuma());
-        product.setCukryZlozone(meal.getSumaCukryZlozone());
-        product.setKcalNa100g((meal.getSumaKcal() / meal.getWaga()) * 100);
-        product.setSol(meal.getSumaSol());
-        product.setTluszcz(meal.getSumaTluszcz());
+        product.setBialko(evaluateProductValuePer100(meal.getSumaBialko(), meal.getWaga()));
+        product.setBlonnik(evaluateProductValuePer100(meal.getSumaBlonnik(), meal.getWaga()));
+        product.setCukryProste(evaluateProductValuePer100(meal.getSumaCukryProste(), meal.getWaga()));
+        product.setCukrySuma(evaluateProductValuePer100(meal.getSumaCukrySuma(), meal.getWaga()));
+        product.setCukryZlozone(evaluateProductValuePer100(meal.getSumaCukryZlozone(), meal.getWaga()));
+        product.setKcalNa100g(evaluateProductValuePer100(meal.getSumaKcal(), meal.getWaga()));
+        product.setSol(evaluateProductValuePer100(meal.getSumaSol(), meal.getWaga()));
+        product.setTluszcz(evaluateProductValuePer100(meal.getSumaTluszcz(), meal.getWaga()));
         MainDialog unitWeight = new MainDialog(null, true, konfigView, "Waga jednostki", new WagaJednostkiPanel());
         unitWeight.getMyWindowManager().unpackWindow(product);
         unitWeight.setVisible(true);
@@ -176,6 +186,17 @@ public class PotrawyListView extends BaseListPanel {
             }           
         }
         return false;
+    }
+
+    @Override
+    public void updateView() {
+        if (!isCurrentlyUpdated){
+            isCurrentlyUpdated = true;
+            pnlProduktyList.updateView();
+            pnlPotrawyList.updateView();
+            super.updateView();
+            isCurrentlyUpdated = false;
+        }
     }
     
     /**

@@ -5,9 +5,9 @@
  */
 package Interfaces;
 
-import View.BasicView.KonfigView;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 /**
  *
@@ -18,5 +18,10 @@ public interface MyListPanelInterface extends MyPanelInterface{
     public <E> List<E> getObjectsList();
     public <E> E getCurrentObject();
     public <E> List<E> getNewOrEditedObjectList();
-    public void addButton(JButton button);  
+    public void addButton(JButton button, Integer keyboardKey);
+    public JComponent getComponentWihtListOfRecords();
+    public <E> void addObject(E object);
+    public void addObject(MyPanelInterface detailPanel, String title, Class objectType);
+    public void deleteObject();
+    public void editObject(MyPanelInterface detailPanel, String title);
 }
