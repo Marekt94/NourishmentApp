@@ -226,7 +226,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
             
             MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);
             object = objectList.get(tblObjects.getSelectedRow());
-            mainWindow.getMyWindowManager().unpackWindow(object);
+            mainWindow.unpackWindow(object);
             
             mainWindow.setVisible(true);
             
@@ -262,7 +262,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         } catch (SecurityException ex) {
             Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        mainWindow.getMyWindowManager().unpackWindow(object);
+        mainWindow.unpackWindow(object);
         
         mainWindow.setVisible(true);
         if (mainWindow.getResult()){
@@ -424,7 +424,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         list.add(detailEntityClass);
         list.add(omittedColumns);
         MainDialog mainDialog = new MainDialog(null, true, konfigView, "Widoczne kolumny", new ChoosenColumnsPanel());
-        mainDialog.getMyWindowManager().unpackWindow(list);
+        mainDialog.unpackWindow(list);
         mainDialog.setVisible(true);
         updateView();
     }//GEN-LAST:event_btnWybierzKolumnyActionPerformed

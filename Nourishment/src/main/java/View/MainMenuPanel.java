@@ -104,37 +104,37 @@ public class MainMenuPanel extends BasePanel{
 
     private void btnProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduktyActionPerformed
         KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_ID);
-        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        konfigView.setIsBtnVisible(true);
+        konfigView.withDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE)
+                  .withExtendedState(JFrame.MAXIMIZED_BOTH)
+                  .withIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Produkty", listaProduktowPanel);        
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
+        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
         
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnProduktyActionPerformed
 
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
         KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_W_POTRAWIE);
-        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        konfigView.setIsBtnVisible(true);
+        konfigView.withDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE)
+                  .withExtendedState(JFrame.MAXIMIZED_BOTH)
+                  .withIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Produkty.class));
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(Potrawy.class));
+        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
+        mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
         
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
 
     private void btnJadlospisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadlospisActionPerformed
         KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.POTRAWY_W_DNIU_ID);
-        konfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        konfigView.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        konfigView.setIsBtnVisible(true);
+        konfigView.withDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE)
+                  .withExtendedState(JFrame.MAXIMIZED_BOTH)
+                  .withIsBtnVisible(true);
         
         MainWindow mainWindow = new MainWindow(this, konfigView, "Jadłospis", listaPotrawWDniu);        
-        mainWindow.getMyWindowManager().unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
+        mainWindow.unpackWindow(ormManager.askForObjects(PotrawyWDniu.class));
         
         mainWindow.setVisible(true);       
     }//GEN-LAST:event_btnJadlospisActionPerformed

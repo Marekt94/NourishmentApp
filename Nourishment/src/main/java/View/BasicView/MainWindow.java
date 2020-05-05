@@ -68,10 +68,15 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         if (parent != null){parent.setVisible(!b);}
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public MyWindowManagerInterface getMyWindowManager() {
-        return myWindowManager;
+    public <E> void unpackWindow(List<E> objectList) {
+        myWindowManager.unpackWindow(objectList);
+    }
+
+    @Override
+    public <E> void unpackWindow(E object) {
+        myWindowManager.unpackWindow(object);
     }
     
     /**

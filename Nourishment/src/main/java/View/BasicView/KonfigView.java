@@ -19,7 +19,7 @@ public class KonfigView {
     private int extendedState;
     private Boolean isBtnVisible;
     private Byte panelID;
-
+    
     public Byte getPanelID() {
         return panelID;
     }
@@ -27,13 +27,23 @@ public class KonfigView {
     public void setPanelID(Byte panelID) {
         this.panelID = panelID;
     }
-
+    
+    public KonfigView withIsBtnVisible(Boolean isBtnVisible) {
+        this.isBtnVisible = isBtnVisible;
+        return this;
+    }
+    
     public Boolean getIsBtnVisible() {
         return isBtnVisible;
     }
 
     public void setIsBtnVisible(Boolean isBtnVisible) {
         this.isBtnVisible = isBtnVisible;
+    }
+
+    public KonfigView withExtendedState(int extendedState) {
+        this.extendedState = extendedState;
+        return this;
     }
 
     public int getExtendedState() {
@@ -43,13 +53,23 @@ public class KonfigView {
     public void setExtendedState(int extendedState) {
         this.extendedState = extendedState;
     }
-
+    
+    public KonfigView withDefaultOperationOnClose(int defaultOperationOnClose) {
+        this.defaultOperationOnClose = defaultOperationOnClose;
+        return this;
+    }
+    
     public int getDefaultOperationOnClose() {
         return defaultOperationOnClose;
     }
 
     public void setDefaultOperationOnClose(int defaultOperationOnClose) {
         this.defaultOperationOnClose = defaultOperationOnClose;
+    }
+ 
+    public KonfigView withPreview(PreviewType preview) {
+        this.preview = preview;
+        return this;
     }
 
     public PreviewType getPreview() {

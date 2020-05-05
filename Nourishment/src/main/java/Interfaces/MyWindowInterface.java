@@ -13,5 +13,7 @@ import java.util.List;
  */
 public interface MyWindowInterface {
     public void init();
-    public MyWindowManagerInterface getMyWindowManager();
+    public <E> void unpackWindow(List<E> objectList);
+    public <E> void unpackWindow(E object);
+    //public MyWindowManagerInterface getMyWindowManager();
 }

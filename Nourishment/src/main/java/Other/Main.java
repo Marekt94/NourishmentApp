@@ -53,7 +53,7 @@ public class Main {
      */
     public static void main(String[] args) {
         MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(GlobalConfig.LOGIN_PANEL_ID), "Logowanie", new LoginPanel());
-        connectinDialog.getMyWindowManager().unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
+        connectinDialog.unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
         connectinDialog.setVisible(true);
         if (!connectinDialog.getResult()){
             System.exit(0);

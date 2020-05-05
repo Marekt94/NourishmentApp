@@ -188,8 +188,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
         } catch (SecurityException ex) {
             Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        mainWindow.getMyWindowManager().unpackWindow(potrawyList);
-        mainWindow.getMyWindowManager().unpackWindow(object);
+        mainWindow.unpackWindow(potrawyList);
+        mainWindow.unpackWindow(object);
 
         mainWindow.setVisible(true);
         if (mainWindow.getResult()) {
@@ -206,8 +206,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
 
             MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);
             object = objectList.get(tblObjects.getSelectedRow());
-            mainWindow.getMyWindowManager().unpackWindow(potrawyList);
-            mainWindow.getMyWindowManager().unpackWindow(object);
+            mainWindow.unpackWindow(potrawyList);
+            mainWindow.unpackWindow(object);
 
             mainWindow.setVisible(true);
 

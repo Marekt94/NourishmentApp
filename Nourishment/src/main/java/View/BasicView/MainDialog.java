@@ -102,10 +102,15 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
             }
         });
     }
-    
+
     @Override
-    public MyWindowManagerInterface getMyWindowManager() {
-        return myWindowManager;
+    public <E> void unpackWindow(List<E> objectList) {
+        myWindowManager.unpackWindow(objectList);
+    }
+
+    @Override
+    public <E> void unpackWindow(E object) {
+        myWindowManager.unpackWindow(object);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

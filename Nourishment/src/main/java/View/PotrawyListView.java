@@ -107,7 +107,7 @@ public class PotrawyListView extends BaseListPanel {
         product.setSol(evaluateProductValuePer100(meal.getSumaSol(), meal.getWaga()));
         product.setTluszcz(evaluateProductValuePer100(meal.getSumaTluszcz(), meal.getWaga()));
         MainDialog unitWeight = new MainDialog(null, true, konfigView, "Waga jednostki", new WagaJednostkiPanel());
-        unitWeight.getMyWindowManager().unpackWindow(product);
+        unitWeight.unpackWindow(product);
         unitWeight.setVisible(true);
         if (unitWeight.getResult()){
             pnlProduktyList.addObject(product);
@@ -150,7 +150,7 @@ public class PotrawyListView extends BaseListPanel {
             prodWPotr.setIdPotrawy(pnlPotrawyList.getCurrentObject());
             
             MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
-            wagaProduktuDialog.getMyWindowManager().unpackWindow(prodWPotr);
+            wagaProduktuDialog.unpackWindow(prodWPotr);
             wagaProduktuDialog.setVisible(true);
             
             if (wagaProduktuDialog.getResult()){
