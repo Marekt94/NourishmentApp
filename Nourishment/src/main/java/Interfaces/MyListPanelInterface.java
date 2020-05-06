@@ -24,4 +24,5 @@ public interface MyListPanelInterface extends MyPanelInterface{
     public void addObject(MyPanelInterface detailPanel, String title, Class objectType);
     public void deleteObject();
     public void editObject(MyPanelInterface detailPanel, String title);
+    public void unpack();
 }

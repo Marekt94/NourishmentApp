@@ -44,7 +44,7 @@ public class MainMenuPanel extends BasePanel{
         initComponents();
         ormManager = ORMManager.getOrmManager();
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
-        listaPotrawy = new PotrawyListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
+        listaPotrawy = new PotrawyEditorListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
         listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
         btnJadlospis.setMnemonic(KeyEvent.VK_J);
         btnPotrawy.setMnemonic(KeyEvent.VK_P);
@@ -120,10 +120,12 @@ public class MainMenuPanel extends BasePanel{
                   .withExtendedState(JFrame.MAXIMIZED_BOTH)
                   .withIsBtnVisible(true);
         
-        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
-        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
-        mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
+//        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
+//        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
+//        mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
         
+        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", new PotrawyListView(new PotrawyView(), "Potrawa", Potrawy.class));
+        mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
 

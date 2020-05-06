@@ -120,6 +120,11 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     }
 
     @Override
+    public void unpack() {
+        unpack(ORMManager.getOrmManager().askForObjects(detailEntityClass));
+    }
+
+    @Override
     public <E> void unpack(List<E> objectList) {
         this.objectList.clear();
         initObjectList.clear();
