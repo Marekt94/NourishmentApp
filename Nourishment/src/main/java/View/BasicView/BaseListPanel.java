@@ -162,6 +162,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     public void rollback() {
         newOrEditedObjectList.clear();
         objectList.clear();
+        objectToDeleteList.clear();
         GlobalFun.deepListCopy((List<Serializable>) initObjectList, (List<Serializable>) objectList);
     }
 

@@ -120,12 +120,10 @@ public class MainMenuPanel extends BasePanel{
                   .withExtendedState(JFrame.MAXIMIZED_BOTH)
                   .withIsBtnVisible(true);
         
-//        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
-//        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
-//        mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
-        
-        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", new PotrawyListView(new PotrawyView(), "Potrawa", Potrawy.class));
+        MainWindow mainWindow = new MainWindow(this, konfigView, "Zarządzanie potrawami", listaPotrawy);
+        mainWindow.unpackWindow(ormManager.askForObjects(Produkty.class));
         mainWindow.unpackWindow(ormManager.askForObjects(Potrawy.class));
+        
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btnPotrawyActionPerformed
 

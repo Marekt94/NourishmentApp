@@ -51,7 +51,7 @@ public class PotrawyEditorListView extends BaseListPanel {
         super(detailPanel, detailPanelTitle, detailEntityClass);
         omittedColumns.add("idPotrawy");
         
-        pnlPotrawyList = new BaseListPanel(new PotrawyView(), "Potrawa", Potrawy.class);
+        pnlPotrawyList = new PotrawyListView(new PotrawyView(), "Potrawa", Potrawy.class);
         ((JPanel) pnlPotrawyList).setPreferredSize(new Dimension(500, 450));
         
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
@@ -62,20 +62,6 @@ public class PotrawyEditorListView extends BaseListPanel {
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
         
         btnAdd.setText("<<");
-        JButton btnMealToProduct = new JButton("Zamień potrawę w produkt");
-        btnMealToProduct.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                    Potrawy potrawa = pnlPotrawyList.getCurrentObject();
-                    if (potrawa != null){
-                        changeMealToProduct(potrawa);
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Wybierz potrawę", "Wybierz potrawę", JOptionPane.WARNING_MESSAGE);
-                    }
-                    updateView();
-            }
-        });
-        pnlPotrawyList.addButton(btnMealToProduct, KeyEvent.VK_M);
         
         ((JTable) pnlPotrawyList.getComponentWihtListOfRecords()).getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -89,30 +75,6 @@ public class PotrawyEditorListView extends BaseListPanel {
                 }
             }
         });
-    }
-    
-    private Double evaluateProductValuePer100(Double value, Double weight){
-        return (value / weight) * 100; 
-    }
-    
-    private void changeMealToProduct(Potrawy meal){
-        Produkty product = new Produkty();
-        product.setNazwa(meal.getNazwa());
-        product.setBialko(evaluateProductValuePer100(meal.getSumaBialko(), meal.getWaga()));
-        product.setBlonnik(evaluateProductValuePer100(meal.getSumaBlonnik(), meal.getWaga()));
-        product.setCukryProste(evaluateProductValuePer100(meal.getSumaCukryProste(), meal.getWaga()));
-        product.setCukrySuma(evaluateProductValuePer100(meal.getSumaCukrySuma(), meal.getWaga()));
-        product.setCukryZlozone(evaluateProductValuePer100(meal.getSumaCukryZlozone(), meal.getWaga()));
-        product.setKcalNa100g(evaluateProductValuePer100(meal.getSumaKcal(), meal.getWaga()));
-        product.setSol(evaluateProductValuePer100(meal.getSumaSol(), meal.getWaga()));
-        product.setTluszcz(evaluateProductValuePer100(meal.getSumaTluszcz(), meal.getWaga()));
-        MainDialog unitWeight = new MainDialog(null, true, konfigView, "Waga jednostki", new WagaJednostkiPanel());
-        unitWeight.unpackWindow(product);
-        unitWeight.setVisible(true);
-        if (unitWeight.getResult()){
-            pnlProduktyList.addObject(product);
-            pnlPotrawyList.deleteObject();
-        }
     }
 
     @Override
@@ -183,12 +145,19 @@ public class PotrawyEditorListView extends BaseListPanel {
         if (pnlProduktyList.execute()){
             if (pnlPotrawyList.execute()){
                 if (super.execute()){
-                    pnlPotrawyList.unpack();
+                    pnlProduktyList.unpack();
                     return true;
                 }
             }           
         }
         return false;
+    }
+
+    @Override
+    public void rollback() {
+        pnlPotrawyList.rollback();
+        pnlProduktyList.rollback();
+        super.rollback(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

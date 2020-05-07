@@ -24,12 +24,11 @@ import javax.swing.JOptionPane;
  * @author Marek
  */
 public class PotrawyListView extends BaseListPanel{
-
-    /**
-     * Creates new form PotrawyListView
-     */
+    List<Produkty> productList = null;
+    
     public PotrawyListView(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
         super(detailPanel, detailPanelTitle, detailEntityClass);
+        productList = new ArrayList<Produkty>();
         JButton btnMealToProduct = new JButton("Zamień potrawę w produkt");
         btnMealToProduct.addActionListener(new ActionListener() {
             @Override
@@ -61,9 +60,7 @@ public class PotrawyListView extends BaseListPanel{
         unitWeight.unpackWindow(product);
         unitWeight.setVisible(true);
         if (unitWeight.getResult()){
-            List<Produkty> list = new ArrayList<Produkty>();
-            list.add(product);
-            ORMManager.getOrmManager().addToDB(list);
+            productList.add(product);
             deleteObject();
         }
     }
@@ -75,12 +72,20 @@ public class PotrawyListView extends BaseListPanel{
     @Override
     public Boolean execute() {
         if (super.execute()){
+            ORMManager.getOrmManager().addToDB(productList);
+            productList.clear();
             unpack();
             return true;
         }
         else{
             return false;
         }
+    }
+
+    @Override
+    public void rollback() {
+        super.rollback();
+        productList.clear();
     }
     
     
