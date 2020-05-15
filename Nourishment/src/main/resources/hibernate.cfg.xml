@@ -10,9 +10,12 @@
         <property name="hibernate.dialect">org.hibernate.dialect.FirebirdDialect</property> 
         <property name="hibernate.connection.useUnicode">true</property> 
         <property name="hibernate.connection.characterEncoding">UTF-8</property> 
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <property name="hbm2ddl.auto">update</property> 
         <mapping class="Entities.Produkty" />
         <mapping class="Entities.ProduktyWPotrawie" />
         <mapping class="Entities.Potrawy" />
         <mapping class="Entities.PotrawyWDniu" />
+        <mapping class="Entities.ProduktyLuzneWDniu" />
     </session-factory>
 </hibernate-configuration>

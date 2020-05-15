@@ -7,16 +7,26 @@ package View;
 
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
+import Entities.Produkty;
+import Entities.ProduktyLuzneWDniu;
+import Global.GlobalConfig;
 import Global.GlobalFun;
+import Global.ORMManager;
+import Interfaces.MyListPanelInterface;
 import Other.DateLabelFormatter;
 import Other.MyComparator;
+import View.BasicView.BaseListPanel;
 import View.BasicView.BasePanel;
+import View.BasicView.KonfigView;
+import View.BasicView.MainDialog;
+import View.BasicView.MainWindow;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -103,8 +113,10 @@ public class PotrawyWDniuView extends BasePanel {
         cmbPodwieczorek = new javax.swing.JComboBox<>();
         lblKolacja = new javax.swing.JLabel();
         cmbKolacja = new javax.swing.JComboBox<>();
+        lblProdukty = new javax.swing.JLabel();
+        btnDodajProdukty = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(8, 2, 10, 10));
+        setLayout(new java.awt.GridLayout(9, 2, 10, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -161,10 +173,32 @@ public class PotrawyWDniuView extends BasePanel {
         add(lblKolacja);
 
         add(cmbKolacja);
+
+        lblProdukty.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProdukty.setText("Produkty luzem");
+        add(lblProdukty);
+
+        btnDodajProdukty.setText("Dodaj produkty");
+        btnDodajProdukty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajProduktyActionPerformed(evt);
+            }
+        });
+        add(btnDodajProdukty);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
+        KonfigView konfigViewLocal = new KonfigView(konfigView, GlobalConfig.PRODUKTY_LUZEM_ID).withExtendedState(JFrame.MAXIMIZED_BOTH);
+        MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (this, "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
+        MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigViewLocal, "Produkty luzem", produktyLuzemPanel);
+        dlgProduktyLuzem.unpackWindow(GlobalFun.toList(potrWDniu.getProduktyLuzneWDniu()));
+        dlgProduktyLuzem.unpackWindow(ORMManager.getOrmManager().askForObjects(Produkty.class));
+        dlgProduktyLuzem.setVisible(true);
+    }//GEN-LAST:event_btnDodajProduktyActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodajProdukty;
     private javax.swing.JComboBox<String> cmbDrugieSniadanie;
     private javax.swing.JComboBox<String> cmbKolacja;
     private javax.swing.JComboBox<String> cmbLunch;
@@ -180,6 +214,7 @@ public class PotrawyWDniuView extends BasePanel {
     private javax.swing.JLabel lblLunch;
     private javax.swing.JLabel lblObiad;
     private javax.swing.JLabel lblPodwieczorek;
+    private javax.swing.JLabel lblProdukty;
     private javax.swing.JLabel lblSniadanie;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,13 +7,14 @@ package View;
 
 import Entities.Produkty;
 import View.BasicView.BasePanel;
+import java.util.List;
 
 /**
  *
  * @author Marek
  */
 public class WagaJednostkiPanel extends BasePanel {
-    Produkty product;
+    List<Double> weight;
 
     /**
      * Creates new form WagaJednostki
@@ -24,12 +25,12 @@ public class WagaJednostkiPanel extends BasePanel {
 
     @Override
     public void pack() {
-         product.setWagaJednostki((Double) Global.GlobalFun.bind(jTextField1, Double.class));
+         weight.add((Double) Global.GlobalFun.bind(jTextField1, Double.class));
     }
 
     @Override
-    public <E> void unpack(E object) {
-        product = (Produkty) object;
+    public <E> void unpack(List<E> objectList) {
+        weight = (List<Double>) objectList;
     }
 
     /**

@@ -115,7 +115,7 @@ public class MainMenuPanel extends BasePanel{
     }//GEN-LAST:event_btnProduktyActionPerformed
 
     private void btnPotrawyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotrawyActionPerformed
-        KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_W_POTRAWIE);
+        KonfigView konfigView = new KonfigView(this.konfigView, GlobalConfig.PRODUKTY_W_POTRAWIE_ID);
         konfigView.withDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE)
                   .withExtendedState(JFrame.MAXIMIZED_BOTH)
                   .withIsBtnVisible(true);

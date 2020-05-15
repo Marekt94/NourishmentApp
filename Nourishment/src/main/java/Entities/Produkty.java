@@ -73,6 +73,8 @@ public class Produkty implements Serializable {
     private Double sol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduktu")
     private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "produkt")
+    private Collection<ProduktyLuzneWDniu> produktyLuzneWDniu;
 
     public Produkty() {
     }

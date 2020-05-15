@@ -47,6 +47,7 @@ public class PotrawyListView extends BaseListPanel{
     
     private void changeMealToProduct(Potrawy meal){
         Produkty product = new Produkty();
+        List<Double> weight = new ArrayList<Double>(); //dirty trick to pass double by reference
         product.setNazwa(meal.getNazwa());
         product.setBialko(evaluateProductValuePer100(meal.getSumaBialko(), meal.getWaga()));
         product.setBlonnik(evaluateProductValuePer100(meal.getSumaBlonnik(), meal.getWaga()));
@@ -57,9 +58,10 @@ public class PotrawyListView extends BaseListPanel{
         product.setSol(evaluateProductValuePer100(meal.getSumaSol(), meal.getWaga()));
         product.setTluszcz(evaluateProductValuePer100(meal.getSumaTluszcz(), meal.getWaga()));
         MainDialog unitWeight = new MainDialog(null, true, konfigView, "Waga jednostki", new WagaJednostkiPanel());
-        unitWeight.unpackWindow(product);
+        unitWeight.unpackWindow(weight);
         unitWeight.setVisible(true);
         if (unitWeight.getResult()){
+            product.setWagaJednostki(weight.get(0));
             productList.add(product);
             deleteObject();
         }

@@ -9,13 +9,16 @@ import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
 import Interfaces.MyWindowManagerInterface;
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JWindow;
 
 /**
  *
@@ -23,7 +26,7 @@ import javax.swing.JPanel;
  */
 public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
     private MyWindowManager myWindowManager = null;
-    private JFrame parent;
+    private Window parent;
     
     public MainWindow(MyPanelInterface parent, KonfigView konfigView, String title, MyPanelInterface panel) {
         initComponents();        
@@ -39,12 +42,12 @@ public class MainWindow extends javax.swing.JFrame implements MyWindowInterface{
         init();
     }
     
-    private JFrame getOlderParent(JComponent panel){
-        if (!(panel.getParent() instanceof JFrame)){
+    private Window getOlderParent(JComponent panel){
+        if (!(panel.getParent() instanceof Window)){
             return getOlderParent((JComponent) panel.getParent());
         }
-        else {
-            return (JFrame) panel.getParent();
+        else{
+            return (Window) panel.getParent();
         }
     }
     

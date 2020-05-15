@@ -6,8 +6,10 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -116,6 +119,16 @@ public class PotrawyWDniu implements Serializable {
     private Double sumaBlonnik;
     @Column(name = "SUMA_SOL")
     private Double sumaSol;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dzien", fetch = FetchType.LAZY)
+    private Collection<ProduktyLuzneWDniu> produktyLuzneWDniu;
+
+    public Collection<ProduktyLuzneWDniu> getProduktyLuzneWDniu() {
+        return produktyLuzneWDniu;
+    }
+
+    public void setProduktyLuzneWDniu(Collection<ProduktyLuzneWDniu> produktyLuzneWDniu) {
+        this.produktyLuzneWDniu = produktyLuzneWDniu;
+    }
 
     public PotrawyWDniu() {
     }

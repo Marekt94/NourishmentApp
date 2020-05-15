@@ -17,7 +17,7 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
     <Property name="columns" type="int" value="2"/>
     <Property name="horizontalGap" type="int" value="10"/>
-    <Property name="rows" type="int" value="8"/>
+    <Property name="rows" type="int" value="9"/>
     <Property name="verticalGap" type="int" value="10"/>
   </Layout>
   <SubComponents>
@@ -142,6 +142,20 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblProdukty">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="Produkty luzem"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnDodajProdukty">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dodaj produkty"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDodajProduktyActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

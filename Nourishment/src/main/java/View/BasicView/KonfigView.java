@@ -28,6 +28,11 @@ public class KonfigView {
         this.panelID = panelID;
     }
     
+    public KonfigView withPanelID(Byte panelID) {
+        this.panelID = panelID;
+        return this;
+    }    
+    
     public KonfigView withIsBtnVisible(Boolean isBtnVisible) {
         this.isBtnVisible = isBtnVisible;
         return this;

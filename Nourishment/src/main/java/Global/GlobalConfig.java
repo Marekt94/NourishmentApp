@@ -26,7 +26,8 @@ public class GlobalConfig {
     public static final Byte LOGIN_PANEL_ID = 0;
     public static final Byte MENU_ID = 1;
     public static final Byte PRODUKTY_ID = 2;
-    public static final Byte PRODUKTY_W_POTRAWIE = 3;
+    public static final Byte PRODUKTY_W_POTRAWIE_ID = 3;
     public static final Byte POTRAWY_W_DNIU_ID = 4;
     public static final Byte POTRAWY_ID = 5;
+    public static final Byte PRODUKTY_LUZEM_ID = 5;
 }
