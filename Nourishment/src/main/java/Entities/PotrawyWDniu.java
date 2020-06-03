@@ -8,6 +8,7 @@ package Entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -120,13 +121,13 @@ public class PotrawyWDniu implements Serializable {
     @Column(name = "SUMA_SOL")
     private Double sumaSol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dzien", fetch = FetchType.LAZY)
-    private Collection<ProduktyLuzneWDniu> produktyLuzneWDniu;
+    private List<ProduktyLuzneWDniu> produktyLuzneWDniu;
 
-    public Collection<ProduktyLuzneWDniu> getProduktyLuzneWDniu() {
+    public List<ProduktyLuzneWDniu> getProduktyLuzneWDniu() {
         return produktyLuzneWDniu;
     }
 
-    public void setProduktyLuzneWDniu(Collection<ProduktyLuzneWDniu> produktyLuzneWDniu) {
+    public void setProduktyLuzneWDniu(List<ProduktyLuzneWDniu> produktyLuzneWDniu) {
         this.produktyLuzneWDniu = produktyLuzneWDniu;
     }
 

@@ -126,11 +126,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public <E> void unpack(List<E> objectList) {
-        this.objectList.clear();
         initObjectList.clear();
-        for (E object : objectList){
-            this.objectList.add((Serializable) object);
-        } 
+        this.objectList = (List<Serializable>) objectList;
         GlobalFun.deepListCopy((List<Serializable>) this.objectList, (List<Serializable>) initObjectList);
         
         updateView();
@@ -189,7 +186,6 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         this.detailEntityClass = detailEntityClass;
         
         initObjectList = new ArrayList<Serializable>();
-        objectList = new ArrayList<Serializable>();
         newOrEditedObjectList = new ArrayList<Serializable>();
         objectToDeleteList = new ArrayList<Serializable>();
         omittedColumns = new ArrayList<String>();
