@@ -103,8 +103,13 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     public Boolean execute() {
         Boolean result;
         ORMManager oRMManager = ORMManager.getOrmManager();
-        result = oRMManager.addToDB(newOrEditedObjectList);
-        result = oRMManager.deleteFromDB(objectToDeleteList) && result;
+        if (konfigView.getUpdateDB()){
+            result = oRMManager.addToDB(newOrEditedObjectList);
+            result = oRMManager.deleteFromDB(objectToDeleteList) && result;
+        }
+        else{
+            result = true;
+        }
         initObjectList.clear();
         if (result){
             GlobalFun.deepListCopy(objectList, initObjectList);

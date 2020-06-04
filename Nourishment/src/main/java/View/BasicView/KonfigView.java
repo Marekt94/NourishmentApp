@@ -19,6 +19,15 @@ public class KonfigView {
     private int extendedState;
     private Boolean isBtnVisible;
     private Byte panelID;
+    private Boolean updateDB;
+
+    public Boolean getUpdateDB() {
+        return updateDB;
+    }
+
+    public void setUpdateDB(Boolean updateDB) {
+        this.updateDB = updateDB;
+    }
     
     public Byte getPanelID() {
         return panelID;
@@ -35,6 +44,11 @@ public class KonfigView {
     
     public KonfigView withIsBtnVisible(Boolean isBtnVisible) {
         this.isBtnVisible = isBtnVisible;
+        return this;
+    }
+    
+    public KonfigView withUpdateDB(Boolean updateDB){
+        this.updateDB = updateDB;
         return this;
     }
     
@@ -90,6 +104,7 @@ public class KonfigView {
         defaultOperationOnClose = GlobalConfig.DEFAULT_OPERATION_ON_CLOSE;
         extendedState = JFrame.NORMAL;
         isBtnVisible = true;
+        updateDB = true;
         this.panelID = panelID;
     } 
     
@@ -99,5 +114,6 @@ public class KonfigView {
         this.extendedState = konfigView.getExtendedState();
         this.isBtnVisible = konfigView.getIsBtnVisible();
         this.panelID = panelID;
+        this.updateDB = konfigView.getUpdateDB();
     }
 }

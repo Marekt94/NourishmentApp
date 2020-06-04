@@ -188,7 +188,7 @@ public class PotrawyWDniuView extends BasePanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
-        KonfigView konfigViewLocal = new KonfigView(konfigView, GlobalConfig.PRODUKTY_LUZEM_ID).withExtendedState(JFrame.MAXIMIZED_BOTH);
+        KonfigView konfigViewLocal = new KonfigView(konfigView, GlobalConfig.PRODUKTY_LUZEM_ID).withExtendedState(JFrame.MAXIMIZED_BOTH).withUpdateDB(false);
         MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (this, "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
         MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigViewLocal, "Produkty luzem", produktyLuzemPanel);
         dlgProduktyLuzem.unpackWindow(potrWDniu.getProduktyLuzneWDniu());
