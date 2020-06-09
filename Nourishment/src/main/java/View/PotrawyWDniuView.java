@@ -13,6 +13,7 @@ import Global.GlobalConfig;
 import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
+import Interfaces.MyPanelInterface;
 import Other.DateLabelFormatter;
 import Other.MyComparator;
 import View.BasicView.BaseListPanel;
@@ -77,8 +78,8 @@ public class PotrawyWDniuView extends BasePanel {
     
 
     
-    public PotrawyWDniuView() {
-        super();
+    public PotrawyWDniuView(MyPanelInterface extraPanel) {
+        super(extraPanel);
         initComponents();
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -189,8 +190,7 @@ public class PotrawyWDniuView extends BasePanel {
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
         KonfigView konfigViewLocal = new KonfigView(konfigView, GlobalConfig.PRODUKTY_LUZEM_ID).withExtendedState(JFrame.MAXIMIZED_BOTH).withUpdateDB(false);
-        MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (this, "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
-        MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigViewLocal, "Produkty luzem", produktyLuzemPanel);
+        MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigViewLocal, "Produkty luzem", extraPanel[0]);
         dlgProduktyLuzem.unpackWindow(potrWDniu.getProduktyLuzneWDniu());
         dlgProduktyLuzem.unpackWindow(ORMManager.getOrmManager().askForObjects(Produkty.class));
         dlgProduktyLuzem.setVisible(true);

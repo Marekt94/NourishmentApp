@@ -23,4 +23,5 @@ public interface MyPanelInterface {
     public void pack();
     public Boolean execute();
     public void rollback();
+    public MyPanelInterface[] getExtraPanel();
 }

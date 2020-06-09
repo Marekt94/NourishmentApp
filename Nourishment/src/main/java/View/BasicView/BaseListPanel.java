@@ -43,7 +43,7 @@ import javax.swing.WindowConstants;
  * @author Marek
  */
 public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInterface{
-    private MyPanelInterface detailPanel = null;
+    protected MyPanelInterface detailPanel = null;
     private String detailPanelTitle = null;
     private Class detailEntityClass = null;
     private AfterClickSorterModel sorterModel = null;
@@ -106,6 +106,14 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         if (konfigView.getUpdateDB()){
             result = oRMManager.addToDB(newOrEditedObjectList);
             result = oRMManager.deleteFromDB(objectToDeleteList) && result;
+            if (detailPanel.getExtraPanel() != null){
+                for (MyPanelInterface pnl : detailPanel.getExtraPanel()){
+                    Boolean oldUpdateDBConfig = pnl.getKonfigView().getUpdateDB();
+                    pnl.getKonfigView().withUpdateDB(true);
+                    pnl.execute();
+                    pnl.getKonfigView().withUpdateDB(oldUpdateDBConfig);
+                }
+            }
         }
         else{
             result = true;
@@ -184,7 +192,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     }
 
     
-    public BaseListPanel(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass) {
+    public BaseListPanel(MyPanelInterface detailPanel, String detailPanelTitle, Class detailEntityClass, MyPanelInterface... extraPanels) {
         initComponents();
         this.detailPanel = detailPanel;
         this.detailPanelTitle = detailPanelTitle;
@@ -462,4 +470,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public MyPanelInterface[] getExtraPanel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

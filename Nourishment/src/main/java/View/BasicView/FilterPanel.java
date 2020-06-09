@@ -25,7 +25,7 @@ public class FilterPanel extends BasePanel {
     private JDatePickerImpl datePickerTo = null;   
 
     public FilterPanel() {
-        super();
+        super(null);
         initComponents();
         UtilDateModel modelOd = new UtilDateModel();
         UtilDateModel modelDo = new UtilDateModel();

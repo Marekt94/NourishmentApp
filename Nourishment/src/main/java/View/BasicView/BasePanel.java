@@ -21,7 +21,12 @@ import javax.swing.JTextField;
 public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     protected FocusListener focusListener = null;
     protected KonfigView konfigView = null;
+    protected MyPanelInterface[] extraPanel = null;
 
+    public MyPanelInterface[] getExtraPanel() {
+        return extraPanel;
+    }
+            
     @Override
     public void loadPreferences() {
         
@@ -37,7 +42,7 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
         //do eventualnego pokrycia w potomnych
     }
     
-    public BasePanel() {
+    public BasePanel(MyPanelInterface... extraPanel) {
         focusListener = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -51,6 +56,7 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
                 field.select(0, 0);
             }
         };
+        this.extraPanel = extraPanel;
     }
 
     /**
@@ -115,7 +121,11 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
 
     @Override
     public void rollback() {
-        //do pokrycia w potomnych
+        if (extraPanel != null){
+            for (MyPanelInterface pnl : extraPanel){
+                pnl.rollback();
+            }
+        }
     }
 
 

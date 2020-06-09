@@ -40,7 +40,7 @@ public class PotrawyView extends BasePanel{
      * Creates new form ProduktView
      */
     public PotrawyView() {
-        super();
+        super(null);
         initComponents();
     }
 

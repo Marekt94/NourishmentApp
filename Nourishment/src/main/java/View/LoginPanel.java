@@ -49,7 +49,7 @@ public class LoginPanel extends BasePanel{
     private Properties properties;
     
     public LoginPanel(){
-        super();
+        super(null);
         initComponents();
     }
     

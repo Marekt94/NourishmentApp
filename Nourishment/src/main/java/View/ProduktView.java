@@ -57,7 +57,7 @@ public class ProduktView extends BasePanel{
      * Creates new form ProduktView
      */
     public ProduktView() {
-        super();
+        super(null);
         initComponents();
     }
 

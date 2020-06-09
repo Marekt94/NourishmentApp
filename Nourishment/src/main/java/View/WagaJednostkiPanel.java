@@ -20,6 +20,7 @@ public class WagaJednostkiPanel extends BasePanel {
      * Creates new form WagaJednostki
      */
     public WagaJednostkiPanel() {
+        super(null);
         initComponents();
     }
 

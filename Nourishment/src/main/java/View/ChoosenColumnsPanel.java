@@ -43,7 +43,7 @@ public class ChoosenColumnsPanel extends BasePanel{
      * Creates new form FilterPanel
      */
     public ChoosenColumnsPanel() {
-        super();
+        super(null);
         initComponents();
         radioButtonsList = new ArrayList<JRadioButton>();
     }

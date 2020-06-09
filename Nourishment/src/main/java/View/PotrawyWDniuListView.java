@@ -165,8 +165,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         }       
    } 
     
-    
-
     @Override
     public void addObject(MyPanelInterface detailPanel, String title, Class objectType) {
         MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);

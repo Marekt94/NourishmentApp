@@ -26,7 +26,7 @@ public class WagaProduktuPanel extends BasePanel {
      * Creates new form WagaProduktuPanel
      */
     public WagaProduktuPanel() {
-        super();
+        super(null);
         initComponents();
     }
 

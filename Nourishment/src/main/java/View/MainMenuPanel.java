@@ -12,6 +12,7 @@ import View.BasicView.KonfigView;
 import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
+import Entities.ProduktyLuzneWDniu;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import Interfaces.MyListPanelInterface;
@@ -40,12 +41,13 @@ public class MainMenuPanel extends BasePanel{
      * Creates new form MainMenuPanel
      */
     public MainMenuPanel() {
-        super();
+        super(null);
         initComponents();
         ormManager = ORMManager.getOrmManager();
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         listaPotrawy = new PotrawyEditorListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
-        listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(), "Dzień", PotrawyWDniu.class);
+        MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (this, "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
+        listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(produktyLuzemPanel), "Dzień", PotrawyWDniu.class);
         btnJadlospis.setMnemonic(KeyEvent.VK_J);
         btnPotrawy.setMnemonic(KeyEvent.VK_P);
         btnProdukty.setMnemonic(KeyEvent.VK_R);

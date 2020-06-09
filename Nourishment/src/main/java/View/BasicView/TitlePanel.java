@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  */
 public class TitlePanel extends BasePanel{   
     public TitlePanel(String title) {
-        super();
+        super(null);
         initComponents();
         if (title != ""){
             jLabel1.setText("  " + title + "  ");
