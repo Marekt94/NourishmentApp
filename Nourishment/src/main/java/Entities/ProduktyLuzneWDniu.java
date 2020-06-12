@@ -20,12 +20,22 @@ public class ProduktyLuzneWDniu implements Serializable{
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Column(name = "ILOSC_W_G")
+    private Double iloscWG;
     @JoinColumn(name = "ID_PRODUKTU", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Produkty produkt;
     @JoinColumn(name = "ID_DNIA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private PotrawyWDniu dzien; 
+
+    public Double getIloscWG() {
+        return iloscWG;
+    }
+
+    public void setIloscWG(Double iloscWG) {
+        this.iloscWG = iloscWG;
+    }
 
     public Integer getId() {
         return id;
