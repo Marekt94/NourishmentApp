@@ -23,6 +23,7 @@ import View.BasicView.MainDialog;
 import View.BasicView.MainWindow;
 import java.awt.BorderLayout;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -74,6 +75,11 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
         potrWDniu.setData(GlobalFun.bind(datePicker));
         potrWDniu.setCzy5dni('1');
+        if (potrWDniu.getProduktyLuzneWDniu() != null){
+            for (int i = 0; i < potrWDniu.getProduktyLuzneWDniu().size(); i++) {
+                potrWDniu.getProduktyLuzneWDniu().get(i).setDzien(potrWDniu);
+            }
+        }
     }
     
 
@@ -189,8 +195,12 @@ public class PotrawyWDniuView extends BasePanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
-        KonfigView konfigViewLocal = new KonfigView(konfigView, GlobalConfig.PRODUKTY_LUZEM_ID).withExtendedState(JFrame.MAXIMIZED_BOTH).withUpdateDB(false);
-        MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigViewLocal, "Produkty luzem", extraPanel[0]);
+        MainDialog dlgProduktyLuzem = new MainDialog(null, true, konfigView, "Produkty luzem", extraPanel[0]);
+        List<ProduktyLuzneWDniu> prodLuzneWDniuList = potrWDniu.getProduktyLuzneWDniu(); 
+        if (prodLuzneWDniuList == null){
+            prodLuzneWDniuList = new ArrayList<ProduktyLuzneWDniu>();
+            potrWDniu.setProduktyLuzneWDniu(prodLuzneWDniuList);
+        }
         dlgProduktyLuzem.unpackWindow(potrWDniu.getProduktyLuzneWDniu());
         dlgProduktyLuzem.unpackWindow(ORMManager.getOrmManager().askForObjects(Produkty.class));
         dlgProduktyLuzem.setVisible(true);

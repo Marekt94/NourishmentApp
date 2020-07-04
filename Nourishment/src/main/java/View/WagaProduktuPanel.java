@@ -20,7 +20,8 @@ import java.util.List;
  * @author Marek
  */
 public class WagaProduktuPanel extends BasePanel {
-    private ProduktyWPotrawie prodWPotr = null;
+    Double iloscWGramach = null;
+    Double wagaJednostki = null;
 
     /**
      * Creates new form WagaProduktuPanel
@@ -82,40 +83,45 @@ public class WagaProduktuPanel extends BasePanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField edtIlosc;
-    private javax.swing.JTextField edtWagaProdruktu;
+    protected javax.swing.JTextField edtIlosc;
+    protected javax.swing.JTextField edtWagaProdruktu;
     private javax.swing.JLabel lblIlosc;
     private javax.swing.JLabel lblWagaProduktu;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public <E> void unpack(E object) {
-        prodWPotr = (ProduktyWPotrawie) object;
-        GlobalFun.bind(prodWPotr.getIloscWG(), edtWagaProdruktu);
-        if (prodWPotr.getIdProduktu().getWagaJednostki().equals(0.0)){
+    public <E> void unpack(List<E> objectList) {
+        iloscWGramach = (Double) objectList.get(0);
+        wagaJednostki = (Double) objectList.get(1);
+        
+        GlobalFun.bind(iloscWGramach, edtWagaProdruktu); 
+        if (wagaJednostki.equals(0.0)){
             edtIlosc.setEnabled(false);
         }
         else{
             edtIlosc.setEnabled(true);
         }
-        GlobalFun.bind(evaluateIlosc(prodWPotr.getIloscWG()), edtIlosc);
+        GlobalFun.bind(evaluateIlosc(iloscWGramach), edtIlosc);
     }
 
     @Override
     public void pack() {
-        prodWPotr.setIloscWG((Double) GlobalFun.bind(edtWagaProdruktu, Double.class));
+        
     }
     
     private Double evaluateWaga(Double ilosc){
-        return ilosc * prodWPotr.getIdProduktu().getWagaJednostki();
+        return ilosc * wagaJednostki;
     }
     
     private Double evaluateIlosc(Double waga){
-        if (prodWPotr.getIdProduktu().getWagaJednostki().equals(0.0)){
+        if (waga == null){
+            return null;
+        }
+        if (wagaJednostki.equals(0.0)){
             return 0.0;
         } 
         else{
-            return waga / prodWPotr.getIdProduktu().getWagaJednostki();   
+            return waga / wagaJednostki;   
         }
     }
 }

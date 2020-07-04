@@ -45,8 +45,8 @@ public class MainMenuPanel extends BasePanel{
         initComponents();
         ormManager = ORMManager.getOrmManager();
         listaProduktowPanel = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
-        listaPotrawy = new PotrawyEditorListView(new WagaProduktuPanel(),"Waga", ProduktyWPotrawie.class);
-        MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (this, "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
+        listaPotrawy = new PotrawyEditorListView(new WagaProduktuWPotrawiePanel(),"Waga", ProduktyWPotrawie.class);
+        MyListPanelInterface produktyLuzemPanel = new ProduktyLuzneWDniuListView (new WagaProduktuLuzemPanel(), "Waga/objętość jednostki", ProduktyLuzneWDniu.class);
         listaPotrawWDniu = new PotrawyWDniuListView(new PotrawyWDniuView(produktyLuzemPanel), "Dzień", PotrawyWDniu.class);
         btnJadlospis.setMnemonic(KeyEvent.VK_J);
         btnPotrawy.setMnemonic(KeyEvent.VK_P);

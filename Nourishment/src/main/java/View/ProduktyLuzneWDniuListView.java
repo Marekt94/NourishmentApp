@@ -6,12 +6,16 @@
 package View;
 
 import Entities.Produkty;
+import Entities.ProduktyLuzneWDniu;
+import Entities.ProduktyWPotrawie;
 import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;
+import View.BasicView.MainDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -30,13 +34,34 @@ public class ProduktyLuzneWDniuListView extends BaseListPanel {
 
     @Override
     public <E> void unpack(List<E> objectList) {
-        if (objectList.get(0) instanceof Produkty){
+        if (!objectList.isEmpty() && (objectList.get(0) instanceof Produkty)){
             pnlProduktyList.unpack(objectList);
         }
         else{
             super.unpack(objectList); //To change body of generated methods, choose Tools | Templates.
         }
     }
+
+    @Override
+    public void addObject(MyPanelInterface detailPanel, String title, Class objectType) {
+        if (pnlProduktyList.getCurrentObject() == null){
+            JOptionPane.showMessageDialog(this, "Wybierz produkt", "Wybierz produkt", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        ProduktyLuzneWDniu prodLuzem = new ProduktyLuzneWDniu();
+        prodLuzem.setProdukt(pnlProduktyList.getCurrentObject());
+            
+        MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt luzem", new WagaProduktuLuzemPanel());
+        wagaProduktuDialog.unpackWindow(prodLuzem);
+        wagaProduktuDialog.setVisible(true);
+            
+        if (wagaProduktuDialog.getResult()){
+            addObject(prodLuzem);
+        }
+        updateView();
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

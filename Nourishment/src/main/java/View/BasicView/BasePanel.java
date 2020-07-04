@@ -88,6 +88,13 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     @Override
     public Boolean init(KonfigView konfigView) {
         this.konfigView = new KonfigView(konfigView, konfigView.getPanelID());
+        if (this.extraPanel != null){
+            for (MyPanelInterface extraPanel : this.extraPanel){
+                if (extraPanel != null){
+                    extraPanel.init(new KonfigView(konfigView, konfigView.getPanelID()).withUpdateDB(false));
+                }
+            }  
+        }
         setFocusListenerToAll(this);
         return true;
     }
