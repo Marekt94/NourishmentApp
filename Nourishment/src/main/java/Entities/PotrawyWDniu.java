@@ -104,24 +104,17 @@ public class PotrawyWDniu implements Serializable {
     @JoinColumn(name = "KOLACJA", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private Potrawy kolacja;
-    @Column(name = "SUMA_KCAL")
-    private Double sumaKcal;
-    @Column(name = "SUMA_BIALKO")
-    private Double sumaBialko;
-    @Column(name = "SUMA_CUKRY_PROSTE")
-    private Double sumaCukryProste;
-    @Column(name = "SUMA_CUKRY_SUMA")
-    private Double sumaCukrySuma;
-    @Column(name = "SUMA_CUKRY_ZLOZONE")
-    private Double sumaCukryZlozone;
-    @Column(name = "SUMA_TLUSZCZ")
-    private Double sumaTluszcz;
-    @Column(name = "SUMA_BLONNIK")
-    private Double sumaBlonnik;
-    @Column(name = "SUMA_SOL")
-    private Double sumaSol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dzien", fetch = FetchType.LAZY)
     private List<ProduktyLuzneWDniu> produktyLuzneWDniu;
+    
+    private Double sumaKcal;
+    private Double sumaBialko;
+    private Double sumaCukryProste;
+    private Double sumaCukrySuma;
+    private Double sumaCukryZlozone;
+    private Double sumaTluszcz;
+    private Double sumaBlonnik;
+    private Double sumaSol;
 
     public List<ProduktyLuzneWDniu> getProduktyLuzneWDniu() {
         return produktyLuzneWDniu;
@@ -284,67 +277,195 @@ public class PotrawyWDniu implements Serializable {
     }
 
     public Double getSumaKcal() {
-        return sumaKcal;
-    }
-
-    public void setSumaKcal(Double sumaKcal) {
-        this.sumaKcal = sumaKcal;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaKcal();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaKcal();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaKcal();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaKcal();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaKcal();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaBialko() {
-        return sumaBialko;
-    }
-
-    public void setSumaBialko(Double sumaBialko) {
-        this.sumaBialko = sumaBialko;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaBialko();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaBialko();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaBialko();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaBialko();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaBialko();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaCukryProste() {
-        return sumaCukryProste;
-    }
-
-    public void setSumaCukryProste(Double sumaCukryProste) {
-        this.sumaCukryProste = sumaCukryProste;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaCukryProste();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaCukryProste();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaCukryProste();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaCukryProste();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaCukryProste();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaCukrySuma() {
-        return sumaCukrySuma;
-    }
-
-    public void setSumaCukrySuma(Double sumaCukrySuma) {
-        this.sumaCukrySuma = sumaCukrySuma;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaCukrySuma();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaCukrySuma();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaCukrySuma();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaCukrySuma();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaCukrySuma();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaCukryZlozone() {
-        return sumaCukryZlozone;
-    }
-
-    public void setSumaCukryZlozone(Double sumaCukryZlozone) {
-        this.sumaCukryZlozone = sumaCukryZlozone;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaCukryZlozone();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaCukryZlozone();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaCukryZlozone();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaCukryZlozone();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaCukryZlozone();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaTluszcz() {
-        return sumaTluszcz;
-    }
-
-    public void setSumaTluszcz(Double sumaTluszcz) {
-        this.sumaTluszcz = sumaTluszcz;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaTluszcz();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaTluszcz();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaTluszcz();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaTluszcz();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaTluszcz();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaBlonnik() {
-        return sumaBlonnik;
-    }
-
-    public void setSumaBlonnik(Double sumaBlonnik) {
-        this.sumaBlonnik = sumaBlonnik;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaBlonnik();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaBlonnik();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaBlonnik();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaBlonnik();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaBlonnik();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
 
     public Double getSumaSol() {
-        return sumaSol;
-    }
-
-    public void setSumaSol(Double sumaSol) {
-        this.sumaSol = sumaSol;
+        double sum = 0.0;
+        if (czy5dni == '1'){
+            if (sniadanie != null){
+                sum += sniadanie.getSumaSol();
+            }
+            if (drugieSniadanie != null){
+                sum += drugieSniadanie.getSumaSol();
+            }
+            if (obiad != null){
+                sum += obiad.getSumaSol();
+            }
+            if (podwieczorek != null){
+                sum += podwieczorek.getSumaSol();
+            }
+            if (kolacja != null){
+                sum += kolacja.getSumaSol();
+            }            
+        }
+        else{
+        }
+        return sum;
     }
     
 }

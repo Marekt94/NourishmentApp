@@ -84,6 +84,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         detailPanelKonfigView = new KonfigView(konfigView, konfigView.getPanelID());
         detailPanelKonfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
         detailPanelKonfigView.setExtendedState(JFrame.NORMAL); 
+        detailPanel.init(detailPanelKonfigView);
         return true;
     }
     
@@ -239,7 +240,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         if (tblObjects.getSelectedRow() > -1){
             Serializable object;
             
-            MainDialog mainWindow = new MainDialog(null, true, konfigView, title, detailPanel);
+            MainDialog mainWindow = new MainDialog(null, true, detailPanelKonfigView, title, detailPanel);
             object = objectList.get(tblObjects.getSelectedRow());
             mainWindow.unpackWindow(object);
             
