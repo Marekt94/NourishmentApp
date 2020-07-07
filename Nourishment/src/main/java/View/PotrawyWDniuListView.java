@@ -161,14 +161,35 @@ public class PotrawyWDniuListView extends BaseListPanel {
         List<Potrawy> potrawyList = new ArrayList<Potrawy>();
         for (int i = 0; i < listOfDays.size(); i++) {
             PotrawyWDniu pwd = (PotrawyWDniu) listOfDays.get(i);
-            addToReceipt(pwd.getSniadanie(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getSniadanie(),       potrawyList, pDFGenerator);
             addToReceipt(pwd.getDrugieSniadanie(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getObiad(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getPodwieczorek(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getLunch(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getKolacja(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getObiad(),           potrawyList, pDFGenerator);
+            addToReceipt(pwd.getPodwieczorek(),    potrawyList, pDFGenerator);
+            addToReceipt(pwd.getLunch(),           potrawyList, pDFGenerator);
+            addToReceipt(pwd.getKolacja(),         potrawyList, pDFGenerator);
         }
     }
+    
+    private String [] addFreeProducts(PotrawyWDniu pwd){
+        HashSet list = new HashSet<String>();
+        for (int i = 0; i < pwd.getProduktyLuzneWDniu().size(); i++) {
+            list.add(addFreeProduct(pwd.getProduktyLuzneWDniu().get(i)));
+        }
+        return (String[]) list.toArray(new String [0]);
+    }
+
+    private String addFreeProduct(ProduktyLuzneWDniu prod){
+        if (prod != null) {
+            return prod.getProdukt().getNazwa() + ": "
+                    + " b: " + GlobalFun.round(prod.getBialko(), 2).toString()
+                    + " w: " + GlobalFun.round(prod.getCukrySuma(), 2).toString()
+                    + " t: " + GlobalFun.round(prod.getTluszcz(), 2).toString()
+                    + " kcal: " + GlobalFun.round(prod.getKcal(), 2).toString();
+        } else {
+            return prod.getProdukt().getNazwa() + ": ";
+        }        
+    }
+                
     
    private void addToReceipt(Potrawy ptr, List<Potrawy> existingOnReceiptMeals, MyPDFGeneratorInterface pDFGenerator){
         if ((ptr != null) && (!existingOnReceiptMeals.contains(ptr))){
@@ -249,6 +270,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
             for (int i = 0; i < listOfDays.size(); i++) {
                 pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
                 pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
+                pDFGenerator.addSubtitle("Produkty luzem");
+                pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
             }
             pDFGenerator.closeDocument();
         }

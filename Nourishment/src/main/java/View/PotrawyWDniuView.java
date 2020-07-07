@@ -58,7 +58,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
         GlobalFun.bind(potrWDniu.getData(), datePicker);
-        objectToDeleteList.clear();
+        objectToDeleteListLocal.clear();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.unpackComboBox(cmbPodwieczorek, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbKolacja, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbLunch, (List<Serializable>) objectList);
-        objectToDeleteList.clear();
+        objectToDeleteListLocal.clear();
     }
 
     @Override
@@ -218,7 +218,7 @@ public class PotrawyWDniuView extends BasePanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
-        MainDialog dlgProduktyLuzem = new MainDialog(null, true, extraPanel[0].getKonfigView(), "Produkty luzem", extraPanel[0]);
+        MainDialog dlgProduktyLuzem = new MainDialog(null, true, extraPanel[0].getKonfigView().withPanelID(GlobalConfig.PRODUKTY_LUZEM_ID), "Produkty luzem", extraPanel[0]);
         List<ProduktyLuzneWDniu> prodLuzneWDniuList = potrWDniu.getProduktyLuzneWDniu(); 
         if (prodLuzneWDniuList == null){
             prodLuzneWDniuList = new ArrayList<ProduktyLuzneWDniu>();
