@@ -8,6 +8,7 @@ package View;
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
 import Entities.Produkty;
+import Entities.ProduktyLuzneWDniu;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import static Global.GlobalConfig.dataFormat;
@@ -125,6 +126,23 @@ public class PotrawyWDniuListView extends BaseListPanel {
         addButton(btnPrintReceipts, KeyEvent.VK_P);
         
         potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
+    }
+
+    @Override
+    public Boolean execute() {
+        Boolean result = super.execute();
+        if (result){
+            ORMManager oRMManager = ORMManager.getOrmManager(); 
+            result = oRMManager.deleteFromDB(((PotrawyWDniuView) detailPanel).getObjectToDeleteList()) && result;
+            ((PotrawyWDniuView) detailPanel).getObjectToDeleteList().clear();
+        }
+        return result;
+    }
+
+    @Override
+    public void rollback() {
+        super.rollback();
+        ((PotrawyWDniuView) detailPanel).getObjectToDeleteList().clear();        
     }
     
     public void generateReceipts(List<Serializable> listOfDays){

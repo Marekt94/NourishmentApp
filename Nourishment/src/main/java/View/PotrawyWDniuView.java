@@ -39,7 +39,13 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class PotrawyWDniuView extends BasePanel {
     private PotrawyWDniu potrWDniu = null;
-    JDatePickerImpl datePicker = null;
+    private JDatePickerImpl datePicker = null;
+    private List<ProduktyLuzneWDniu> objectToDeleteListLocal = null;
+    private List<ProduktyLuzneWDniu> objectToDeleteList = null;
+
+    public List<ProduktyLuzneWDniu> getObjectToDeleteList() {
+        return objectToDeleteList;
+    }
 
     @Override
     public <E> void unpack(E object) {
@@ -52,6 +58,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
         GlobalFun.bind(potrWDniu.getData(), datePicker);
+        objectToDeleteList.clear();
     }
 
     @Override
@@ -63,6 +70,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.unpackComboBox(cmbPodwieczorek, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbKolacja, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbLunch, (List<Serializable>) objectList);
+        objectToDeleteList.clear();
     }
 
     @Override
@@ -80,6 +88,19 @@ public class PotrawyWDniuView extends BasePanel {
                 potrWDniu.getProduktyLuzneWDniu().get(i).setDzien(potrWDniu);
             }
         }
+        if (objectToDeleteList == null){
+            objectToDeleteList = new ArrayList<ProduktyLuzneWDniu>();
+        }
+        objectToDeleteList.addAll(objectToDeleteListLocal);
+        objectToDeleteListLocal.clear();
+        ((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList().clear();
+        ((MyListPanelInterface) extraPanel[0]).getNewOrEditedObjectList().clear();
+    }
+
+    @Override
+    public void rollback() {
+        super.rollback();
+        objectToDeleteListLocal.clear();
     }
     
 
@@ -92,7 +113,9 @@ public class PotrawyWDniuView extends BasePanel {
         p.put("text.today", "Today");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        jPanel1.add(datePicker,BorderLayout.CENTER);       
+        jPanel1.add(datePicker,BorderLayout.CENTER); 
+        objectToDeleteList = new ArrayList<ProduktyLuzneWDniu>();
+        objectToDeleteListLocal = new ArrayList<ProduktyLuzneWDniu>();
     }
 
     /**
@@ -204,6 +227,12 @@ public class PotrawyWDniuView extends BasePanel {
         dlgProduktyLuzem.unpackWindow(potrWDniu.getProduktyLuzneWDniu());
         dlgProduktyLuzem.unpackWindow(ORMManager.getOrmManager().askForObjects(Produkty.class));
         dlgProduktyLuzem.setVisible(true);
+        if (dlgProduktyLuzem.getResult()) {          
+            objectToDeleteListLocal.addAll(((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList());
+        }
+        else{
+            ((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList().clear();
+        }
     }//GEN-LAST:event_btnDodajProduktyActionPerformed
 
 

@@ -68,6 +68,11 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     }
 
     @Override
+    public <E> List<E> getObjectToDeleteList() {
+        return (List<E>) objectToDeleteList;
+    }
+
+    @Override
     public void addButton(JButton button, Integer keyboardKey) {
         GridLayout panelLayout = (GridLayout) jPanel2.getLayout();
         panelLayout.setRows(panelLayout.getRows() + 1);
@@ -81,9 +86,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     @Override
     public Boolean init(KonfigView konfigView) {
         this.konfigView = new KonfigView(konfigView, konfigView.getPanelID());
-        detailPanelKonfigView = new KonfigView(konfigView, konfigView.getPanelID());
-        detailPanelKonfigView.setDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE);
-        detailPanelKonfigView.setExtendedState(JFrame.NORMAL); 
+        detailPanelKonfigView = new KonfigView(konfigView, konfigView.getPanelID())
+                                .withDefaultOperationOnClose(WindowConstants.HIDE_ON_CLOSE)
+                                .withExtendedState(JFrame.NORMAL); 
         detailPanel.init(detailPanelKonfigView);
         return true;
     }
@@ -115,16 +120,16 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
                     pnl.getKonfigView().withUpdateDB(oldUpdateDBConfig);
                 }
             }
+            initObjectList.clear();
+            if (result && (objectList != null)){
+                GlobalFun.deepListCopy(objectList, initObjectList);
+            }
+            newOrEditedObjectList.clear();
+            objectToDeleteList.clear();
         }
         else{
             result = true;
         }
-        initObjectList.clear();
-        if (result){
-            GlobalFun.deepListCopy(objectList, initObjectList);
-        }
-        newOrEditedObjectList.clear();
-        objectToDeleteList.clear();
         return result;
     }
 
@@ -140,6 +145,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
 
     @Override
     public <E> void unpack(List<E> objectList) {
+        if (getKonfigView().getUpdateDB() == false){
+            newOrEditedObjectList.clear();
+            objectToDeleteList.clear();
+        }
         initObjectList.clear();
         this.objectList = (List<Serializable>) objectList;
         GlobalFun.deepListCopy((List<Serializable>) this.objectList, (List<Serializable>) initObjectList);
@@ -172,7 +181,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     @Override
     public void rollback() {
         newOrEditedObjectList.clear();
-        objectList.clear();
+        if (objectList != null){
+            objectList.clear();
+        }
         objectToDeleteList.clear();
         GlobalFun.deepListCopy((List<Serializable>) initObjectList, (List<Serializable>) objectList);
     }
