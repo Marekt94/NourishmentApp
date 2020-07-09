@@ -152,6 +152,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         initObjectList.clear();
         this.objectList = (List<Serializable>) objectList;
         GlobalFun.deepListCopy((List<Serializable>) this.objectList, (List<Serializable>) initObjectList);
+        sorterModel.setList(objectList);
         
         updateView();
     }

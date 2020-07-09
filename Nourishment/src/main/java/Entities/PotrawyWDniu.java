@@ -106,15 +106,6 @@ public class PotrawyWDniu implements Serializable {
     private Potrawy kolacja;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dzien", fetch = FetchType.LAZY)
     private List<ProduktyLuzneWDniu> produktyLuzneWDniu;
-    
-    private Double sumaKcal;
-    private Double sumaBialko;
-    private Double sumaCukryProste;
-    private Double sumaCukrySuma;
-    private Double sumaCukryZlozone;
-    private Double sumaTluszcz;
-    private Double sumaBlonnik;
-    private Double sumaSol;
 
     public List<ProduktyLuzneWDniu> getProduktyLuzneWDniu() {
         return produktyLuzneWDniu;
@@ -297,6 +288,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getKcal();
+            }
+        }
         return sum;
     }
 
@@ -321,6 +317,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getBialko();
+            }
+        }        
         return sum;
     }
 
@@ -345,6 +346,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getCukryZlozone();
+            }
+        }        
         return sum;
     }
 
@@ -369,6 +375,12 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getCukrySuma();
+            }
+        }
+        
         return sum;
     }
 
@@ -393,6 +405,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getCukryZlozone();
+            }
+        }        
         return sum;
     }
 
@@ -417,6 +434,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getTluszcz();
+            }
+        }        
         return sum;
     }
 
@@ -441,6 +463,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getBlonnik();
+            }
+        }        
         return sum;
     }
 
@@ -465,6 +492,11 @@ public class PotrawyWDniu implements Serializable {
         }
         else{
         }
+        if (produktyLuzneWDniu != null){
+            for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
+                sum += produktyLuzneWDniu.get(i).getSol();
+            }
+        }        
         return sum;
     }
     

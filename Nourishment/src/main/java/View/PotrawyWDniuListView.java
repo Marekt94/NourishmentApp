@@ -181,12 +181,13 @@ public class PotrawyWDniuListView extends BaseListPanel {
     private String addFreeProduct(ProduktyLuzneWDniu prod){
         if (prod != null) {
             return prod.getProdukt().getNazwa() + ": "
-                    + " b: " + GlobalFun.round(prod.getBialko(), 2).toString()
-                    + " w: " + GlobalFun.round(prod.getCukrySuma(), 2).toString()
-                    + " t: " + GlobalFun.round(prod.getTluszcz(), 2).toString()
-                    + " kcal: " + GlobalFun.round(prod.getKcal(), 2).toString();
+                    + " b: "    + GlobalFun.round(prod.getBialko(),    2).toString()
+                    + " w: "    + GlobalFun.round(prod.getCukrySuma(), 2).toString()
+                    + " t: "    + GlobalFun.round(prod.getTluszcz(),   2).toString()
+                    + " kcal: " + GlobalFun.round(prod.getKcal(),      2).toString()
+                    + " waga: " + GlobalFun.round(prod.getIloscWG(),   2).toString() + " g";
         } else {
-            return prod.getProdukt().getNazwa() + ": ";
+            return GlobalConfig.NULL_SIGN;
         }        
     }
                 
@@ -270,8 +271,10 @@ public class PotrawyWDniuListView extends BaseListPanel {
             for (int i = 0; i < listOfDays.size(); i++) {
                 pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
                 pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
-                pDFGenerator.addSubtitle("Produkty luzem");
-                pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
+                if ((((PotrawyWDniu) listOfDays.get(i)).getProduktyLuzneWDniu()!= null) && ((PotrawyWDniu) listOfDays.get(i)).getProduktyLuzneWDniu().size() > 0){
+                    pDFGenerator.addSubtitle(" Produkty luzem");
+                    pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
+                }
             }
             pDFGenerator.closeDocument();
         }
@@ -347,6 +350,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek());
             addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch());
             addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getProduktyLuzneWDniu());
         }
         
         return productsList; 
@@ -356,14 +360,15 @@ public class PotrawyWDniuListView extends BaseListPanel {
             Boolean result = false;
             if (meal != null){
                 List<ProduktyWPotrawie> prodWPotr = (List<ProduktyWPotrawie>) meal.getProduktyWPotrawieCollection();
-                for (ProduktyWPotrawie product : prodWPotr){
-                    Integer indexOfProduct = returnIndexInProductList(productsList, product.getIdProduktu());
+                for (ProduktyWPotrawie produktWPotr : prodWPotr){
+                    Integer indexOfProduct = returnIndexInProductList(productsList, produktWPotr.getIdProduktu());
+                    Produkty prod = ((ProduktyWPotrawie) produktWPotr).getIdProduktu();
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
-                        productRecord.productName = ((ProduktyWPotrawie) product).getIdProduktu().getNazwa();
-                        productRecord.weight = ((ProduktyWPotrawie) product).getIloscWG();
-                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
-                            productRecord.packages = productRecord.weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        productRecord.productName = prod.getNazwa();
+                        productRecord.weight = produktWPotr.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productRecord.packages = productRecord.weight / prod.getWagaJednostki();
                         }
                         else{
                             productRecord.packages = 0.0;
@@ -372,9 +377,43 @@ public class PotrawyWDniuListView extends BaseListPanel {
                         result = true;
                     }
                     else{
-                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + product.getIloscWG();
-                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
-                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + produktWPotr.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
+                        }
+                        else{
+                            productsList.get(indexOfProduct).packages = 0.0;
+                        }                        
+                        result = true;
+                    }
+                }
+            }
+            return result;
+    }
+    
+    private Boolean addToShoppingList(List<ProductRecord> productsList, List<ProduktyLuzneWDniu> prodLuzneWdniu){
+            Boolean result = false;
+            if (prodLuzneWdniu != null){
+                for (ProduktyLuzneWDniu prodLuzem : prodLuzneWdniu){
+                    Integer indexOfProduct = returnIndexInProductList(productsList, prodLuzem.getProdukt());
+                    Produkty prod = prodLuzem.getProdukt();
+                    if (indexOfProduct == -1){
+                        ProductRecord productRecord = new ProductRecord();
+                        productRecord.productName = prod.getNazwa();
+                        productRecord.weight = prodLuzem.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productRecord.packages = productRecord.weight / prod.getWagaJednostki();
+                        }
+                        else{
+                            productRecord.packages = 0.0;
+                        }
+                        productsList.add(productRecord);
+                        result = true;
+                    }
+                    else{
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + prodLuzem.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
                         }
                         else{
                             productsList.get(indexOfProduct).packages = 0.0;

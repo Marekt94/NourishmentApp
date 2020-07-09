@@ -12,7 +12,10 @@ import Global.GlobalConfig;
 import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
+import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
+import static Other.FileDialogFunctionType.fdftSave;
+import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
@@ -24,8 +27,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -43,6 +49,8 @@ public class PotrawyEditorListView extends BaseListPanel {
     MyListPanelInterface pnlProduktyList = null;
     Integer newID = 0;
     Boolean isCurrentlyUpdated = false;
+    String defaultDirectory = "";
+    String fileExtension = "pdf";
 
     /**
      * Creates new form PotrawyListView
@@ -75,6 +83,47 @@ public class PotrawyEditorListView extends BaseListPanel {
                 }
             }
         });
+        
+        JButton btnPrint = new JButton();
+        btnPrint.setText("Drukuj");
+        btnPrint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printMeals();
+            }
+        });
+        pnlPotrawyList.addButton(btnPrint, KeyEvent.VK_D);
+    }
+    
+    private void printMeals(){
+        String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
+        if (!fileName.equals("")) {
+            MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
+            pDFGenerator.openDocument(fileName);
+            pDFGenerator.addTitle("Potrawy");
+            createMeals(pDFGenerator);
+            pDFGenerator.closeDocument();
+        }         
+    }
+    
+    private void createMeals(MyPDFGeneratorInterface pDFGenerator){
+        List<Potrawy> potrList = pnlPotrawyList.getObjectsList();
+        HashSet<String> list = new HashSet<>();
+        for (int i = 0; i < pnlPotrawyList.getObjectsList().size(); i++) {
+            Potrawy potr = potrList.get(i);
+            pDFGenerator.addSubtitle(potr.getNazwa() + ": "
+                                     + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+                                     + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
+                                     + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
+                                     + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString());
+            list.clear();
+            for (int j = 0; j < potrList.get(i).getProduktyWPotrawieCollection().size(); j++) {
+                list.add(potrList.get(i).getProduktyWPotrawieCollection().get(j).getIdProduktu().getNazwa() + " "
+                         + potrList.get(i).getProduktyWPotrawieCollection().get(j).getIloscWG() + " g");
+            }
+            pDFGenerator.addList(list.toArray(new String[0]));
+        }
     }
 
     @Override
@@ -111,7 +160,7 @@ public class PotrawyEditorListView extends BaseListPanel {
             prodWPotr.setIdProduktu(pnlProduktyList.getCurrentObject());
             prodWPotr.setIdPotrawy(pnlPotrawyList.getCurrentObject());
             
-            MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuPanel());
+            MainDialog wagaProduktuDialog = new MainDialog(null, true, konfigView, "Produkt w potrawie", new WagaProduktuWPotrawiePanel());
             wagaProduktuDialog.unpackWindow(prodWPotr);
             wagaProduktuDialog.setVisible(true);
             

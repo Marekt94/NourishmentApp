@@ -7,6 +7,7 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class Potrawy implements Serializable {
     @Column(name = "WAGA")
     private Double waga;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy", fetch = FetchType.EAGER)
-    private Collection<ProduktyWPotrawie> produktyWPotrawieCollection;
+    private List<ProduktyWPotrawie> produktyWPotrawieCollection;
     @OneToMany(mappedBy = "obiad", fetch = FetchType.LAZY)
     private Collection<PotrawyWDniu> potrawyWDniuCollection;
     @OneToMany(mappedBy = "sniadanie", fetch = FetchType.LAZY)
@@ -188,11 +189,11 @@ public class Potrawy implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+    public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
         return produktyWPotrawieCollection;
     }
 
-    public void setProduktyWPotrawieCollection(Collection<ProduktyWPotrawie> produktyWPotrawieCollection) {
+    public void setProduktyWPotrawieCollection(List<ProduktyWPotrawie> produktyWPotrawieCollection) {
         this.produktyWPotrawieCollection = produktyWPotrawieCollection;
     }
 
