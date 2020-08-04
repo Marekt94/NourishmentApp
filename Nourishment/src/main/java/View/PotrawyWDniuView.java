@@ -39,7 +39,13 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class PotrawyWDniuView extends BasePanel {
     private PotrawyWDniu potrWDniu = null;
-    JDatePickerImpl datePicker = null;
+    private JDatePickerImpl datePicker = null;
+    private List<ProduktyLuzneWDniu> objectToDeleteListLocal = null;
+    private List<ProduktyLuzneWDniu> objectToDeleteList = null;
+
+    public List<ProduktyLuzneWDniu> getObjectToDeleteList() {
+        return objectToDeleteList;
+    }
 
     @Override
     public <E> void unpack(E object) {
@@ -52,6 +58,8 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
         GlobalFun.bind(potrWDniu.getData(), datePicker);
+        GlobalFun.bind(potrWDniu.getNazwa(), edtNazwa);
+        objectToDeleteListLocal.clear();
     }
 
     @Override
@@ -63,6 +71,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.unpackComboBox(cmbPodwieczorek, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbKolacja, (List<Serializable>) objectList);
         GlobalFun.unpackComboBox(cmbLunch, (List<Serializable>) objectList);
+        objectToDeleteListLocal.clear();
     }
 
     @Override
@@ -75,11 +84,25 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
         potrWDniu.setData(GlobalFun.bind(datePicker));
         potrWDniu.setCzy5dni('1');
+        potrWDniu.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
         if (potrWDniu.getProduktyLuzneWDniu() != null){
             for (int i = 0; i < potrWDniu.getProduktyLuzneWDniu().size(); i++) {
                 potrWDniu.getProduktyLuzneWDniu().get(i).setDzien(potrWDniu);
             }
         }
+        if (objectToDeleteList == null){
+            objectToDeleteList = new ArrayList<ProduktyLuzneWDniu>();
+        }
+        objectToDeleteList.addAll(objectToDeleteListLocal);
+        objectToDeleteListLocal.clear();
+        ((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList().clear();
+        ((MyListPanelInterface) extraPanel[0]).getNewOrEditedObjectList().clear();
+    }
+
+    @Override
+    public void rollback() {
+        super.rollback();
+        objectToDeleteListLocal.clear();
     }
     
 
@@ -92,7 +115,9 @@ public class PotrawyWDniuView extends BasePanel {
         p.put("text.today", "Today");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        jPanel1.add(datePicker,BorderLayout.CENTER);       
+        jPanel1.add(datePicker,BorderLayout.CENTER); 
+        objectToDeleteList = new ArrayList<ProduktyLuzneWDniu>();
+        objectToDeleteListLocal = new ArrayList<ProduktyLuzneWDniu>();
     }
 
     /**
@@ -108,6 +133,8 @@ public class PotrawyWDniuView extends BasePanel {
         edtID = new javax.swing.JTextField();
         lblData = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        lblNazwa = new javax.swing.JLabel();
+        edtNazwa = new javax.swing.JTextField();
         lblSniadanie = new javax.swing.JLabel();
         cmbSniadanie = new javax.swing.JComboBox<>();
         lblDrugieSnianiadnie = new javax.swing.JLabel();
@@ -123,7 +150,7 @@ public class PotrawyWDniuView extends BasePanel {
         lblProdukty = new javax.swing.JLabel();
         btnDodajProdukty = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(9, 2, 10, 10));
+        setLayout(new java.awt.GridLayout(10, 2, 10, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -138,6 +165,11 @@ public class PotrawyWDniuView extends BasePanel {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
         add(jPanel1);
+
+        lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNazwa.setText("Nazwa");
+        add(lblNazwa);
+        add(edtNazwa);
 
         lblSniadanie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblSniadanie.setText("Śniadanie");
@@ -195,7 +227,7 @@ public class PotrawyWDniuView extends BasePanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
-        MainDialog dlgProduktyLuzem = new MainDialog(null, true, extraPanel[0].getKonfigView(), "Produkty luzem", extraPanel[0]);
+        MainDialog dlgProduktyLuzem = new MainDialog(null, true, extraPanel[0].getKonfigView().withPanelID(GlobalConfig.PRODUKTY_LUZEM_ID), "Produkty luzem", extraPanel[0]);
         List<ProduktyLuzneWDniu> prodLuzneWDniuList = potrWDniu.getProduktyLuzneWDniu(); 
         if (prodLuzneWDniuList == null){
             prodLuzneWDniuList = new ArrayList<ProduktyLuzneWDniu>();
@@ -204,6 +236,12 @@ public class PotrawyWDniuView extends BasePanel {
         dlgProduktyLuzem.unpackWindow(potrWDniu.getProduktyLuzneWDniu());
         dlgProduktyLuzem.unpackWindow(ORMManager.getOrmManager().askForObjects(Produkty.class));
         dlgProduktyLuzem.setVisible(true);
+        if (dlgProduktyLuzem.getResult()) {          
+            objectToDeleteListLocal.addAll(((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList());
+        }
+        else{
+            ((MyListPanelInterface) extraPanel[0]).getObjectToDeleteList().clear();
+        }
     }//GEN-LAST:event_btnDodajProduktyActionPerformed
 
 
@@ -216,12 +254,14 @@ public class PotrawyWDniuView extends BasePanel {
     private javax.swing.JComboBox<String> cmbPodwieczorek;
     private javax.swing.JComboBox<String> cmbSniadanie;
     private javax.swing.JTextField edtID;
+    private javax.swing.JTextField edtNazwa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDrugieSnianiadnie;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblKolacja;
     private javax.swing.JLabel lblLunch;
+    private javax.swing.JLabel lblNazwa;
     private javax.swing.JLabel lblObiad;
     private javax.swing.JLabel lblPodwieczorek;
     private javax.swing.JLabel lblProdukty;

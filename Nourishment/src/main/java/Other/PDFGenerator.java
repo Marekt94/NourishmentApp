@@ -77,6 +77,8 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
             Paragraph paragraph = new Paragraph();
             paragraph.setFont(listFont);
             for (String line : text) {
+                line = line.replace("\n", "\n  ");
+                line = line.trim();
                 paragraph.add(" - " + line + "\n");
             }
             document.add(paragraph);

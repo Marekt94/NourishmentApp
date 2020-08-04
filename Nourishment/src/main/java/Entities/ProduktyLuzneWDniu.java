@@ -27,7 +27,48 @@ public class ProduktyLuzneWDniu implements Serializable{
     private Produkty produkt;
     @JoinColumn(name = "ID_DNIA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private PotrawyWDniu dzien; 
+    private PotrawyWDniu dzien;
+    
+    private Double bialko;
+    private Double blonnik;
+    private Double cukryProste;
+    private Double cukryZlozone;
+    private Double cukrySuma;
+    private Double kcal;
+    private Double sol;
+    private Double tluszcz;
+
+    public Double getBialko() {
+        return getIloscWG() * produkt.getBialko() / 100;
+    }
+
+    public Double getBlonnik() {
+        return getIloscWG() * produkt.getBlonnik() / 100;
+    }
+
+    public Double getCukryProste() {
+        return getIloscWG() * produkt.getCukryProste() / 100;
+    }
+
+    public Double getCukryZlozone() {
+        return getIloscWG() * produkt.getCukryZlozone() / 100;
+    }
+
+    public Double getCukrySuma() {
+        return getIloscWG() * produkt.getCukrySuma() / 100;
+    }
+
+    public Double getKcal() {
+        return getIloscWG() * produkt.getKcalNa100g() / 100;
+    }
+
+    public Double getSol() {
+        return getIloscWG() * produkt.getSol() / 100;
+    }
+
+    public Double getTluszcz() {
+        return getIloscWG() * produkt.getTluszcz() / 100;
+    }
 
     public Double getIloscWG() {
         return iloscWG;

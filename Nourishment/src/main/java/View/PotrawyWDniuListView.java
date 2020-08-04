@@ -8,6 +8,7 @@ package View;
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
 import Entities.Produkty;
+import Entities.ProduktyLuzneWDniu;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import static Global.GlobalConfig.dataFormat;
@@ -22,6 +23,7 @@ import Other.PDFGenerator;
 import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
+import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import com.sun.xml.fastinfoset.util.StringArray;
 import java.awt.BorderLayout;
@@ -57,9 +59,10 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  * @author Marek
  */
 public class PotrawyWDniuListView extends BaseListPanel {
-    List<Potrawy> potrawyList = null;
-    String defaultDirectory = "";
-    String fileExtension = "pdf";
+    private List<Potrawy> potrawyList = null;
+    private String defaultDirectory = "";
+    private String fileExtension = "pdf";
+    private FilterPanel filter = null;
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -73,10 +76,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
         omittedColumns.add("mnoznikPodwieczorek");
         omittedColumns.add("mnoznikLunch");
         omittedColumns.add("czy5dni");
-        ORMManager ormManager = ORMManager.getOrmManager();
         
         JPanel filterPanel = new JPanel();
-        FilterPanel filter = new FilterPanel();
+        filter = new FilterPanel();
         filterPanel.setLayout(new BorderLayout());
         filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
         filterPanel.add(filter, BorderLayout.WEST);
@@ -123,8 +125,32 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
         });
         addButton(btnPrintReceipts, KeyEvent.VK_P);
-        
-        potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
+    }
+
+    @Override
+    public Boolean init(KonfigView konfigView) {
+        Boolean res;
+        res = super.init(konfigView);
+        potrawyList = (List<Potrawy>) ORMManager.getOrmManager().askForObjects(Potrawy.class);
+        filter.resetDate();
+        return res;
+    }
+
+    @Override
+    public Boolean execute() {
+        Boolean result = super.execute();
+        if (result){
+            ORMManager oRMManager = ORMManager.getOrmManager(); 
+            result = oRMManager.deleteFromDB(((PotrawyWDniuView) detailPanel).getObjectToDeleteList()) && result;
+            ((PotrawyWDniuView) detailPanel).getObjectToDeleteList().clear();
+        }
+        return result;
+    }
+
+    @Override
+    public void rollback() {
+        super.rollback();
+        ((PotrawyWDniuView) detailPanel).getObjectToDeleteList().clear();        
     }
     
     public void generateReceipts(List<Serializable> listOfDays){
@@ -143,14 +169,36 @@ public class PotrawyWDniuListView extends BaseListPanel {
         List<Potrawy> potrawyList = new ArrayList<Potrawy>();
         for (int i = 0; i < listOfDays.size(); i++) {
             PotrawyWDniu pwd = (PotrawyWDniu) listOfDays.get(i);
-            addToReceipt(pwd.getSniadanie(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getSniadanie(),       potrawyList, pDFGenerator);
             addToReceipt(pwd.getDrugieSniadanie(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getObiad(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getPodwieczorek(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getLunch(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getKolacja(), potrawyList, pDFGenerator);
+            addToReceipt(pwd.getObiad(),           potrawyList, pDFGenerator);
+            addToReceipt(pwd.getPodwieczorek(),    potrawyList, pDFGenerator);
+            addToReceipt(pwd.getLunch(),           potrawyList, pDFGenerator);
+            addToReceipt(pwd.getKolacja(),         potrawyList, pDFGenerator);
         }
     }
+    
+    private String [] addFreeProducts(PotrawyWDniu pwd){
+        HashSet list = new HashSet<String>();
+        for (int i = 0; i < pwd.getProduktyLuzneWDniu().size(); i++) {
+            list.add(addFreeProduct(pwd.getProduktyLuzneWDniu().get(i)));
+        }
+        return (String[]) list.toArray(new String [0]);
+    }
+
+    private String addFreeProduct(ProduktyLuzneWDniu prod){
+        if (prod != null) {
+            return prod.getProdukt().getNazwa() + ": "
+                    + " b: "    + GlobalFun.round(prod.getBialko(),    2).toString()
+                    + " w: "    + GlobalFun.round(prod.getCukrySuma(), 2).toString()
+                    + " t: "    + GlobalFun.round(prod.getTluszcz(),   2).toString()
+                    + " kcal: " + GlobalFun.round(prod.getKcal(),      2).toString()
+                    + " waga: " + GlobalFun.round(prod.getIloscWG(),   2).toString() + " g";
+        } else {
+            return GlobalConfig.NULL_SIGN;
+        }        
+    }
+                
     
    private void addToReceipt(Potrawy ptr, List<Potrawy> existingOnReceiptMeals, MyPDFGeneratorInterface pDFGenerator){
         if ((ptr != null) && (!existingOnReceiptMeals.contains(ptr))){
@@ -229,8 +277,16 @@ public class PotrawyWDniuListView extends BaseListPanel {
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
             for (int i = 0; i < listOfDays.size(); i++) {
+                PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i); 
                 pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
-                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
+                if (potr.getNazwa() != null && !potr.getNazwa().isEmpty()){
+                    pDFGenerator.addSubtitle(" " + potr.getNazwa());                 
+                }
+                pDFGenerator.addList(createPotrawyStringList(potr));
+                if ((potr.getProduktyLuzneWDniu()!= null) && potr.getProduktyLuzneWDniu().size() > 0){
+                    pDFGenerator.addSubtitle(" Produkty luzem");
+                    pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
+                }
             }
             pDFGenerator.closeDocument();
         }
@@ -255,13 +311,19 @@ public class PotrawyWDniuListView extends BaseListPanel {
         return stringArray;
     }
 
-    private String createMealString(String prefix, Potrawy potr) {
-        if (potr != null) {
-            return prefix + ": " + potr.toString()
-                    + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
-                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
-                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
-                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+    private String createMealString(String prefix, Potrawy potr) {        
+        if (potr != null) {           
+            HashSet<String> productList = new HashSet<String>();
+            String text = "";   
+            text = prefix + ": " + potr.toString() + "\n"
+                   + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+                   + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
+                   + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
+                   + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+            for (ProduktyWPotrawie prod : potr.getProduktyWPotrawieCollection()){
+                productList.add(" * " + prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()) + "\n");
+            } 
+            return text + "\n" + productList.toString().replace("[", "").replace("]","").replace(", ", "");
         } else {
             return prefix + ": ";
         }
@@ -306,6 +368,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek());
             addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch());
             addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja());
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getProduktyLuzneWDniu());
         }
         
         return productsList; 
@@ -315,14 +378,15 @@ public class PotrawyWDniuListView extends BaseListPanel {
             Boolean result = false;
             if (meal != null){
                 List<ProduktyWPotrawie> prodWPotr = (List<ProduktyWPotrawie>) meal.getProduktyWPotrawieCollection();
-                for (ProduktyWPotrawie product : prodWPotr){
-                    Integer indexOfProduct = returnIndexInProductList(productsList, product.getIdProduktu());
+                for (ProduktyWPotrawie produktWPotr : prodWPotr){
+                    Integer indexOfProduct = returnIndexInProductList(productsList, produktWPotr.getIdProduktu());
+                    Produkty prod = ((ProduktyWPotrawie) produktWPotr).getIdProduktu();
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
-                        productRecord.productName = ((ProduktyWPotrawie) product).getIdProduktu().getNazwa();
-                        productRecord.weight = ((ProduktyWPotrawie) product).getIloscWG();
-                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
-                            productRecord.packages = productRecord.weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        productRecord.productName = prod.getNazwa();
+                        productRecord.weight = produktWPotr.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productRecord.packages = productRecord.weight / prod.getWagaJednostki();
                         }
                         else{
                             productRecord.packages = 0.0;
@@ -331,9 +395,43 @@ public class PotrawyWDniuListView extends BaseListPanel {
                         result = true;
                     }
                     else{
-                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + product.getIloscWG();
-                        if (!((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki().equals(0.0)){
-                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / ((ProduktyWPotrawie) product).getIdProduktu().getWagaJednostki();
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + produktWPotr.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
+                        }
+                        else{
+                            productsList.get(indexOfProduct).packages = 0.0;
+                        }                        
+                        result = true;
+                    }
+                }
+            }
+            return result;
+    }
+    
+    private Boolean addToShoppingList(List<ProductRecord> productsList, List<ProduktyLuzneWDniu> prodLuzneWdniu){
+            Boolean result = false;
+            if (prodLuzneWdniu != null){
+                for (ProduktyLuzneWDniu prodLuzem : prodLuzneWdniu){
+                    Integer indexOfProduct = returnIndexInProductList(productsList, prodLuzem.getProdukt());
+                    Produkty prod = prodLuzem.getProdukt();
+                    if (indexOfProduct == -1){
+                        ProductRecord productRecord = new ProductRecord();
+                        productRecord.productName = prod.getNazwa();
+                        productRecord.weight = prodLuzem.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productRecord.packages = productRecord.weight / prod.getWagaJednostki();
+                        }
+                        else{
+                            productRecord.packages = 0.0;
+                        }
+                        productsList.add(productRecord);
+                        result = true;
+                    }
+                    else{
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + prodLuzem.getIloscWG();
+                        if (!prod.getWagaJednostki().equals(0.0)){
+                            productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
                         }
                         else{
                             productsList.get(indexOfProduct).packages = 0.0;

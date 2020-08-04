@@ -18,6 +18,7 @@ public interface MyListPanelInterface extends MyPanelInterface{
     public <E> List<E> getObjectsList();
     public <E> E getCurrentObject();
     public <E> List<E> getNewOrEditedObjectList();
+    public <E> List<E> getObjectToDeleteList();
     public void addButton(JButton button, Integer keyboardKey);
     public JComponent getComponentWihtListOfRecords();
     public <E> void addObject(E object);
