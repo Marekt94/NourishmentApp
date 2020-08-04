@@ -58,6 +58,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
         GlobalFun.bind(potrWDniu.getData(), datePicker);
+        GlobalFun.bind(potrWDniu.getNazwa(), edtNazwa);
         objectToDeleteListLocal.clear();
     }
 
@@ -83,6 +84,7 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
         potrWDniu.setData(GlobalFun.bind(datePicker));
         potrWDniu.setCzy5dni('1');
+        potrWDniu.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
         if (potrWDniu.getProduktyLuzneWDniu() != null){
             for (int i = 0; i < potrWDniu.getProduktyLuzneWDniu().size(); i++) {
                 potrWDniu.getProduktyLuzneWDniu().get(i).setDzien(potrWDniu);
@@ -131,6 +133,8 @@ public class PotrawyWDniuView extends BasePanel {
         edtID = new javax.swing.JTextField();
         lblData = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        lblNazwa = new javax.swing.JLabel();
+        edtNazwa = new javax.swing.JTextField();
         lblSniadanie = new javax.swing.JLabel();
         cmbSniadanie = new javax.swing.JComboBox<>();
         lblDrugieSnianiadnie = new javax.swing.JLabel();
@@ -146,7 +150,7 @@ public class PotrawyWDniuView extends BasePanel {
         lblProdukty = new javax.swing.JLabel();
         btnDodajProdukty = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(9, 2, 10, 10));
+        setLayout(new java.awt.GridLayout(10, 2, 10, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -161,6 +165,11 @@ public class PotrawyWDniuView extends BasePanel {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
         add(jPanel1);
+
+        lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNazwa.setText("Nazwa");
+        add(lblNazwa);
+        add(edtNazwa);
 
         lblSniadanie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblSniadanie.setText("Śniadanie");
@@ -245,12 +254,14 @@ public class PotrawyWDniuView extends BasePanel {
     private javax.swing.JComboBox<String> cmbPodwieczorek;
     private javax.swing.JComboBox<String> cmbSniadanie;
     private javax.swing.JTextField edtID;
+    private javax.swing.JTextField edtNazwa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDrugieSnianiadnie;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblKolacja;
     private javax.swing.JLabel lblLunch;
+    private javax.swing.JLabel lblNazwa;
     private javax.swing.JLabel lblObiad;
     private javax.swing.JLabel lblPodwieczorek;
     private javax.swing.JLabel lblProdukty;

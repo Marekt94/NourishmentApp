@@ -30,6 +30,7 @@ public class ProduktyLuzneWDniuListView extends BaseListPanel {
         pnlProduktyList = new BaseListPanel(new ProduktView(), "Produkt", Produkty.class);
         ((JPanel) pnlProduktyList).setPreferredSize(new Dimension(500, 450));
         this.add((JPanel) pnlProduktyList, BorderLayout.EAST);
+        btnAdd.setText("<<");
     }
 
     @Override

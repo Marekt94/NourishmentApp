@@ -114,10 +114,7 @@ public class FilterPanel extends BasePanel {
 
     private void btnResetStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnResetStateChanged
         if (btnReset.getModel().isPressed()) {
-            datePickerFrom.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
-            datePickerTo.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
-            datePickerFrom.getJFormattedTextField().setText("");
-            datePickerTo.getJFormattedTextField().setText("");
+            resetDate();
         }
     }//GEN-LAST:event_btnResetStateChanged
 
@@ -140,5 +137,12 @@ public class FilterPanel extends BasePanel {
  
     public String getDataTo(){
         return datePickerTo.getJFormattedTextField().getText();
+    }
+    
+    public void resetDate(){
+        datePickerFrom.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
+        datePickerTo.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() - 1, LocalDate.now().getDayOfMonth());
+        datePickerFrom.getJFormattedTextField().setText("");
+        datePickerTo.getJFormattedTextField().setText("");      
     }
 }

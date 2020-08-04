@@ -62,6 +62,25 @@ import org.hibernate.annotations.ParamDef;
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikKolacja", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikKolacja = :mnoznikKolacja"),
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikLunch", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikLunch = :mnoznikLunch")})
 public class PotrawyWDniu implements Serializable {
+
+    @Column(name = "SUMABIALKO")
+    private Double sumabialko;
+    @Column(name = "SUMABLONNIK")
+    private Double sumablonnik;
+    @Column(name = "SUMACUKRYPROSTE")
+    private Double sumacukryproste;
+    @Column(name = "SUMACUKRYSUMA")
+    private Double sumacukrysuma;
+    @Column(name = "SUMACUKRYZLOZONE")
+    private Double sumacukryzlozone;
+    @Column(name = "SUMAKCAL")
+    private Double sumakcal;
+    @Column(name = "SUMASOL")
+    private Double sumasol;
+    @Column(name = "SUMATLUSZCZ")
+    private Double sumatluszcz;
+    @Column(name = "NAZWA")
+    private String nazwa;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -498,6 +517,78 @@ public class PotrawyWDniu implements Serializable {
             }
         }        
         return sum;
+    }
+
+    public Double getSumabialko() {
+        return sumabialko;
+    }
+
+    public void setSumabialko(Double sumabialko) {
+        this.sumabialko = sumabialko;
+    }
+
+    public Double getSumablonnik() {
+        return sumablonnik;
+    }
+
+    public void setSumablonnik(Double sumablonnik) {
+        this.sumablonnik = sumablonnik;
+    }
+
+    public Double getSumacukryproste() {
+        return sumacukryproste;
+    }
+
+    public void setSumacukryproste(Double sumacukryproste) {
+        this.sumacukryproste = sumacukryproste;
+    }
+
+    public Double getSumacukrysuma() {
+        return sumacukrysuma;
+    }
+
+    public void setSumacukrysuma(Double sumacukrysuma) {
+        this.sumacukrysuma = sumacukrysuma;
+    }
+
+    public Double getSumacukryzlozone() {
+        return sumacukryzlozone;
+    }
+
+    public void setSumacukryzlozone(Double sumacukryzlozone) {
+        this.sumacukryzlozone = sumacukryzlozone;
+    }
+
+    public Double getSumakcal() {
+        return sumakcal;
+    }
+
+    public void setSumakcal(Double sumakcal) {
+        this.sumakcal = sumakcal;
+    }
+
+    public Double getSumasol() {
+        return sumasol;
+    }
+
+    public void setSumasol(Double sumasol) {
+        this.sumasol = sumasol;
+    }
+
+    public Double getSumatluszcz() {
+        return sumatluszcz;
+    }
+
+    public void setSumatluszcz(Double sumatluszcz) {
+        this.sumatluszcz = sumatluszcz;
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
     }
     
 }

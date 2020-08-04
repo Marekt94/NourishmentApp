@@ -23,6 +23,7 @@ import Other.PDFGenerator;
 import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
 import View.BasicView.FilterPanel;
+import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import com.sun.xml.fastinfoset.util.StringArray;
 import java.awt.BorderLayout;
@@ -58,9 +59,10 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  * @author Marek
  */
 public class PotrawyWDniuListView extends BaseListPanel {
-    List<Potrawy> potrawyList = null;
-    String defaultDirectory = "";
-    String fileExtension = "pdf";
+    private List<Potrawy> potrawyList = null;
+    private String defaultDirectory = "";
+    private String fileExtension = "pdf";
+    private FilterPanel filter = null;
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -74,10 +76,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
         omittedColumns.add("mnoznikPodwieczorek");
         omittedColumns.add("mnoznikLunch");
         omittedColumns.add("czy5dni");
-        ORMManager ormManager = ORMManager.getOrmManager();
         
         JPanel filterPanel = new JPanel();
-        FilterPanel filter = new FilterPanel();
+        filter = new FilterPanel();
         filterPanel.setLayout(new BorderLayout());
         filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
         filterPanel.add(filter, BorderLayout.WEST);
@@ -124,8 +125,15 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
         });
         addButton(btnPrintReceipts, KeyEvent.VK_P);
-        
-        potrawyList = (List<Potrawy>) ormManager.askForObjects(Potrawy.class);
+    }
+
+    @Override
+    public Boolean init(KonfigView konfigView) {
+        Boolean res;
+        res = super.init(konfigView);
+        potrawyList = (List<Potrawy>) ORMManager.getOrmManager().askForObjects(Potrawy.class);
+        filter.resetDate();
+        return res;
     }
 
     @Override
@@ -269,9 +277,13 @@ public class PotrawyWDniuListView extends BaseListPanel {
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
             for (int i = 0; i < listOfDays.size(); i++) {
+                PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i); 
                 pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
-                pDFGenerator.addList(createPotrawyStringList((PotrawyWDniu) listOfDays.get(i)));
-                if ((((PotrawyWDniu) listOfDays.get(i)).getProduktyLuzneWDniu()!= null) && ((PotrawyWDniu) listOfDays.get(i)).getProduktyLuzneWDniu().size() > 0){
+                if (potr.getNazwa() != null && !potr.getNazwa().isEmpty()){
+                    pDFGenerator.addSubtitle(" " + potr.getNazwa());                 
+                }
+                pDFGenerator.addList(createPotrawyStringList(potr));
+                if ((potr.getProduktyLuzneWDniu()!= null) && potr.getProduktyLuzneWDniu().size() > 0){
                     pDFGenerator.addSubtitle(" Produkty luzem");
                     pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
                 }
@@ -299,13 +311,19 @@ public class PotrawyWDniuListView extends BaseListPanel {
         return stringArray;
     }
 
-    private String createMealString(String prefix, Potrawy potr) {
-        if (potr != null) {
-            return prefix + ": " + potr.toString()
-                    + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
-                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
-                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
-                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+    private String createMealString(String prefix, Potrawy potr) {        
+        if (potr != null) {           
+            HashSet<String> productList = new HashSet<String>();
+            String text = "";   
+            text = prefix + ": " + potr.toString() + "\n"
+                   + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+                   + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
+                   + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
+                   + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+            for (ProduktyWPotrawie prod : potr.getProduktyWPotrawieCollection()){
+                productList.add(" * " + prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()) + "\n");
+            } 
+            return text + "\n" + productList.toString().replace("[", "").replace("]","").replace(", ", "");
         } else {
             return prefix + ": ";
         }
