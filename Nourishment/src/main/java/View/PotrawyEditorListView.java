@@ -180,6 +180,17 @@ public class PotrawyEditorListView extends BaseListPanel {
     }
 
     @Override
+    public void deleteObject() {
+        if (pnlPotrawyList.getCurrentObject() != null){
+            Potrawy potrawa = pnlPotrawyList.getCurrentObject();
+            potrawa.getProduktyWPotrawieCollection().remove(getCurrentObject());
+        }
+        super.deleteObject(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
+    @Override
     public <E> void unpack(List<E> objectList) {
         if (objectList.get(0) instanceof Produkty){
             pnlProduktyList.unpack(objectList);
