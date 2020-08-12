@@ -49,7 +49,7 @@ public class PotrawyEditorListView extends BaseListPanel {
     MyListPanelInterface pnlProduktyList = null;
     Integer newID = 0;
     Boolean isCurrentlyUpdated = false;
-    String defaultDirectory = "";
+    StringBuilder defaultDirectory = new StringBuilder();
     String fileExtension = "pdf";
 
     /**

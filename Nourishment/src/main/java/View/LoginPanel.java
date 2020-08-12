@@ -154,7 +154,7 @@ public class LoginPanel extends BasePanel{
         if ((evt.getClickCount() % 2 == 0) && (!evt.isConsumed())){
             String path;
             evt.consume();
-            path = GlobalFun.choosePath(this, "FDB", FileDialogFunctionType.fdftOpen, "");
+            path = GlobalFun.choosePath(this, "FDB", FileDialogFunctionType.fdftOpen, new StringBuilder());
             if (!path.equals("")){
                 edtAresDB.setText(path);
             }

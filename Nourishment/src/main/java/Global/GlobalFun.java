@@ -210,13 +210,15 @@ public class GlobalFun {
         }
     }
    
-    public static String choosePath(Component parent, String fileExtension, FileDialogFunctionType type, String defaultDirectory) {
+    public static String choosePath(Component parent, String fileExtension, FileDialogFunctionType type, StringBuilder defaultDirectory) {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.getActionMap().get("viewTypeDetails").actionPerformed(null);
         fileChooser.setFileFilter(new FileNameExtensionFilter(fileExtension.toUpperCase(), "*." + fileExtension, fileExtension));
-        if (defaultDirectory.equals("")) {
-            defaultDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop";
+        if (defaultDirectory.toString().equals("")) {
+            defaultDirectory.append(System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop");
         }
         int result = 0;
+        fileChooser.setCurrentDirectory(new File(defaultDirectory.toString()));
         switch (type){
             case fdftOpen:{
                 result = fileChooser.showOpenDialog(parent);
@@ -231,8 +233,8 @@ public class GlobalFun {
                 break;
             }
         }
-        fileChooser.setCurrentDirectory(new File(defaultDirectory));
-        defaultDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
+        defaultDirectory.setLength(0);
+        defaultDirectory.append(fileChooser.getCurrentDirectory().getAbsolutePath());
         if (result == JFileChooser.APPROVE_OPTION) {
             return addExtensionIfNecessery(fileChooser.getSelectedFile().getAbsolutePath(), fileExtension);
         } else {

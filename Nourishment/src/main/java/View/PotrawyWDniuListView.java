@@ -60,7 +60,7 @@ import org.hibernate.internal.util.compare.ComparableComparator;
  */
 public class PotrawyWDniuListView extends BaseListPanel {
     private List<Potrawy> potrawyList = null;
-    private String defaultDirectory = "";
+    private StringBuilder defaultDirectory = new StringBuilder();
     private String fileExtension = "pdf";
     private FilterPanel filter = null;
 
@@ -105,7 +105,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         btnPrintMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generateMenu(objectList);
+                generateMenu(getSelectedRecords());
             }
         });
         addButton(btnPrintMenu, KeyEvent.VK_R);
@@ -113,7 +113,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         btnPrintShoppingList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generateShoppingList(objectList);
+                generateShoppingList(getSelectedRecords());
             }
         });
         addButton(btnPrintShoppingList, KeyEvent.VK_L);
@@ -121,10 +121,18 @@ public class PotrawyWDniuListView extends BaseListPanel {
         btnPrintReceipts.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generateReceipts(objectList);
+                generateReceipts(getSelectedRecords());
             }
         });
         addButton(btnPrintReceipts, KeyEvent.VK_P);
+    }
+    
+    private List<Serializable> getSelectedRecords(){
+        List<Serializable> selectedRecords = new ArrayList<>();
+        for (int record : tblObjects.getSelectedRows()){
+            selectedRecords.add(objectList.get(record));
+        }
+        return selectedRecords;
     }
 
     @Override
@@ -273,7 +281,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
-            objectList.sort(new MyComparator("data", PotrawyWDniu.class, true));
+            listOfDays.sort(new MyComparator("data", PotrawyWDniu.class, true));
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
             for (int i = 0; i < listOfDays.size(); i++) {
