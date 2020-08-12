@@ -43,6 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produkty.findBySol", query = "SELECT p FROM Produkty p WHERE p.sol = :sol")})
 public class Produkty implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "JEDNOSTKA")
+    private String jednostka;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -208,6 +211,14 @@ public class Produkty implements Serializable {
     @Override
     public String toString() {
         return nazwa;
+    }
+
+    public String getJednostka() {
+        return jednostka;
+    }
+
+    public void setJednostka(String jednostka) {
+        this.jednostka = jednostka;
     }
     
 }

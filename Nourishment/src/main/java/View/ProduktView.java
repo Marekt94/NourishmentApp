@@ -37,6 +37,7 @@ public class ProduktView extends BasePanel{
         GlobalFun.bind(produkt.getSol(), edtSol);
         GlobalFun.bind(produkt.getTluszcz(), edtTluszcz);
         GlobalFun.bind(produkt.getWagaJednostki(), edtWagaJednostki);
+        GlobalFun.bind(produkt.getJednostka(),cmbUnit);
     }
 
     @Override
@@ -50,7 +51,8 @@ public class ProduktView extends BasePanel{
         produkt.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
         produkt.setSol((Double) GlobalFun.bind(edtSol, Double.class));
         produkt.setTluszcz((Double) GlobalFun.bind(edtTluszcz, Double.class));
-        produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, Double.class));      
+        produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, Double.class));
+        produkt.setJednostka((String) GlobalFun.bind(cmbUnit));
     }
 
     /**
@@ -74,6 +76,8 @@ public class ProduktView extends BasePanel{
         edtID = new javax.swing.JTextField();
         lblNazwa = new javax.swing.JLabel();
         edtNazwa = new javax.swing.JTextField();
+        lblUnit = new javax.swing.JLabel();
+        cmbUnit = new javax.swing.JComboBox<>();
         lblKcalNa100g = new javax.swing.JLabel();
         edtKcalNa100g = new javax.swing.JTextField();
         lblWagaJednostki = new javax.swing.JLabel();
@@ -94,7 +98,7 @@ public class ProduktView extends BasePanel{
         edtSol = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(174, 344));
-        setLayout(new java.awt.GridLayout(11, 2, 5, 10));
+        setLayout(new java.awt.GridLayout(12, 2, 5, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -120,6 +124,13 @@ public class ProduktView extends BasePanel{
             }
         });
         add(edtNazwa);
+
+        lblUnit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUnit.setText("Jednostka");
+        add(lblUnit);
+
+        cmbUnit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "g", "ml" }));
+        add(cmbUnit);
 
         lblKcalNa100g.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblKcalNa100g.setText("Kcal na 100g");
@@ -206,6 +217,7 @@ public class ProduktView extends BasePanel{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbUnit;
     private javax.swing.JTextField edtBialko;
     private javax.swing.JTextField edtBlonnik;
     private javax.swing.JTextField edtCukryProste;
@@ -227,6 +239,7 @@ public class ProduktView extends BasePanel{
     private javax.swing.JLabel lblNazwa;
     private javax.swing.JLabel lblSol;
     private javax.swing.JLabel lblTluszcz;
+    private javax.swing.JLabel lblUnit;
     private javax.swing.JLabel lblWagaJednostki;
     // End of variables declaration//GEN-END:variables
 }
