@@ -73,12 +73,12 @@ public class PotrawyEditorListView extends BaseListPanel {
         
         ((JTable) pnlPotrawyList.getComponentWihtListOfRecords()).getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void valueChanged(ListSelectionEvent e) {                
                 if ( !e.getValueIsAdjusting()){
                     Potrawy potrawa = pnlPotrawyList.getCurrentObject();
                     if (potrawa != null){
                         objectList = (List<Serializable>) GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
-                    }
+                    }  
                     updateView();
                 }
             }
@@ -206,6 +206,7 @@ public class PotrawyEditorListView extends BaseListPanel {
             if (pnlPotrawyList.execute()){
                 if (super.execute()){
                     pnlProduktyList.unpack();
+                    pnlPotrawyList.unpack();
                     return true;
                 }
             }           
