@@ -57,7 +57,6 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getPodwieczorek(), cmbPodwieczorek);
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
-        GlobalFun.bind(potrWDniu.getData(), datePicker);
         GlobalFun.bind(potrWDniu.getNazwa(), edtNazwa);
         objectToDeleteListLocal.clear();
     }
@@ -82,7 +81,6 @@ public class PotrawyWDniuView extends BasePanel {
         potrWDniu.setPodwieczorek((Potrawy) GlobalFun.bind(cmbPodwieczorek));
         potrWDniu.setKolacja((Potrawy) GlobalFun.bind(cmbKolacja));
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
-        potrWDniu.setData(GlobalFun.bind(datePicker));
         potrWDniu.setCzy5dni('1');
         potrWDniu.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
         if (potrWDniu.getProduktyLuzneWDniu() != null){

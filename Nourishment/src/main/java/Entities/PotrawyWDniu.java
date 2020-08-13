@@ -39,21 +39,10 @@ import org.hibernate.annotations.ParamDef;
 
 @Entity
 @Table(name = "POTRAWY_W_DNIU")
-@FilterDefs({
-    @FilterDef(name = "dataFilterBoth", parameters = {@ParamDef(name = "dataFrom", type="string"), @ParamDef(name = "dataTo", type="string")}),
-    @FilterDef(name = "dataFilterFrom", parameters = {@ParamDef(name = "dataFrom", type="string")}),
-    @FilterDef(name = "dataFilterTo", parameters = {@ParamDef(name = "dataTo", type="string")})
-})
-@Filters({
-    @Filter(name="dataFilterBoth", condition = "data BETWEEN :dataFrom AND :dataTo"),
-    @Filter(name="dataFilterFrom", condition = "data >= :dataFrom"),
-    @Filter(name="dataFilterTo", condition = "data <= :dataTo"),
-})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PotrawyWDniu.findAll", query = "SELECT p FROM PotrawyWDniu p"),
     @NamedQuery(name = "PotrawyWDniu.findById", query = "SELECT p FROM PotrawyWDniu p WHERE p.id = :id"),
-    @NamedQuery(name = "PotrawyWDniu.findByData", query = "SELECT p FROM PotrawyWDniu p WHERE p.data = :data"),
     @NamedQuery(name = "PotrawyWDniu.findByCzy5dni", query = "SELECT p FROM PotrawyWDniu p WHERE p.czy5dni = :czy5dni"),
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikSniadanie", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikSniadanie = :mnoznikSniadanie"),
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikDrugieSniadanie", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikDrugieSniadanie = :mnoznikDrugieSniadanie"),
@@ -87,9 +76,6 @@ public class PotrawyWDniu implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "DATA")
-    @Temporal(TemporalType.DATE)
-    private Date data;
     @Column(name = "CZY_5DNI")
     private Character czy5dni;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -147,14 +133,6 @@ public class PotrawyWDniu implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
 
     public Character getCzy5dni() {

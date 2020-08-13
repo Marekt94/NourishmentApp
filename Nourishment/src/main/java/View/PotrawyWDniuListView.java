@@ -22,7 +22,6 @@ import Other.MyComparator;
 import Other.PDFGenerator;
 import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
-import View.BasicView.FilterPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
 import com.sun.xml.fastinfoset.util.StringArray;
@@ -62,7 +61,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
     private List<Potrawy> potrawyList = null;
     private StringBuilder defaultDirectory = new StringBuilder();
     private String fileExtension = "pdf";
-    private FilterPanel filter = null;
 
     /**
      * Creates new form ProduktyWDniuListView
@@ -76,30 +74,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         omittedColumns.add("mnoznikPodwieczorek");
         omittedColumns.add("mnoznikLunch");
         omittedColumns.add("czy5dni");
-        
-        JPanel filterPanel = new JPanel();
-        filter = new FilterPanel();
-        filterPanel.setLayout(new BorderLayout());
-        filterPanel.setBorder(BorderFactory.createTitledBorder("Opcje"));
-        filterPanel.add(filter, BorderLayout.WEST);
-        ActionListener actionListener = new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
-            }            
-        };
-        filter.btnReset.addActionListener(actionListener);
-        PropertyChangeListener dateChange = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getOldValue() != evt.getNewValue()){
-                    unpack(ORMManager.getOrmManager().filterByDate(PotrawyWDniu.class, filter.getDataFrom(), filter.getDataTo()));
-                }
-            }
-        };
-        filter.getDatePickerFromTextField().addPropertyChangeListener("value", dateChange);
-        filter.getDatePickerToTextField().addPropertyChangeListener("value", dateChange);
-        this.add(filterPanel, BorderLayout.NORTH);
 
         JButton btnPrintMenu = new JButton("Drukuj");
         btnPrintMenu.addActionListener(new ActionListener() {
@@ -140,7 +114,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         Boolean res;
         res = super.init(konfigView);
         potrawyList = (List<Potrawy>) ORMManager.getOrmManager().askForObjects(Potrawy.class);
-        filter.resetDate();
         return res;
     }
 
@@ -167,7 +140,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle("Potrawy od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
             createReceipts(listOfDays, pDFGenerator);
             pDFGenerator.closeDocument();
         }          
@@ -214,7 +187,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             pDFGenerator.addSubtitle(ptr.getNazwa());
             HashSet<String> prodList = new HashSet<String>();
             for (ProduktyWPotrawie prod : ptr.getProduktyWPotrawieCollection()){
-                prodList.add(prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()));
+                prodList.add(prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()) + " " + prod.getIdProduktu().getJednostka());
             }
             String [] prodListArray = prodList.toArray(new String[0]); 
             pDFGenerator.addList(prodListArray);
@@ -283,10 +256,10 @@ public class PotrawyWDniuListView extends BaseListPanel {
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             listOfDays.sort(new MyComparator("data", PotrawyWDniu.class, true));
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle("Jadłospis od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
             for (int i = 0; i < listOfDays.size(); i++) {
                 PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i); 
-                pDFGenerator.addSubtitle(createTitleString(simpleDateformat.format(((PotrawyWDniu) listOfDays.get(i)).getData()), (PotrawyWDniu) listOfDays.get(i)));
+                pDFGenerator.addSubtitle(createTitleString("makro", (PotrawyWDniu) listOfDays.get(i)));
                 if (potr.getNazwa() != null && !potr.getNazwa().isEmpty()){
                     pDFGenerator.addSubtitle(" " + potr.getNazwa());                 
                 }
@@ -356,7 +329,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle("Lisa zakupów od " + ((PotrawyWDniu) listOfDays.get(0)).getData().toString() + " do " + ((PotrawyWDniu) listOfDays.get(listOfDays.size() - 1)).getData().toString());
+            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
             List<ProductRecord> productList = createShoppingList(listOfDays);
             productList.sort(new Comparator<ProductRecord>() {
                 @Override
