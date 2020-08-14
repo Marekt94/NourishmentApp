@@ -302,7 +302,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
             for (ProduktyWPotrawie prod : potr.getProduktyWPotrawieCollection()){
-                productList.add(" * " + prod.getIdProduktu().getNazwa()
+                productList.add("  * " + prod.getIdProduktu().getNazwa()
                                 + ": " + Double.toString(prod.getIloscWG())
                                 + " " + prod.getIdProduktu().getJednostka() + "\n");
             } 

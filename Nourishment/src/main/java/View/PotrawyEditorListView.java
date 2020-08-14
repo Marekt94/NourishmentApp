@@ -99,7 +99,6 @@ public class PotrawyEditorListView extends BaseListPanel {
         String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
-            SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle("Potrawy");
             createMeals(pDFGenerator);
