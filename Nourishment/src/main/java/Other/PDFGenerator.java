@@ -40,6 +40,11 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     }
 
     @Override
+    public void newPage() {
+        document.newPage();
+    }
+
+    @Override
     public void openDocument(String path) {
         try {
             document = new Document();

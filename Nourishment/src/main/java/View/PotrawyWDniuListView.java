@@ -256,18 +256,18 @@ public class PotrawyWDniuListView extends BaseListPanel {
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             listOfDays.sort(new MyComparator("data", PotrawyWDniu.class, true));
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
             for (int i = 0; i < listOfDays.size(); i++) {
-                PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i); 
-                pDFGenerator.addSubtitle(createTitleString("makro", (PotrawyWDniu) listOfDays.get(i)));
+                PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i);
                 if (potr.getNazwa() != null && !potr.getNazwa().isEmpty()){
-                    pDFGenerator.addSubtitle(" " + potr.getNazwa());                 
-                }
+                    pDFGenerator.addTitle(potr.getNazwa());                 
+                }                
+                pDFGenerator.addSubtitle(createTitleString("makro", (PotrawyWDniu) listOfDays.get(i)));
                 pDFGenerator.addList(createPotrawyStringList(potr));
                 if ((potr.getProduktyLuzneWDniu()!= null) && potr.getProduktyLuzneWDniu().size() > 0){
                     pDFGenerator.addSubtitle(" Produkty luzem");
                     pDFGenerator.addList(addFreeProducts((PotrawyWDniu) listOfDays.get(i)));
                 }
+                pDFGenerator.newPage();
             }
             pDFGenerator.closeDocument();
         }

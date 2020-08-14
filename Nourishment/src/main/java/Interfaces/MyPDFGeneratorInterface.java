@@ -15,4 +15,5 @@ public interface MyPDFGeneratorInterface {
     public void addSubtitle(String text);
     public void addList(String[] text);
     public void closeDocument();
+    public void newPage();
 }
