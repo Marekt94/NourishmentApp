@@ -113,7 +113,6 @@ public class PotrawyWDniuView extends BasePanel {
         p.put("text.today", "Today");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        jPanel1.add(datePicker,BorderLayout.CENTER); 
         objectToDeleteList = new ArrayList<ProduktyLuzneWDniu>();
         objectToDeleteListLocal = new ArrayList<ProduktyLuzneWDniu>();
     }
@@ -129,8 +128,6 @@ public class PotrawyWDniuView extends BasePanel {
 
         lblID = new javax.swing.JLabel();
         edtID = new javax.swing.JTextField();
-        lblData = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         lblNazwa = new javax.swing.JLabel();
         edtNazwa = new javax.swing.JTextField();
         lblSniadanie = new javax.swing.JLabel();
@@ -148,21 +145,13 @@ public class PotrawyWDniuView extends BasePanel {
         lblProdukty = new javax.swing.JLabel();
         btnDodajProdukty = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(10, 2, 10, 10));
+        setLayout(new java.awt.GridLayout(9, 2, 10, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
         lblID.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         add(lblID);
         add(edtID);
-
-        lblData.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblData.setText("Data");
-        lblData.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        add(lblData);
-
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        add(jPanel1);
 
         lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNazwa.setText("Nazwa");
@@ -253,8 +242,6 @@ public class PotrawyWDniuView extends BasePanel {
     private javax.swing.JComboBox<String> cmbSniadanie;
     private javax.swing.JTextField edtID;
     private javax.swing.JTextField edtNazwa;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDrugieSnianiadnie;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblKolacja;
