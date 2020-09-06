@@ -37,6 +37,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -325,12 +326,19 @@ public class PotrawyWDniuListView extends BaseListPanel {
     
     private void generateShoppingList(List<Serializable> listOfDays){
         String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
-        if (!fileName.equals("")) {
+        List<List<?>> list = new ArrayList<>();
+        List<Integer> forHowManyDaysList = new ArrayList<>();
+        MainDialog dlg = new MainDialog(null, true, konfigView, "Jadłospis na ile dni?", new DaysPanel());
+        list.add(listOfDays);
+        list.add(forHowManyDaysList);
+        dlg.unpackWindow(list);
+        dlg.setVisible(true);
+        if (!fileName.equals("") && dlg.getResult()) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
             pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
-            List<ProductRecord> productList = createShoppingList(listOfDays);
+            List<ProductRecord> productList = createShoppingList(listOfDays, forHowManyDaysList);
             productList.sort(new Comparator<ProductRecord>() {
                 @Override
                 public int compare(ProductRecord o1, ProductRecord o2) {
@@ -342,22 +350,24 @@ public class PotrawyWDniuListView extends BaseListPanel {
         }        
     }
     
-    private List<ProductRecord> createShoppingList(List<Serializable> listOfDays){
+    private List<ProductRecord> createShoppingList(List<Serializable> listOfDays, List<Integer> forHowManyDaysList){
+        Integer forHowManyDays = 1;
         List<ProductRecord> productsList = new ArrayList<ProductRecord>();
-        for (Serializable day : listOfDays){
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getSniadanie());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getDrugieSniadanie());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getObiad());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja());
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getProduktyLuzneWDniu());
-        }
-        
+        for (int i = 0; i < listOfDays.size(); ++i){
+            forHowManyDays = forHowManyDaysList.get(i);
+            PotrawyWDniu day = (PotrawyWDniu) listOfDays.get(i);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getSniadanie(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getDrugieSniadanie(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getObiad(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja(), forHowManyDays);
+            addToShoppingList(productsList, ((PotrawyWDniu) day).getProduktyLuzneWDniu(), forHowManyDays);
+        }        
         return productsList; 
     }
     
-    private Boolean addToShoppingList(List<ProductRecord> productsList, Potrawy meal){
+    private Boolean addToShoppingList(List<ProductRecord> productsList, Potrawy meal, Integer forHowManyDays){
             Boolean result = false;
             if (meal != null){
                 List<ProduktyWPotrawie> prodWPotr = (List<ProduktyWPotrawie>) meal.getProduktyWPotrawieCollection();
@@ -367,7 +377,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
                         productRecord.productName = prod.getNazwa();
-                        productRecord.weight = produktWPotr.getIloscWG();
+                        productRecord.weight = forHowManyDays * produktWPotr.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productRecord.packages = productRecord.weight / prod.getWagaJednostki();
                         }
@@ -378,7 +388,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                         result = true;
                     }
                     else{
-                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + produktWPotr.getIloscWG();
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + forHowManyDays * produktWPotr.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
                         }
@@ -392,7 +402,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             return result;
     }
     
-    private Boolean addToShoppingList(List<ProductRecord> productsList, List<ProduktyLuzneWDniu> prodLuzneWdniu){
+    private Boolean addToShoppingList(List<ProductRecord> productsList, List<ProduktyLuzneWDniu> prodLuzneWdniu, Integer forHowManyDays){
             Boolean result = false;
             if (prodLuzneWdniu != null){
                 for (ProduktyLuzneWDniu prodLuzem : prodLuzneWdniu){
@@ -401,7 +411,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
                         productRecord.productName = prod.getNazwa();
-                        productRecord.weight = prodLuzem.getIloscWG();
+                        productRecord.weight = forHowManyDays * prodLuzem.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productRecord.packages = productRecord.weight / prod.getWagaJednostki();
                         }
@@ -412,7 +422,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                         result = true;
                     }
                     else{
-                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + prodLuzem.getIloscWG();
+                        productsList.get(indexOfProduct).weight = productsList.get(indexOfProduct).weight + forHowManyDays * prodLuzem.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productsList.get(indexOfProduct).packages = productsList.get(indexOfProduct).weight / prod.getWagaJednostki();
                         }

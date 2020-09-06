@@ -45,7 +45,7 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
             setLocationRelativeTo(null);
             myWindowManager.setResizeListener(this);
         }
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+        super.setVisible(b);
     }
     /**
      * This method is called from within the constructor to initialize the form.
