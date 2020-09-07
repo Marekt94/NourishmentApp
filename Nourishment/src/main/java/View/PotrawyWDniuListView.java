@@ -337,7 +337,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
+            for (int i = 0; i < listOfDays.size(); i++) {
+              pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString());    
+            }
             List<ProductRecord> productList = createShoppingList(listOfDays, forHowManyDaysList);
             productList.sort(new Comparator<ProductRecord>() {
                 @Override

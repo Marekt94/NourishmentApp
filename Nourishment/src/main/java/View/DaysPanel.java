@@ -52,7 +52,7 @@ public class DaysPanel extends BasePanel {
         
         JTextField edt = new JTextField("1");
         edt.setHorizontalAlignment(RIGHT);
-        if (dietTitle.isEmpty()){
+        if (dietTitle == null){
             dietTitle = "Dieta bez nazwy";    
         }
         pnlDietName.add(new JLabel(dietTitle + ":"));
