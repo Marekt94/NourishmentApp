@@ -29,11 +29,14 @@ public class PotrawyView extends BasePanel{
         meal = (Potrawy) object;
         GlobalFun.bind(meal.getId(), edtID);
         GlobalFun.bind(meal.getNazwa(), edtNazwa);
+        GlobalFun.bind(meal.getPrzepis(), edtRecipe);
+        edtRecipe.setCaretPosition(0);
     }
 
     @Override
     public void pack() {
-        meal.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
+        meal.setNazwa  ((String) GlobalFun.bind(edtNazwa,  String.class));
+        meal.setPrzepis((String) GlobalFun.bind(edtRecipe, String.class));
     }
 
     /**
@@ -53,33 +56,59 @@ public class PotrawyView extends BasePanel{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblID = new javax.swing.JLabel();
-        edtID = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
         lblNazwa = new javax.swing.JLabel();
         edtNazwa = new javax.swing.JTextField();
+        lblID = new javax.swing.JLabel();
+        edtID = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        edtRecipe = new javax.swing.JTextArea();
 
-        setPreferredSize(new java.awt.Dimension(174, 51));
-        setLayout(new java.awt.GridLayout(2, 2, 5, 10));
+        setPreferredSize(new java.awt.Dimension(223, 278));
+        setLayout(new java.awt.BorderLayout());
 
-        lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblID.setText("ID");
-        lblID.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        add(lblID);
-
-        edtID.setEnabled(false);
-        add(edtID);
+        jPanel1.setLayout(new java.awt.GridLayout(2, 2, 5, 10));
 
         lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNazwa.setText("Nazwa");
         lblNazwa.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        add(lblNazwa);
-        add(edtNazwa);
+        jPanel1.add(lblNazwa);
+        jPanel1.add(edtNazwa);
+
+        lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblID.setText("ID");
+        lblID.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel1.add(lblID);
+
+        edtID.setEnabled(false);
+        jPanel1.add(edtID);
+
+        add(jPanel1, java.awt.BorderLayout.NORTH);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Przepis"));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        edtRecipe.setColumns(20);
+        edtRecipe.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        edtRecipe.setLineWrap(true);
+        edtRecipe.setRows(5);
+        edtRecipe.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(edtRecipe);
+
+        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField edtID;
     private javax.swing.JTextField edtNazwa;
+    private javax.swing.JTextArea edtRecipe;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblNazwa;
     // End of variables declaration//GEN-END:variables

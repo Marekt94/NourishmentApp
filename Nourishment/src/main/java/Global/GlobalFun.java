@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +52,15 @@ import org.jdatepicker.impl.JDatePickerImpl;
  */
 public class GlobalFun {
     public static void bind(String text, JTextField edt){
+        if (text == null || text.equals("")){
+            edt.setText(NULL_SIGN);
+        }
+        else{
+            edt.setText(text);
+        }
+    }
+    
+    public static void bind(String text, JTextArea edt){
         if (text == null || text.equals("")){
             edt.setText(NULL_SIGN);
         }
@@ -86,6 +96,50 @@ public class GlobalFun {
             cmb.setSelectedItem(null);
         }         
     }
+    
+    public static Object bind(JTextArea edt, Class type){
+        Boolean notEmpty;
+ 
+        if (edt.getText().equals(NULL_SIGN) || edt.getText().trim().equals("")){
+            notEmpty = false;
+        }
+        else{
+            notEmpty = true;
+        }
+        
+        if (type == Double.class){
+            if (notEmpty){
+                    DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
+                    DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+                    String valueStr = edt.getText().replaceAll(Character.toString(symbols.getDecimalSeparator()),".");
+                    Double valueDoub = new Double(valueStr); 
+                    return valueDoub;
+            }
+            else{
+                return 0.0;
+            }
+        }
+        
+        if (type == Integer.class){
+            if (notEmpty){
+                return new Integer(edt.getText());
+            }
+            else{
+                return 0;
+            }
+        }
+        
+        if (type == String.class){
+            if (notEmpty){
+                return edt.getText().trim();
+            }
+            else{
+                return "";
+            }
+        }
+        
+        return NULL_SIGN;
+    }    
 
     public static Object bind(JTextField edt, Class type){
         Boolean notEmpty;

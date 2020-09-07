@@ -45,6 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
 public class Potrawy implements Serializable {
 
+    @Column(name = "PRZEPIS")
+    private String przepis;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -274,6 +276,14 @@ public class Potrawy implements Serializable {
     @Override
     public String toString() {
         return nazwa;
+    }
+
+    public String getPrzepis() {
+        return przepis;
+    }
+
+    public void setPrzepis(String przepis) {
+        this.przepis = przepis;
     }
     
 }
