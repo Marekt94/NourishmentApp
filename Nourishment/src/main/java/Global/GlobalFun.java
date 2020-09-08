@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
@@ -78,6 +79,15 @@ public class GlobalFun {
         }        
     }
     
+    public static void bind(char value, char valueForSelected, JCheckBox chb){
+        if (value == valueForSelected){
+            chb.setSelected(true);
+        }
+        else{
+            chb.setSelected(false);
+        }
+    }
+    
     public static void bind(Double number, JTextField edt){
         if (number != null){
             number = round(number, null);
@@ -95,6 +105,15 @@ public class GlobalFun {
         else{
             cmb.setSelectedItem(null);
         }         
+    }
+    
+    public static char bind(JCheckBox chb, char valueForSelected, char valueForUnselected){
+        if (chb.isSelected()){
+            return valueForSelected;
+        }
+        else{
+            return valueForUnselected;
+        }
     }
     
     public static Object bind(JTextArea edt, Class type){
@@ -175,7 +194,7 @@ public class GlobalFun {
         
         if (type == String.class){
             if (notEmpty){
-                return edt.getText();
+                return edt.getText().trim();
             }
             else{
                 return "";
@@ -304,6 +323,14 @@ public class GlobalFun {
             fileName = fileName + "." + fileExtension;
         }
         return fileName;
+    }
+     
+    public static char dBTrue(){
+        return '1';
+    }
+    
+    public static char dBFalse(){
+        return '0';
     }
     
 }

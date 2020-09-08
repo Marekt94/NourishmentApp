@@ -26,9 +26,10 @@ import java.util.logging.Logger;
  */
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
-    Font titleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
+    Font titleFont    = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
     Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 13, Font.BOLD);
-    Font listFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
+    Font listFont     = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
+    Font normalFont   = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
     
     public PDFGenerator(){
         
@@ -87,6 +88,15 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
                 paragraph.add(" - " + line + "\n");
             }
             document.add(paragraph);
+        } catch (DocumentException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void addParagraph(String text) {
+        try {
+            document.add(new Paragraph(text, normalFont));
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }

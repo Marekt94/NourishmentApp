@@ -96,7 +96,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         btnPrintReceipts.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generateReceipts(getSelectedRecords());
+                generateRecipes(getSelectedRecords());
             }
         });
         addButton(btnPrintReceipts, KeyEvent.VK_P);
@@ -135,7 +135,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
         ((PotrawyWDniuView) detailPanel).getObjectToDeleteList().clear();        
     }
     
-    public void generateReceipts(List<Serializable> listOfDays){
+    public void generateRecipes(List<Serializable> listOfDays){
         String fileName = GlobalFun.choosePath(this, fileExtension, fdftSave, defaultDirectory);
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
@@ -302,6 +302,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
+            if (potr.getPrzepis() != null){
+                text += "\n" + potr.getPrzepis().trim();
+            }
             for (ProduktyWPotrawie prod : potr.getProduktyWPotrawieCollection()){
                 productList.add("  * " + prod.getIdProduktu().getNazwa()
                                 + ": " + Double.toString(prod.getIloscWG())

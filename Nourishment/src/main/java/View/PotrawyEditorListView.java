@@ -111,11 +111,14 @@ public class PotrawyEditorListView extends BaseListPanel {
         HashSet<String> list = new HashSet<>();
         for (int i = 0; i < pnlPotrawyList.getObjectsList().size(); i++) {
             Potrawy potr = potrList.get(i);
-            pDFGenerator.addSubtitle(potr.getNazwa() + ": "
-                                     + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+            pDFGenerator.addSubtitle(potr.getNazwa() + ":\n"
+                                     + "b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
                                      + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
                                      + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
                                      + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString());
+            if (potr.getPrzepis() != null){
+                pDFGenerator.addParagraph(potr.getPrzepis().trim());
+            }
             list.clear();
             for (int j = 0; j < potrList.get(i).getProduktyWPotrawieCollection().size(); j++) {
                 list.add(potrList.get(i).getProduktyWPotrawieCollection().get(j).getIdProduktu().getNazwa() + " "

@@ -46,10 +46,30 @@ public class PotrawyWDniuView extends BasePanel {
     public List<ProduktyLuzneWDniu> getObjectToDeleteList() {
         return objectToDeleteList;
     }
+    
+    private void setControlsEnabled(boolean isSelected){
+         if (!isSelected){
+            cmbLunch.setEnabled(false);
+            cmbObiad.setEnabled(true);
+            cmbPodwieczorek.setEnabled(true);
+            lblLunch.setEnabled(false);
+            lblObiad.setEnabled(true);
+            lblPodwieczorek.setEnabled(true);            
+        }
+        else{
+            cmbLunch.setEnabled(true);
+            cmbObiad.setEnabled(false);
+            cmbPodwieczorek.setEnabled(false);   
+            lblLunch.setEnabled(true);
+            lblObiad.setEnabled(false);
+            lblPodwieczorek.setEnabled(false);              
+        }       
+    }
 
     @Override
     public <E> void unpack(E object) {
         potrWDniu = (PotrawyWDniu) object;
+        GlobalFun.bind(potrWDniu.getCzy5dni(), GlobalFun.dBFalse(), chbCzy5Dni);
         GlobalFun.bind(potrWDniu.getId(),edtID);
         GlobalFun.bind(potrWDniu.getSniadanie(), cmbSniadanie);
         GlobalFun.bind(potrWDniu.getDrugieSniadanie(), cmbDrugieSniadanie);
@@ -58,6 +78,7 @@ public class PotrawyWDniuView extends BasePanel {
         GlobalFun.bind(potrWDniu.getKolacja(), cmbKolacja);
         GlobalFun.bind(potrWDniu.getLunch(), cmbLunch);
         GlobalFun.bind(potrWDniu.getNazwa(), edtNazwa);
+        setControlsEnabled(chbCzy5Dni.isSelected());
         objectToDeleteListLocal.clear();
     }
 
@@ -75,13 +96,13 @@ public class PotrawyWDniuView extends BasePanel {
 
     @Override
     public void pack() {
+        potrWDniu.setCzy5dni(GlobalFun.bind(chbCzy5Dni, GlobalFun.dBFalse(), GlobalFun.dBTrue()));
         potrWDniu.setSniadanie((Potrawy) GlobalFun.bind(cmbSniadanie));
         potrWDniu.setDrugieSniadanie((Potrawy) GlobalFun.bind(cmbDrugieSniadanie));
         potrWDniu.setObiad((Potrawy) GlobalFun.bind(cmbObiad));
         potrWDniu.setPodwieczorek((Potrawy) GlobalFun.bind(cmbPodwieczorek));
         potrWDniu.setKolacja((Potrawy) GlobalFun.bind(cmbKolacja));
         potrWDniu.setLunch((Potrawy) GlobalFun.bind(cmbLunch));
-        potrWDniu.setCzy5dni('1');
         potrWDniu.setNazwa((String) GlobalFun.bind(edtNazwa, String.class));
         if (potrWDniu.getProduktyLuzneWDniu() != null){
             for (int i = 0; i < potrWDniu.getProduktyLuzneWDniu().size(); i++) {
@@ -132,7 +153,7 @@ public class PotrawyWDniuView extends BasePanel {
         edtNazwa = new javax.swing.JTextField();
         lblSniadanie = new javax.swing.JLabel();
         cmbSniadanie = new javax.swing.JComboBox<>();
-        lblDrugieSnianiadnie = new javax.swing.JLabel();
+        lblDrugieSniadanie = new javax.swing.JLabel();
         cmbDrugieSniadanie = new javax.swing.JComboBox<>();
         lblObiad = new javax.swing.JLabel();
         cmbObiad = new javax.swing.JComboBox<>();
@@ -144,8 +165,10 @@ public class PotrawyWDniuView extends BasePanel {
         cmbKolacja = new javax.swing.JComboBox<>();
         lblProdukty = new javax.swing.JLabel();
         btnDodajProdukty = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        chbCzy5Dni = new javax.swing.JCheckBox();
 
-        setLayout(new java.awt.GridLayout(9, 2, 10, 10));
+        setLayout(new java.awt.GridLayout(10, 2, 10, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -165,10 +188,10 @@ public class PotrawyWDniuView extends BasePanel {
 
         add(cmbSniadanie);
 
-        lblDrugieSnianiadnie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblDrugieSnianiadnie.setText("Drugie śniadanie");
-        lblDrugieSnianiadnie.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        add(lblDrugieSnianiadnie);
+        lblDrugieSniadanie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDrugieSniadanie.setText("Drugie śniadanie");
+        lblDrugieSniadanie.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        add(lblDrugieSniadanie);
 
         add(cmbDrugieSniadanie);
 
@@ -211,6 +234,16 @@ public class PotrawyWDniuView extends BasePanel {
             }
         });
         add(btnDodajProdukty);
+        add(jPanel1);
+
+        chbCzy5Dni.setText("Dieta 4-dniowa");
+        chbCzy5Dni.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        chbCzy5Dni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbCzy5DniActionPerformed(evt);
+            }
+        });
+        add(chbCzy5Dni);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajProduktyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajProduktyActionPerformed
@@ -231,9 +264,14 @@ public class PotrawyWDniuView extends BasePanel {
         }
     }//GEN-LAST:event_btnDodajProduktyActionPerformed
 
+    private void chbCzy5DniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbCzy5DniActionPerformed
+        setControlsEnabled(chbCzy5Dni.isSelected());
+    }//GEN-LAST:event_chbCzy5DniActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajProdukty;
+    private javax.swing.JCheckBox chbCzy5Dni;
     private javax.swing.JComboBox<String> cmbDrugieSniadanie;
     private javax.swing.JComboBox<String> cmbKolacja;
     private javax.swing.JComboBox<String> cmbLunch;
@@ -242,7 +280,8 @@ public class PotrawyWDniuView extends BasePanel {
     private javax.swing.JComboBox<String> cmbSniadanie;
     private javax.swing.JTextField edtID;
     private javax.swing.JTextField edtNazwa;
-    private javax.swing.JLabel lblDrugieSnianiadnie;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDrugieSniadanie;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblKolacja;
     private javax.swing.JLabel lblLunch;
