@@ -36,7 +36,6 @@ import org.hibernate.annotations.ParamDef;
  *
  * @author Marek
  */
-
 @Entity
 @Table(name = "POTRAWY_W_DNIU")
 @XmlRootElement
@@ -266,26 +265,37 @@ public class PotrawyWDniu implements Serializable {
 
     public Double getSumaKcal() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaKcal();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaKcal();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaKcal();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaKcal();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaKcal();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaKcal();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaKcal();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaKcal();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaKcal();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getKcal();
             }
@@ -295,205 +305,282 @@ public class PotrawyWDniu implements Serializable {
 
     public Double getSumaBialko() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaBialko();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaBialko();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaBialko();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaBialko();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaBialko();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaBialko();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaBialko();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaBialko();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaBialko();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getBialko();
             }
-        }        
+        }
         return sum;
     }
 
     public Double getSumaCukryProste() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaCukryProste();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukryProste();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaCukryProste();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaCukryProste();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaCukryProste();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaCukryProste();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaCukryProste();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaCukryProste();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaCukryProste();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getCukryZlozone();
             }
-        }        
+        }
         return sum;
     }
 
     public Double getSumaCukrySuma() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaCukrySuma();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukrySuma();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaCukrySuma();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaCukrySuma();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaCukrySuma();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaCukrySuma();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaCukrySuma();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaCukrySuma();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaCukrySuma();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getCukrySuma();
             }
         }
-        
+
         return sum;
     }
 
     public Double getSumaCukryZlozone() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaCukryZlozone();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukryZlozone();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaCukryZlozone();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaCukryZlozone();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaCukryZlozone();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaCukryZlozone();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaCukryZlozone();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaCukryZlozone();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaCukryZlozone();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getCukryZlozone();
             }
-        }        
+        }
         return sum;
     }
 
     public Double getSumaTluszcz() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaTluszcz();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaTluszcz();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaTluszcz();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaTluszcz();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaTluszcz();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaTluszcz();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaTluszcz();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaTluszcz();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaTluszcz();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getTluszcz();
             }
-        }        
+        }
         return sum;
     }
 
     public Double getSumaBlonnik() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaBlonnik();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaBlonnik();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaBlonnik();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaBlonnik();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaBlonnik();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaBlonnik();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaBlonnik();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaBlonnik();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaBlonnik();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getBlonnik();
             }
-        }        
+        }
         return sum;
     }
 
     public Double getSumaSol() {
         double sum = 0.0;
-        if (czy5dni == '1'){
-            if (sniadanie != null){
+        if (czy5dni == '1') {
+            if (sniadanie != null) {
                 sum += sniadanie.getSumaSol();
             }
-            if (drugieSniadanie != null){
+            if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaSol();
             }
-            if (obiad != null){
+            if (obiad != null) {
                 sum += obiad.getSumaSol();
             }
-            if (podwieczorek != null){
+            if (podwieczorek != null) {
                 sum += podwieczorek.getSumaSol();
             }
-            if (kolacja != null){
+            if (kolacja != null) {
                 sum += kolacja.getSumaSol();
-            }            
+            }
+        } else {
+            if (sniadanie != null) {
+                sum += sniadanie.getSumaSol();
+            }
+            if (lunch != null) {
+                sum += obiad.getSumaSol();
+            }
+            if (drugieSniadanie != null) {
+                sum += drugieSniadanie.getSumaSol();
+            }
+            if (kolacja != null) {
+                sum += kolacja.getSumaSol();
+            }
         }
-        else{
-        }
-        if (produktyLuzneWDniu != null){
+        if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {
                 sum += produktyLuzneWDniu.get(i).getSol();
             }
-        }        
+        }
         return sum;
     }
 
@@ -568,5 +655,5 @@ public class PotrawyWDniu implements Serializable {
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-    
+
 }

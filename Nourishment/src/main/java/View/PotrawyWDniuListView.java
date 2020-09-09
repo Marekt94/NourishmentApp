@@ -141,7 +141,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
-            pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(0)).getNazwa());
+            pDFGenerator.addTitle("Przepisy:");
             createReceipts(listOfDays, pDFGenerator);
             pDFGenerator.closeDocument();
         }          
@@ -151,12 +151,16 @@ public class PotrawyWDniuListView extends BaseListPanel {
         List<Potrawy> potrawyList = new ArrayList<Potrawy>();
         for (int i = 0; i < listOfDays.size(); i++) {
             PotrawyWDniu pwd = (PotrawyWDniu) listOfDays.get(i);
-            addToReceipt(pwd.getSniadanie(),       potrawyList, pDFGenerator);
+            addToReceipt(pwd.getSniadanie(), potrawyList, pDFGenerator);
             addToReceipt(pwd.getDrugieSniadanie(), potrawyList, pDFGenerator);
-            addToReceipt(pwd.getObiad(),           potrawyList, pDFGenerator);
-            addToReceipt(pwd.getPodwieczorek(),    potrawyList, pDFGenerator);
-            addToReceipt(pwd.getLunch(),           potrawyList, pDFGenerator);
-            addToReceipt(pwd.getKolacja(),         potrawyList, pDFGenerator);
+            if (pwd.getCzy5dni() == GlobalFun.dBTrue()){
+                addToReceipt(pwd.getObiad(),potrawyList, pDFGenerator);
+                addToReceipt(pwd.getPodwieczorek(), potrawyList, pDFGenerator);
+            }
+            else{
+                addToReceipt(pwd.getLunch(), potrawyList, pDFGenerator);
+            }
+            addToReceipt(pwd.getKolacja(), potrawyList, pDFGenerator);
         }
     }
     
@@ -182,10 +186,13 @@ public class PotrawyWDniuListView extends BaseListPanel {
     }
                 
     
-   private void addToReceipt(Potrawy ptr, List<Potrawy> existingOnReceiptMeals, MyPDFGeneratorInterface pDFGenerator){
-        if ((ptr != null) && (!existingOnReceiptMeals.contains(ptr))){
-            existingOnReceiptMeals.add(ptr);
+   private void addToReceipt(Potrawy ptr, List<Potrawy> mealsRecipesList, MyPDFGeneratorInterface pDFGenerator){
+        if ((ptr != null) && (!mealsRecipesList.contains(ptr))){
+            mealsRecipesList.add(ptr);
             pDFGenerator.addSubtitle(ptr.getNazwa());
+            if (ptr.getPrzepis() != null){
+                pDFGenerator.addParagraph(ptr.getPrzepis().trim());
+            }
             HashSet<String> prodList = new HashSet<String>();
             for (ProduktyWPotrawie prod : ptr.getProduktyWPotrawieCollection()){
                 prodList.add(prod.getIdProduktu().getNazwa() + ": " + Double.toString(prod.getIloscWG()) + " " + prod.getIdProduktu().getJednostka());
@@ -363,9 +370,13 @@ public class PotrawyWDniuListView extends BaseListPanel {
             PotrawyWDniu day = (PotrawyWDniu) listOfDays.get(i);
             addToShoppingList(productsList, ((PotrawyWDniu) day).getSniadanie(), forHowManyDays);
             addToShoppingList(productsList, ((PotrawyWDniu) day).getDrugieSniadanie(), forHowManyDays);
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getObiad(), forHowManyDays);
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek(), forHowManyDays);
-            addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch(), forHowManyDays);
+            if (day.getCzy5dni() == GlobalFun.dBTrue()){
+                addToShoppingList(productsList, ((PotrawyWDniu) day).getObiad(), forHowManyDays);
+                addToShoppingList(productsList, ((PotrawyWDniu) day).getPodwieczorek(), forHowManyDays);
+            }
+            else{
+                addToShoppingList(productsList, ((PotrawyWDniu) day).getLunch(), forHowManyDays);
+            }
             addToShoppingList(productsList, ((PotrawyWDniu) day).getKolacja(), forHowManyDays);
             addToShoppingList(productsList, ((PotrawyWDniu) day).getProduktyLuzneWDniu(), forHowManyDays);
         }        
