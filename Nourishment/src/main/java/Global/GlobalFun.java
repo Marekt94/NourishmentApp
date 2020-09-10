@@ -79,8 +79,8 @@ public class GlobalFun {
         }        
     }
     
-    public static void bind(char value, char valueForSelected, JCheckBox chb){
-        if (value == valueForSelected){
+    public static void bind(Character value, char valueForSelected, JCheckBox chb){
+        if ((value != null) && (value == valueForSelected)){
             chb.setSelected(true);
         }
         else{

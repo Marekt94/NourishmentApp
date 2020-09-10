@@ -309,7 +309,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                    + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
                    + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
                    + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();
-            if (potr.getPrzepis() != null){
+            if ((potr.getPrzepis() != null) && (!potr.getPrzepis().trim().equals(""))){
                 text += "\n" + potr.getPrzepis().trim();
             }
             for (ProduktyWPotrawie prod : potr.getProduktyWPotrawieCollection()){
@@ -325,7 +325,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
 
     private String createTitleString(String prefix, PotrawyWDniu potr) {
         if (potr != null) {
-            return prefix + ": " + " b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
+            return prefix + ": " + "b: " + GlobalFun.round(potr.getSumaBialko(), 2).toString()
                     + " w: " + GlobalFun.round(potr.getSumaCukrySuma(), 2).toString()
                     + " t: " + GlobalFun.round(potr.getSumaTluszcz(), 2).toString()
                     + " kcal: " + GlobalFun.round(potr.getSumaKcal(), 2).toString();

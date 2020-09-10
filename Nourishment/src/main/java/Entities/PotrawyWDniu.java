@@ -286,7 +286,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaKcal();
             }
             if (lunch != null) {
-                sum += obiad.getSumaKcal();
+                sum += lunch.getSumaKcal();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaKcal();
@@ -326,7 +326,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaBialko();
             }
             if (lunch != null) {
-                sum += obiad.getSumaBialko();
+                sum += lunch.getSumaBialko();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaBialko();
@@ -366,7 +366,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaCukryProste();
             }
             if (lunch != null) {
-                sum += obiad.getSumaCukryProste();
+                sum += lunch.getSumaCukryProste();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukryProste();
@@ -406,7 +406,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaCukrySuma();
             }
             if (lunch != null) {
-                sum += obiad.getSumaCukrySuma();
+                sum += lunch.getSumaCukrySuma();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukrySuma();
@@ -447,7 +447,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaCukryZlozone();
             }
             if (lunch != null) {
-                sum += obiad.getSumaCukryZlozone();
+                sum += lunch.getSumaCukryZlozone();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaCukryZlozone();
@@ -487,7 +487,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaTluszcz();
             }
             if (lunch != null) {
-                sum += obiad.getSumaTluszcz();
+                sum += lunch.getSumaTluszcz();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaTluszcz();
@@ -527,7 +527,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaBlonnik();
             }
             if (lunch != null) {
-                sum += obiad.getSumaBlonnik();
+                sum += lunch.getSumaBlonnik();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaBlonnik();
@@ -567,7 +567,7 @@ public class PotrawyWDniu implements Serializable {
                 sum += sniadanie.getSumaSol();
             }
             if (lunch != null) {
-                sum += obiad.getSumaSol();
+                sum += lunch.getSumaSol();
             }
             if (drugieSniadanie != null) {
                 sum += drugieSniadanie.getSumaSol();
@@ -582,70 +582,6 @@ public class PotrawyWDniu implements Serializable {
             }
         }
         return sum;
-    }
-
-    public Double getSumabialko() {
-        return sumabialko;
-    }
-
-    public void setSumabialko(Double sumabialko) {
-        this.sumabialko = sumabialko;
-    }
-
-    public Double getSumablonnik() {
-        return sumablonnik;
-    }
-
-    public void setSumablonnik(Double sumablonnik) {
-        this.sumablonnik = sumablonnik;
-    }
-
-    public Double getSumacukryproste() {
-        return sumacukryproste;
-    }
-
-    public void setSumacukryproste(Double sumacukryproste) {
-        this.sumacukryproste = sumacukryproste;
-    }
-
-    public Double getSumacukrysuma() {
-        return sumacukrysuma;
-    }
-
-    public void setSumacukrysuma(Double sumacukrysuma) {
-        this.sumacukrysuma = sumacukrysuma;
-    }
-
-    public Double getSumacukryzlozone() {
-        return sumacukryzlozone;
-    }
-
-    public void setSumacukryzlozone(Double sumacukryzlozone) {
-        this.sumacukryzlozone = sumacukryzlozone;
-    }
-
-    public Double getSumakcal() {
-        return sumakcal;
-    }
-
-    public void setSumakcal(Double sumakcal) {
-        this.sumakcal = sumakcal;
-    }
-
-    public Double getSumasol() {
-        return sumasol;
-    }
-
-    public void setSumasol(Double sumasol) {
-        this.sumasol = sumasol;
-    }
-
-    public Double getSumatluszcz() {
-        return sumatluszcz;
-    }
-
-    public void setSumatluszcz(Double sumatluszcz) {
-        this.sumatluszcz = sumatluszcz;
     }
 
     public String getNazwa() {
