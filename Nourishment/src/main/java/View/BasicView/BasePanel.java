@@ -12,7 +12,9 @@ import java.awt.event.FocusListener;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -46,13 +48,13 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
         focusListener = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                JTextField field = (JTextField)e.getSource();
+                JTextComponent field = (JTextComponent)e.getSource();
                 field.selectAll();              
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                JTextField field = (JTextField)e.getSource();
+                JTextComponent field = (JTextComponent)e.getSource();
                 field.select(0, 0);
             }
         };
@@ -99,12 +101,15 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
         return true;
     }
     
-    private void setFocusListenerToAll(JPanel panel){
+    private void setFocusListenerToAll(JComponent panel){
         for (Component component : panel.getComponents()){
             if (component.getClass().equals(JPanel.class)){
                 setFocusListenerToAll((JPanel) component);
             }
-            if (component instanceof JTextField){
+            if (component.getClass().equals(JScrollPane.class)){
+                setFocusListenerToAll((JScrollPane) component);
+            }
+            if (component instanceof JTextComponent){
                 component.addFocusListener(focusListener);
             }
         }        

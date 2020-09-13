@@ -44,6 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.JTextComponent;
 import org.apache.commons.lang3.SerializationUtils;
 import org.jdatepicker.impl.JDatePickerImpl;
 
@@ -116,7 +117,7 @@ public class GlobalFun {
         }
     }
     
-    public static Object bind(JTextArea edt, Class type){
+    public static Object bind(JTextComponent edt, Class type){
         Boolean notEmpty;
  
         if (edt.getText().equals(NULL_SIGN) || edt.getText().trim().equals("")){
@@ -159,50 +160,6 @@ public class GlobalFun {
         
         return NULL_SIGN;
     }    
-
-    public static Object bind(JTextField edt, Class type){
-        Boolean notEmpty;
- 
-        if (edt.getText().equals(NULL_SIGN) || edt.getText().equals("")){
-            notEmpty = false;
-        }
-        else{
-            notEmpty = true;
-        }
-        
-        if (type == Double.class){
-            if (notEmpty){
-                    DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
-                    DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
-                    String valueStr = edt.getText().replaceAll(Character.toString(symbols.getDecimalSeparator()),".");
-                    Double valueDoub = new Double(valueStr); 
-                    return valueDoub;
-            }
-            else{
-                return 0.0;
-            }
-        }
-        
-        if (type == Integer.class){
-            if (notEmpty){
-                return new Integer(edt.getText());
-            }
-            else{
-                return 0;
-            }
-        }
-        
-        if (type == String.class){
-            if (notEmpty){
-                return edt.getText().trim();
-            }
-            else{
-                return "";
-            }
-        }
-        
-        return NULL_SIGN;
-    }
     
     public static Serializable bind(JComboBox cmb){
         Serializable item = (Serializable) cmb.getSelectedItem();         
