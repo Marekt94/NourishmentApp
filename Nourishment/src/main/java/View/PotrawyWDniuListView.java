@@ -262,7 +262,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
         if (!fileName.equals("")) {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
-            listOfDays.sort(new MyComparator("data", PotrawyWDniu.class, true));
             pDFGenerator.openDocument(fileName);
             for (int i = 0; i < listOfDays.size(); i++) {
                 PotrawyWDniu potr = (PotrawyWDniu) listOfDays.get(i);
