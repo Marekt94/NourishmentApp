@@ -7,6 +7,8 @@ package Other;
 
 import Global.GlobalFun;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +29,7 @@ public class TableUpdater {
         columnOrder = new ArrayList<String>();
     }
             
-    public <E> void updateTable(List<E> list, JTable table, List<String> omittedColumns){
+    public <E> void updateTable(List<E> list, JTable table, List<String> omittedColumns) throws InvocationTargetException{
         if (!checkRequirements(list, table)){return;}
         List<String> choosenColumns = createChosenColumsList(list.get(0).getClass(), omittedColumns);
         Field[] fields = setFieldsToShow(table, list, choosenColumns);
@@ -120,24 +122,37 @@ public class TableUpdater {
         }        
     }
     
-    private <E> void fillTable(JTable table, List<E> list, Field[] fields){
+    private <E> void fillTable(JTable table, List<E> list, Field[] fields) throws InvocationTargetException{
         ((DefaultTableModel) table.getModel()).setRowCount(0);
+        Object value;
         for (int j = 0; j < list.size(); j++) {
             String[] row = new String[fields.length];
             for (int i = 0; i < fields.length; i++) {
                 try {
                     Boolean oldAccess;
-                    oldAccess =  fields[i].canAccess(list.get(j));
-                    fields[i].setAccessible(true);
-                    if (fields[i].get(list.get(j)) != null){
+                    Method method = null;
+                    value = null;
+                    
+                    oldAccess = fields[i].canAccess(list.get(j));
+                    if (oldAccess == false){
+                        method = findGetter(fields[i]);
+                        if (method != null){
+                            value = method.invoke(list.get(j));
+                        }
+                    }
+                    else{
+                        if (fields[i].get(list.get(j)) != null){
+                            value = fields[i].get(list.get(j)); 
+                        }
+                    }
+                    if (value != null){
                         if (fields[i].get(list.get(j)).getClass().equals(Double.class)){
-                            row[i] = GlobalFun.round((Double) fields[i].get(list.get(j)), null).toString();
+                            row[i] = GlobalFun.round((Double) value, null).toString();
                         }
                         else{
                             row[i] = fields[i].get(list.get(j)).toString();
                         }
                     }
-                    fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
                     System.out.print("Error in updateTable\n");
                 } catch (IllegalAccessException ex) {
@@ -147,6 +162,25 @@ public class TableUpdater {
             }
             ((DefaultTableModel) table.getModel()).addRow(row);
         }         
+    }
+    
+    private Method findGetter (Field field){
+        for (Method method : field.getDeclaringClass().getMethods()){
+            Boolean res = false;
+            String methodName = method.getName().toLowerCase();
+            String getterName = ("get" + field.getName()).toLowerCase();
+            if (methodName.equals(getterName)){
+                if(method.getParameterTypes().length == 0){
+                    if(!void.class.equals(method.getReturnType())){
+                        res = true;
+                    }
+                }
+            }
+            if (res){
+                return method;
+            }
+        }
+        return null;
     }
     
     private void getColumnOrder(JTable table){
