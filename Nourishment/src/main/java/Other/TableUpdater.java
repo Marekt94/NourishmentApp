@@ -135,6 +135,7 @@ public class TableUpdater {
                     
                     oldAccess = fields[i].canAccess(list.get(j));
                     if (oldAccess == false){
+                        fields[i].setAccessible(true);
                         method = findGetter(fields[i]);
                         if (method != null){
                             value = method.invoke(list.get(j));
@@ -153,6 +154,7 @@ public class TableUpdater {
                             row[i] = fields[i].get(list.get(j)).toString();
                         }
                     }
+                    fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
                     System.out.print("Error in updateTable\n");
                 } catch (IllegalAccessException ex) {
