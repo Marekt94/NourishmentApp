@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -207,7 +208,11 @@ public class GlobalFun {
     
     public static <E> void updateTable(List<E> list, JTable table, List<String> omittedColumns){
         TableUpdater tableUpdater = new TableUpdater();
-        tableUpdater.updateTable(list, table, omittedColumns);     
+        try {     
+            tableUpdater.updateTable(list, table, omittedColumns);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(GlobalFun.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static <E extends Serializable> void deepListCopy(List<E> referenceList, List<E> newList){

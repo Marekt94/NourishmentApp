@@ -54,21 +54,13 @@ public class ProduktyWPotrawie implements Serializable {
     @Column(name = "ILOSC_W_G")
     private double iloscWG;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "SUMA_BLONNIK")
     private Double sumaBlonnik;
-    @Column(name = "SUMA_KCAL")
     private Double sumaKcal;
-    @Column(name = "SUMA_SOL")
     private Double sumaSol;
-    @Column(name = "SUMA_TLUSZCZ")
     private Double sumaTluszcz;
-    @Column(name = "SUMA_BIALKO")
     private Double sumaBialko;
-    @Column(name = "SUMA_CUKRY_PROSTE")
     private Double sumaCukryProste;
-    @Column(name = "SUMA_CUKRY_ZLOZONE")
     private Double sumaCukryZlozone;
-    @Column(name = "SUMA_CUKRY_SUMA")
     private Double sumaCukrySuma;
     @JoinColumn(name = "ID_POTRAWY", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -103,67 +95,75 @@ public class ProduktyWPotrawie implements Serializable {
     }
 
     public Double getSumaBlonnik() {
+        if (idProduktu != null){
+            sumaBlonnik = (idProduktu.getBlonnik() * iloscWG) / 100.0;
+        }
+        else
+            sumaBlonnik = 0.0;
         return sumaBlonnik;
     }
 
-    public void setSumaBlonnik(Double sumaBlonnik) {
-        this.sumaBlonnik = sumaBlonnik;
-    }
-
     public Double getSumaKcal() {
+        if (idProduktu != null){
+            sumaKcal = (idProduktu.getKcalNa100g() * iloscWG) / 100.0;
+        }
+        else
+            sumaKcal = 0.0;
         return sumaKcal;
     }
 
-    public void setSumaKcal(Double sumaKcal) {
-        this.sumaKcal = sumaKcal;
-    }
-
     public Double getSumaSol() {
+        if (idProduktu != null){
+            sumaSol = (idProduktu.getSol() * iloscWG) / 100.0;
+        }
+        else
+            sumaSol = 0.0;
         return sumaSol;
     }
 
-    public void setSumaSol(Double sumaSol) {
-        this.sumaSol = sumaSol;
-    }
-
     public Double getSumaTluszcz() {
-        return sumaTluszcz;
-    }
-
-    public void setSumaTluszcz(Double sumaTluszcz) {
-        this.sumaTluszcz = sumaTluszcz;
+        if (idProduktu != null){
+            sumaTluszcz = (idProduktu.getTluszcz() * iloscWG) / 100.0;
+        }
+        else
+            sumaTluszcz = 0.0;
+        return sumaTluszcz;        
     }
 
     public Double getSumaBialko() {
+        if (idProduktu != null){
+            sumaBialko = (idProduktu.getBialko()* iloscWG) / 100.0;
+        }
+        else
+            sumaBialko = 0.0;
         return sumaBialko;
     }
 
-    public void setSumaBialko(Double sumaBialko) {
-        this.sumaBialko = sumaBialko;
-    }
-
     public Double getSumaCukryProste() {
+        if (idProduktu != null){
+            sumaCukryProste = (idProduktu.getCukryProste() * iloscWG) / 100.0;
+        }
+        else
+            sumaCukryProste = 0.0;
         return sumaCukryProste;
     }
 
-    public void setSumaCukryProste(Double sumaCukryProste) {
-        this.sumaCukryProste = sumaCukryProste;
-    }
-
     public Double getSumaCukryZlozone() {
+        if (idProduktu != null){
+            sumaCukryZlozone = (idProduktu.getCukryZlozone() * iloscWG) / 100.0;
+        }
+        else
+            sumaCukryZlozone = 0.0;
         return sumaCukryZlozone;
     }
 
-    public void setSumaCukryZlozone(Double sumaCukryZlozone) {
-        this.sumaCukryZlozone = sumaCukryZlozone;
-    }
-
     public Double getSumaCukrySuma() {
+        if (idProduktu != null){
+            sumaCukrySuma = (idProduktu.getCukrySuma() * iloscWG) / 100.0;
+        }
+        else
+            sumaCukrySuma = 0.0;
         return sumaCukrySuma;
-    }
-
-    public void setSumaCukrySuma(Double sumaCukrySuma) {
-        this.sumaCukrySuma = sumaCukrySuma;
     }
 
     public Potrawy getIdPotrawy() {

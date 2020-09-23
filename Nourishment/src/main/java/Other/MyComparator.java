@@ -30,11 +30,6 @@ public class MyComparator implements Comparator{
         this.ascending = ascending;        
     }
     
-//    public void init(String fieldName, Class objectClass, Boolean ascending) throws NoSuchFieldException{
-//        field = objectClass.getDeclaredField(fieldName);
-//        this.ascending = ascending;
-//    }
-    
     @Override
     public int compare(Object o1, Object o2) {
         try {

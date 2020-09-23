@@ -6,8 +6,11 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -33,15 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Potrawy.findAll", query = "SELECT p FROM Potrawy p"),
     @NamedQuery(name = "Potrawy.findById", query = "SELECT p FROM Potrawy p WHERE p.id = :id"),
-    @NamedQuery(name = "Potrawy.findBySumaKcal", query = "SELECT p FROM Potrawy p WHERE p.sumaKcal = :sumaKcal"),
-    @NamedQuery(name = "Potrawy.findBySumaTluszcz", query = "SELECT p FROM Potrawy p WHERE p.sumaTluszcz = :sumaTluszcz"),
-    @NamedQuery(name = "Potrawy.findBySumaBialko", query = "SELECT p FROM Potrawy p WHERE p.sumaBialko = :sumaBialko"),
     @NamedQuery(name = "Potrawy.findByNazwa", query = "SELECT p FROM Potrawy p WHERE p.nazwa = :nazwa"),
-    @NamedQuery(name = "Potrawy.findBySumaCukryZlozone", query = "SELECT p FROM Potrawy p WHERE p.sumaCukryZlozone = :sumaCukryZlozone"),
-    @NamedQuery(name = "Potrawy.findBySumaSol", query = "SELECT p FROM Potrawy p WHERE p.sumaSol = :sumaSol"),
-    @NamedQuery(name = "Potrawy.findBySumaBlonnik", query = "SELECT p FROM Potrawy p WHERE p.sumaBlonnik = :sumaBlonnik"),
-    @NamedQuery(name = "Potrawy.findBySumaCukrySuma", query = "SELECT p FROM Potrawy p WHERE p.sumaCukrySuma = :sumaCukrySuma"),
-    @NamedQuery(name = "Potrawy.findBySumaCukryProste", query = "SELECT p FROM Potrawy p WHERE p.sumaCukryProste = :sumaCukryProste"),
     @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
 public class Potrawy implements Serializable {
 
@@ -54,25 +50,25 @@ public class Potrawy implements Serializable {
     @Column(name = "ID")
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "SUMA_KCAL")
-    private Double sumaKcal;
-    @Column(name = "SUMA_TLUSZCZ")
-    private Double sumaTluszcz;
-    @Column(name = "SUMA_BIALKO")
-    private Double sumaBialko;
+    @Transient
+    private Double sumaKcal = 0.0;
+    @Transient
+    private Double sumaTluszcz = 0.0;
+    @Transient
+    private Double sumaBialko = 0.0;
     @Basic(optional = false)
     @Column(name = "NAZWA")
     private String nazwa;
-    @Column(name = "SUMA_CUKRY_ZLOZONE")
-    private Double sumaCukryZlozone;
-    @Column(name = "SUMA_SOL")
-    private Double sumaSol;
-    @Column(name = "SUMA_BLONNIK")
-    private Double sumaBlonnik;
-    @Column(name = "SUMA_CUKRY_SUMA")
-    private Double sumaCukrySuma;
-    @Column(name = "SUMA_CUKRY_PROSTE")
-    private Double sumaCukryProste;
+    @Transient
+    private Double sumaCukryZlozone = 0.0;
+    @Transient
+    private Double sumaSol = 0.0;
+    @Transient
+    private Double sumaBlonnik = 0.0;
+    @Transient
+    private Double sumaCukrySuma = 0.0;
+    @Transient
+    private Double sumaCukryProste = 0.0;
     @Column(name = "WAGA")
     private Double waga;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy", fetch = FetchType.EAGER)
@@ -111,27 +107,27 @@ public class Potrawy implements Serializable {
     }
 
     public Double getSumaKcal() {
+        sumaKcal = 0.0;
+        for (ProduktyWPotrawie produkt : getProduktyWPotrawieCollection()){
+            sumaKcal += produkt.getSumaKcal();
+        }
         return sumaKcal;
     }
 
-    public void setSumaKcal(Double sumaKcal) {
-        this.sumaKcal = sumaKcal;
-    }
-
     public Double getSumaTluszcz() {
+        sumaTluszcz = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaTluszcz += produkt.getSumaTluszcz();
+        }
         return sumaTluszcz;
     }
 
-    public void setSumaTluszcz(Double sumaTluszcz) {
-        this.sumaTluszcz = sumaTluszcz;
-    }
-
     public Double getSumaBialko() {
+        sumaBialko = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaBialko += produkt.getSumaBialko();
+        }
         return sumaBialko;
-    }
-
-    public void setSumaBialko(Double sumaBialko) {
-        this.sumaBialko = sumaBialko;
     }
 
     public String getNazwa() {
@@ -143,43 +139,43 @@ public class Potrawy implements Serializable {
     }
 
     public Double getSumaCukryZlozone() {
+        sumaCukryZlozone = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaCukryZlozone += produkt.getSumaCukryZlozone();
+        }
         return sumaCukryZlozone;
     }
 
-    public void setSumaCukryZlozone(Double sumaCukryZlozone) {
-        this.sumaCukryZlozone = sumaCukryZlozone;
-    }
-
     public Double getSumaSol() {
+        sumaSol = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaSol += produkt.getSumaSol();
+        }
         return sumaSol;
     }
 
-    public void setSumaSol(Double sumaSol) {
-        this.sumaSol = sumaSol;
-    }
-
     public Double getSumaBlonnik() {
+        sumaBlonnik = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaBlonnik += produkt.getSumaBlonnik();
+        }
         return sumaBlonnik;
     }
 
-    public void setSumaBlonnik(Double sumaBlonnik) {
-        this.sumaBlonnik = sumaBlonnik;
-    }
-
     public Double getSumaCukrySuma() {
+        sumaCukrySuma = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaCukrySuma += produkt.getSumaCukrySuma();
+        }
         return sumaCukrySuma;
     }
 
-    public void setSumaCukrySuma(Double sumaCukrySuma) {
-        this.sumaCukrySuma = sumaCukrySuma;
-    }
-
     public Double getSumaCukryProste() {
+        sumaCukryProste = 0.0;
+        for (ProduktyWPotrawie produkt : produktyWPotrawieCollection){
+            sumaCukryProste += produkt.getSumaCukryProste();
+        }
         return sumaCukryProste;
-    }
-
-    public void setSumaCukryProste(Double sumaCukryProste) {
-        this.sumaCukryProste = sumaCukryProste;
     }
 
     public Double getWaga() {
@@ -192,6 +188,9 @@ public class Potrawy implements Serializable {
 
     @XmlTransient
     public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+        Set<ProduktyWPotrawie> newSet = new HashSet<ProduktyWPotrawie>(produktyWPotrawieCollection);
+        produktyWPotrawieCollection.clear();
+        produktyWPotrawieCollection.addAll(newSet);
         return produktyWPotrawieCollection;
     }
 
