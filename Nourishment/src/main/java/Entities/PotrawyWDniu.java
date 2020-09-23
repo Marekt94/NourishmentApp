@@ -296,6 +296,7 @@ public class PotrawyWDniu implements Serializable {
 
     public Double getSumaBialko() {
         sumabialko = 0.0;
+        try{
         if (czy5dni == '1') {
             if (sniadanie != null) {
                 sumabialko += sniadanie.getSumaBialko();
@@ -325,6 +326,10 @@ public class PotrawyWDniu implements Serializable {
             if (kolacja != null) {
                 sumabialko += kolacja.getSumaBialko();
             }
+        }
+        }
+        catch (Exception e){
+            System.out.println("Entities.PotrawyWDniu.getSumaBialko()");        
         }
         if (produktyLuzneWDniu != null) {
             for (int i = 0; i < produktyLuzneWDniu.size(); i++) {

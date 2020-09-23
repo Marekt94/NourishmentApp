@@ -5,6 +5,7 @@
  */
 package Other;
 
+import Global.GlobalConfig;
 import Global.GlobalFun;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -137,8 +138,13 @@ public class TableUpdater {
                     if (oldAccess == false){
                         fields[i].setAccessible(true);
                         method = findGetter(fields[i]);
-                        if (method != null){
-                            value = method.invoke(list.get(j));
+                        try{
+                            if (method != null){
+                                value = method.invoke(list.get(j));
+                            }
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
                         }
                     }
                     else{
@@ -147,12 +153,15 @@ public class TableUpdater {
                         }
                     }
                     if (value != null){
-                        if (fields[i].get(list.get(j)).getClass().equals(Double.class)){
+                        if (value.getClass().equals(Double.class)){
                             row[i] = GlobalFun.round((Double) value, null).toString();
                         }
                         else{
                             row[i] = fields[i].get(list.get(j)).toString();
                         }
+                    }
+                    else{
+                        row[i] = GlobalConfig.NULL_SIGN;   
                     }
                     fields[i].setAccessible(oldAccess);
                 } catch (IllegalArgumentException ex) {
