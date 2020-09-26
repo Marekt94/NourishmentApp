@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Potrawy.findAll", query = "SELECT p FROM Potrawy p"),
     @NamedQuery(name = "Potrawy.findById", query = "SELECT p FROM Potrawy p WHERE p.id = :id"),
     @NamedQuery(name = "Potrawy.findByNazwa", query = "SELECT p FROM Potrawy p WHERE p.nazwa = :nazwa"),
-    @NamedQuery(name = "Potrawy.findByWaga", query = "SELECT p FROM Potrawy p WHERE p.waga = :waga")})
+    @NamedQuery(name = "Potrawy.findByPrzepis", query = "SELECT p FROM Potrawy p WHERE p.przepis = :przepis")})
 public class Potrawy implements Serializable {
 
     @Column(name = "PRZEPIS")
@@ -69,7 +69,7 @@ public class Potrawy implements Serializable {
     private Double sumaCukrySuma = 0.0;
     @Transient
     private Double sumaCukryProste = 0.0;
-    @Column(name = "WAGA")
+    @Transient
     private Double waga;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy", fetch = FetchType.EAGER)
     private List<ProduktyWPotrawie> produktyWPotrawieCollection;

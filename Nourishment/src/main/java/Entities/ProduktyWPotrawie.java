@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,15 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProduktyWPotrawie.findAll", query = "SELECT p FROM ProduktyWPotrawie p"),
     @NamedQuery(name = "ProduktyWPotrawie.findById", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.id = :id"),
-    @NamedQuery(name = "ProduktyWPotrawie.findByIloscWG", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.iloscWG = :iloscWG"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaBlonnik", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaBlonnik = :sumaBlonnik"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaKcal", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaKcal = :sumaKcal"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaSol", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaSol = :sumaSol"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaTluszcz", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaTluszcz = :sumaTluszcz"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaBialko", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaBialko = :sumaBialko"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryProste", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryProste = :sumaCukryProste"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukryZlozone", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukryZlozone = :sumaCukryZlozone"),
-    @NamedQuery(name = "ProduktyWPotrawie.findBySumaCukrySuma", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.sumaCukrySuma = :sumaCukrySuma")})
+    @NamedQuery(name = "ProduktyWPotrawie.findByIloscWG", query = "SELECT p FROM ProduktyWPotrawie p WHERE p.iloscWG = :iloscWG")})
 public class ProduktyWPotrawie implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,13 +47,21 @@ public class ProduktyWPotrawie implements Serializable {
     @Column(name = "ILOSC_W_G")
     private double iloscWG;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Transient
     private Double sumaBlonnik;
+    @Transient
     private Double sumaKcal;
+    @Transient
     private Double sumaSol;
+    @Transient
     private Double sumaTluszcz;
+    @Transient
     private Double sumaBialko;
+    @Transient
     private Double sumaCukryProste;
+    @Transient
     private Double sumaCukryZlozone;
+    @Transient
     private Double sumaCukrySuma;
     @JoinColumn(name = "ID_POTRAWY", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)

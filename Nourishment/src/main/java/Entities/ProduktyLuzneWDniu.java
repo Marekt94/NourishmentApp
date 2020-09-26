@@ -29,13 +29,21 @@ public class ProduktyLuzneWDniu implements Serializable{
     @ManyToOne(optional = false)
     private PotrawyWDniu dzien;
     
+    @Transient
     private Double bialko;
+    @Transient
     private Double blonnik;
+    @Transient
     private Double cukryProste;
+    @Transient
     private Double cukryZlozone;
+    @Transient
     private Double cukrySuma;
+    @Transient
     private Double kcal;
+    @Transient
     private Double sol;
+    @Transient
     private Double tluszcz;
 
     public Double getBialko() {

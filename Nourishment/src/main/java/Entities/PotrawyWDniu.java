@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -51,13 +52,21 @@ import org.hibernate.annotations.ParamDef;
     @NamedQuery(name = "PotrawyWDniu.findByMnoznikLunch", query = "SELECT p FROM PotrawyWDniu p WHERE p.mnoznikLunch = :mnoznikLunch")})
 public class PotrawyWDniu implements Serializable {
 
+    @Transient
     private Double sumabialko = 0.0;
+    @Transient
     private Double sumablonnik = 0.0;
+    @Transient
     private Double sumacukryproste = 0.0;
+    @Transient
     private Double sumacukrysuma = 0.0;
+    @Transient
     private Double sumacukryzlozone = 0.0;
+    @Transient
     private Double sumakcal = 0.0;
+    @Transient
     private Double sumasol = 0.0;
+    @Transient
     private Double sumatluszcz = 0.0;
     private String nazwa;
     private static final long serialVersionUID = 1L;
