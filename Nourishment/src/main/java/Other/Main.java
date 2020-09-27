@@ -52,10 +52,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MainDialog connectinDialog = new MainDialog(null, true, new KonfigView(GlobalConfig.LOGIN_PANEL_ID), "Logowanie", new LoginPanel());
-        connectinDialog.unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
-        connectinDialog.setVisible(true);
-        if (!connectinDialog.getResult()){
+        MainDialog connectingDialog = new MainDialog(null, true, new KonfigView(GlobalConfig.LOGIN_PANEL_ID), "Logowanie", new LoginPanel());
+        connectingDialog.unpackWindow(ORMManager.getOrmManager().getConfiguration().getProperties());
+        connectingDialog.setVisible(true);
+        if (!connectingDialog.getResult()){
             System.exit(0);
         }
         KonfigView konfigView = new KonfigView(GlobalConfig.MENU_ID);

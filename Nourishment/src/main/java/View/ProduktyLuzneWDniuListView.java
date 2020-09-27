@@ -7,7 +7,6 @@ package View;
 
 import Entities.Produkty;
 import Entities.ProduktyLuzneWDniu;
-import Entities.ProduktyWPotrawie;
 import Interfaces.MyListPanelInterface;
 import Interfaces.MyPanelInterface;
 import View.BasicView.BaseListPanel;

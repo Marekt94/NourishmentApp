@@ -19,7 +19,7 @@ public class GlobalConfig {
     public static final String NULL_SIGN = "-";
     public static final Integer DIGITS = 3;
     public static final Integer BATCH_SIZE = 20;
-    public static final String dataFormat = "yyyy-MM-dd"; 
+    public static final String dataFormat = "yyyy-mm-dd"; 
     public static final String PREF_NODE_GLOBAL = "GlobalSettings";
     public static final String PREF_DBPATH = "dbPath";
     
@@ -29,5 +29,5 @@ public class GlobalConfig {
     public static final Byte PRODUKTY_W_POTRAWIE_ID = 3;
     public static final Byte POTRAWY_W_DNIU_ID = 4;
     public static final Byte POTRAWY_ID = 5;
-    public static final Byte PRODUKTY_LUZEM_ID = 5;
+    public static final Byte PRODUKTY_LUZEM_ID = 6;
 }

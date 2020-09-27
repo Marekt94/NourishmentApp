@@ -7,11 +7,7 @@ package View.BasicView;
 
 import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
-import Interfaces.MyWindowManagerInterface;
-import java.awt.BorderLayout;
-import java.io.Serializable;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  *

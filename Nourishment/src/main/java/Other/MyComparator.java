@@ -5,7 +5,10 @@
  */
 package Other;
 
+import Global.GlobalFun;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Level;
@@ -37,8 +40,9 @@ public class MyComparator implements Comparator{
                 Boolean oldAccess = field.canAccess(o1);
                 Integer result = 0;
                 field.setAccessible(true);
-                Object value1 = field.get(o1);
-                Object value2 = field.get(o2);
+                Method method = GlobalFun.findGetter(field);
+                Object value1 = method.invoke(o1);
+                Object value2 = method.invoke(o2);
                 
                 if (field.getType().equals(Integer.class)){
                     if (value1 == null){
@@ -87,6 +91,8 @@ public class MyComparator implements Comparator{
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(MyComparator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
+            Logger.getLogger(MyComparator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
             Logger.getLogger(MyComparator.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;

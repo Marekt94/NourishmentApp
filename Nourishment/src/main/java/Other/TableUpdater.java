@@ -137,7 +137,7 @@ public class TableUpdater {
                     oldAccess = fields[i].canAccess(list.get(j));
                     if (oldAccess == false){
                         fields[i].setAccessible(true);
-                        method = findGetter(fields[i]);
+                        method = GlobalFun.findGetter(fields[i]);
                         try{
                             if (method != null){
                                 value = method.invoke(list.get(j));
@@ -173,25 +173,6 @@ public class TableUpdater {
             }
             ((DefaultTableModel) table.getModel()).addRow(row);
         }         
-    }
-    
-    private Method findGetter (Field field){
-        for (Method method : field.getDeclaringClass().getMethods()){
-            Boolean res = false;
-            String methodName = method.getName().toLowerCase();
-            String getterName = ("get" + field.getName()).toLowerCase();
-            if (methodName.equals(getterName)){
-                if(method.getParameterTypes().length == 0){
-                    if(!void.class.equals(method.getReturnType())){
-                        res = true;
-                    }
-                }
-            }
-            if (res){
-                return method;
-            }
-        }
-        return null;
     }
     
     private void getColumnOrder(JTable table){

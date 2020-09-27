@@ -6,15 +6,8 @@
 package View;
 
 import Global.GlobalFun;
-import View.BasicView.KonfigView;
-import Interfaces.MyPanelInterface;
 import Entities.Produkty;
 import View.BasicView.BasePanel;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.io.Serializable;
-import java.util.List;
-import javax.swing.JTextField;
         
 /**
  *

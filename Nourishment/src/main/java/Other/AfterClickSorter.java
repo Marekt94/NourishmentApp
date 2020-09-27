@@ -8,11 +8,6 @@ package Other;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JTable;
-
 /**
  *
  * @author Marek

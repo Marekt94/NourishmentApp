@@ -5,32 +5,18 @@
  */
 package Global;
 
-import Entities.Potrawy;
-import Entities.PotrawyWDniu;
-import Global.GlobalConfig;
-import Entities.Produkty;
-import Entities.ProduktyWPotrawie;
-import static Global.GlobalConfig.PREF_DBPATH;
-import static Global.GlobalConfig.PREF_NODE_GLOBAL;
 import Other.MyComparator;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import org.hibernate.Filter;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.internal.util.SerializationHelper;
 
 /**
  *
@@ -66,7 +52,7 @@ public class ORMManager {
         String dbPrefixFromDriver = "";
         String dbPath = "";
         try {
-            dbPath = Preferences.userRoot().node(PREF_NODE_GLOBAL).get(PREF_DBPATH, "");
+            dbPath = Preferences.userRoot().node(GlobalConfig.PREF_NODE_GLOBAL).get(GlobalConfig.PREF_DBPATH, "");
             dbPrefixFromDriver = configuration.getProperty("hibernate.dbPrefixFromDriver");
             configuration.setProperties(properties);
             configuration.setProperty("hibernate.jdbc.batch_size", GlobalConfig.BATCH_SIZE.toString());
@@ -153,43 +139,4 @@ public class ORMManager {
         }        
         return true;
     }
-    
-    public List<? extends Serializable> filterByDate(Class myType, String dateFrom, String  dateTo){
-        List<Serializable> list = null;
-        Set<Serializable> set = new HashSet<Serializable>();
-        String filterName = null;
-        
-        if (dateFrom.isEmpty() && dateTo.isEmpty()){
-          list = (List<Serializable>) askForObjects(myType); 
-          return list;
-        }
-        else{
-            session = sessionFactory.openSession();
-            if (!dateFrom.isEmpty() && !dateTo.isEmpty()){
-                filterName = "dataFilterBoth";
-                Filter filter = session.enableFilter(filterName);
-                filter.setParameter("dataFrom", dateFrom);
-                filter.setParameter("dataTo", dateTo);
-            }
-            else if(!dateFrom.isEmpty() && dateTo.isEmpty()){
-                filterName = "dataFilterFrom";
-                Filter filter = session.enableFilter(filterName);
-                filter.setParameter("dataFrom", dateFrom);          
-            }
-            else{
-                filterName = "dataFilterTo";
-                Filter filter = session.enableFilter(filterName);
-                filter.setParameter("dataTo", dateTo);            
-            }
-        }
-        session.beginTransaction();
-        list = session.createCriteria(myType).list();
-        for (int i = 0; i < list.size(); i++) {
-            set.add(list.get(i));
-        }
-        list = new ArrayList<Serializable>(set);
-        session.disableFilter(filterName);
-        session.close();
-        return list;        
-    } 
 }

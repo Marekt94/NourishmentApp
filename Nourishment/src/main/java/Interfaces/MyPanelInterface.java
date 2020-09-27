@@ -6,7 +6,6 @@
 package Interfaces;
 
 import View.BasicView.KonfigView;
-import java.io.Serializable;
 import java.util.List;
 
 /**

@@ -13,7 +13,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -25,6 +24,7 @@ public class BasePanel extends javax.swing.JPanel implements MyPanelInterface{
     protected KonfigView konfigView = null;
     protected MyPanelInterface[] extraPanel = null;
 
+    @Override
     public MyPanelInterface[] getExtraPanel() {
         return extraPanel;
     }

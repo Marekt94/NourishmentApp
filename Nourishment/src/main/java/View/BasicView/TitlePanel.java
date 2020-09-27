@@ -5,10 +5,7 @@
  */
 package View.BasicView;
 
-import Interfaces.MyPanelInterface;
 import java.awt.event.KeyEvent;
-import java.io.Serializable;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -20,7 +17,7 @@ public class TitlePanel extends BasePanel{
     public TitlePanel(String title) {
         super(null);
         initComponents();
-        if (title != ""){
+        if (!"".equals(title)){
             jLabel1.setText("  " + title + "  ");
         }
         btnOk.setMnemonic(KeyEvent.VK_O);

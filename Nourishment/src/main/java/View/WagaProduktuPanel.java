@@ -5,14 +5,8 @@
  */
 package View;
 
-import Entities.ProduktyWPotrawie;
-import static Global.GlobalConfig.NULL_SIGN;
 import Global.GlobalFun;
-import Interfaces.MyPanelInterface;
 import View.BasicView.BasePanel;
-import View.BasicView.KonfigView;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**

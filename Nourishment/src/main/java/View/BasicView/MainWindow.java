@@ -7,18 +7,10 @@ package View.BasicView;
 
 import Interfaces.MyWindowInterface;
 import Interfaces.MyPanelInterface;
-import Interfaces.MyWindowManagerInterface;
-import java.awt.BorderLayout;
 import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.Serializable;
 import java.util.List;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JWindow;
 
 /**
  *

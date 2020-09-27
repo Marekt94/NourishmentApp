@@ -5,7 +5,6 @@
  */
 package View.BasicView;
 
-import Entities.Potrawy;
 import Global.GlobalFun;
 import Global.ORMManager;
 import Interfaces.MyListPanelInterface;
@@ -14,28 +13,20 @@ import Other.AfterClickSorter;
 import Other.AfterClickSorterModel;
 import Other.PreferencesManager;
 import View.ChoosenColumnsPanel;
-import View.PotrawyView;
-import java.awt.AWTEventMulticaster;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 /**
@@ -211,10 +202,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         this.detailPanelTitle = detailPanelTitle;
         this.detailEntityClass = detailEntityClass;
         
-        initObjectList = new ArrayList<Serializable>();
-        newOrEditedObjectList = new ArrayList<Serializable>();
-        objectToDeleteList = new ArrayList<Serializable>();
-        omittedColumns = new ArrayList<String>();
+        initObjectList = new ArrayList<>();
+        newOrEditedObjectList = new ArrayList<>();
+        objectToDeleteList = new ArrayList<>();
+        omittedColumns = new ArrayList<>();
         
         omittedColumns.add("serialVersionUID");
         
@@ -276,18 +267,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         try {
             try {
                 object = (Serializable) objectType.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvocationTargetException ex) {
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(BaseListPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         mainWindow.unpackWindow(object);

@@ -7,23 +7,17 @@ package View;
 
 import Entities.Potrawy;
 import Entities.PotrawyWDniu;
-import View.BasicView.MainDialog;
 import View.BasicView.KonfigView;
-import Interfaces.MyPanelInterface;
 import Global.ORMManager;
 import Entities.Produkty;
 import Entities.ProduktyLuzneWDniu;
 import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import Interfaces.MyListPanelInterface;
-import Other.PDFGenerator;
 import View.BasicView.BaseListPanel;
 import View.BasicView.BasePanel;
 import View.BasicView.MainWindow;
 import java.awt.event.KeyEvent;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 

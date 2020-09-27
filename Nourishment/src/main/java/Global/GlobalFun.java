@@ -5,32 +5,21 @@
  */
 package Global;
 
-import Entities.Potrawy;
-import Entities.Produkty;
 import static Global.GlobalConfig.*;
-import Other.DateLabelFormatter;
 import Other.FileDialogFunctionType;
 import Other.TableUpdater;
 import java.awt.Component;
 import java.io.File;
 import java.io.Serializable;
-import static java.lang.System.exit;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -40,21 +29,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 import org.apache.commons.lang3.SerializationUtils;
-import org.jdatepicker.impl.JDatePickerImpl;
 
 /**
  *
  * @author Marek
  */
 public class GlobalFun {
-    public static void bind(String text, JTextField edt){
+    public static void bind(String text, JTextComponent edt){
         if (text == null || text.equals("")){
             edt.setText(NULL_SIGN);
         }
@@ -63,16 +47,7 @@ public class GlobalFun {
         }
     }
     
-    public static void bind(String text, JTextArea edt){
-        if (text == null || text.equals("")){
-            edt.setText(NULL_SIGN);
-        }
-        else{
-            edt.setText(text);
-        }
-    }
-    
-    public static void bind(Integer number, JTextField edt){
+    public static void bind(Integer number, JTextComponent edt){
         if (number != null){
             edt.setText(number.toString());
         }
@@ -90,7 +65,7 @@ public class GlobalFun {
         }
     }
     
-    public static void bind(Double number, JTextField edt){
+    public static void bind(Double number, JTextComponent edt){
         if (number != null){
             number = round(number, null);
             edt.setText(number.toString());
@@ -121,12 +96,7 @@ public class GlobalFun {
     public static Object bind(JTextComponent edt, Class type){
         Boolean notEmpty;
  
-        if (edt.getText().equals(NULL_SIGN) || edt.getText().trim().equals("")){
-            notEmpty = false;
-        }
-        else{
-            notEmpty = true;
-        }
+        notEmpty = !(edt.getText().equals(NULL_SIGN) || edt.getText().trim().equals(""));
         
         if (type == Double.class){
             if (notEmpty){
@@ -165,25 +135,6 @@ public class GlobalFun {
     public static Serializable bind(JComboBox cmb){
         Serializable item = (Serializable) cmb.getSelectedItem();         
         return item;
-    }
-    
-    public static void bind(Date date, JDatePickerImpl datePicker){
-        Calendar calendar = Calendar.getInstance();
-        if (date != null){
-        calendar.setTime(date);
-            datePicker.getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            datePicker.getModel().setSelected(true);
-        }
-    }
-    
-    public static Date bind(JDatePickerImpl datePicker){
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(GlobalConfig.dataFormat);
-            return (Date) sdf.parseObject(datePicker.getJFormattedTextField().getText());
-        } catch (ParseException ex) {
-            Logger.getLogger(GlobalFun.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
     }
     
     public static Double round(Double number, Integer digits){
@@ -233,15 +184,6 @@ public class GlobalFun {
         combobox.addItem(null);
         for (Serializable obj : list){
             combobox.addItem(obj);
-        }
-    }
-    
-    public static String returnStringOrEmpty(Serializable obj){
-        if (obj == null){
-            return "";
-        }
-        else{
-            return obj.toString();
         }
     }
    
@@ -294,5 +236,24 @@ public class GlobalFun {
     public static char dBFalse(){
         return '0';
     }
+    
+    public static Method findGetter (Field field){
+        for (Method method : field.getDeclaringClass().getMethods()){
+            Boolean res = false;
+            String methodName = method.getName().toLowerCase();
+            String getterName = ("get" + field.getName()).toLowerCase();
+            if (methodName.equals(getterName)){
+                if(method.getParameterTypes().length == 0){
+                    if(!void.class.equals(method.getReturnType())){
+                        res = true;
+                    }
+                }
+            }
+            if (res){
+                return method;
+            }
+        }
+        return null;
+    }    
     
 }
