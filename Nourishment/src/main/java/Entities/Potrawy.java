@@ -187,9 +187,6 @@ public class Potrawy implements Serializable {
 
     @XmlTransient
     public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
-        Set<ProduktyWPotrawie> newSet = new HashSet<ProduktyWPotrawie>(produktyWPotrawieCollection);
-        produktyWPotrawieCollection.clear();
-        produktyWPotrawieCollection.addAll(newSet);
         return produktyWPotrawieCollection;
     }
 
