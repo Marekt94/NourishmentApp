@@ -107,8 +107,10 @@ public class Potrawy implements Serializable {
 
     public Double getSumaKcal() {
         sumaKcal = 0.0;
-        for (ProduktyWPotrawie produkt : getProduktyWPotrawieCollection()){
-            sumaKcal += produkt.getSumaKcal();
+        if (getProduktyWPotrawieCollection() != null){
+            for (ProduktyWPotrawie produkt : getProduktyWPotrawieCollection()) {
+                    sumaKcal += produkt.getSumaKcal();
+            }
         }
         return sumaKcal;
     }

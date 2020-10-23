@@ -14,6 +14,7 @@ import Other.AfterClickSorterModel;
 import Other.PreferencesManager;
 import View.ChoosenColumnsPanel;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -161,6 +162,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     @Override
     public void updateView() {
         Integer currentRow = tblObjects.getSelectedRow();
+        if (currentRow < 0){
+            currentRow = 0;
+        }
         GlobalFun.updateTable(objectList, tblObjects, omittedColumns);
         if (currentRow < tblObjects.getRowCount()){
             tblObjects.getSelectionModel().setSelectionInterval(currentRow, currentRow);
@@ -298,7 +302,9 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     public <E> void addObject(E object){
         objectList.add((Serializable) object);
         newOrEditedObjectList.add((Serializable) object);
-        updateView();        
+        updateView();
+        tblObjects.getSelectionModel().setSelectionInterval(tblObjects.getRowCount() - 1, tblObjects.getRowCount() - 1);        
+        tblObjects.scrollRectToVisible(new Rectangle(tblObjects.getCellRect(tblObjects.getRowCount() - 1, 0, true)));        
     }
 
     /**
