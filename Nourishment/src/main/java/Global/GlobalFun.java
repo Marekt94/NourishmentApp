@@ -75,15 +75,6 @@ public class GlobalFun {
         }         
     }
     
-    public static void bind(Serializable obj, JComboBox cmb){
-        if (obj != null){
-            cmb.setSelectedItem(obj);
-        }
-        else{
-            cmb.setSelectedItem(null);
-        }         
-    }
-    
     public static char bind(JCheckBox chb, char valueForSelected, char valueForUnselected){
         if (chb.isSelected()){
             return valueForSelected;
@@ -91,6 +82,19 @@ public class GlobalFun {
         else{
             return valueForUnselected;
         }
+    }
+    
+    public static void bind(Serializable obj, JComboBox cmb, Serializable defaultObject){
+        if (obj != null){
+            cmb.setSelectedItem(obj);
+        }
+        else{
+            cmb.setSelectedItem(defaultObject);
+        }         
+    }
+    
+    public static void bind(Serializable obj, JComboBox cmb){
+        bind(obj, cmb, null);
     }
     
     public static Object bind(JTextComponent edt, Class type){

@@ -211,9 +211,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
 
         mainWindow.setVisible(true);
         if (mainWindow.getResult()) {
-            objectList.add(object);
-            newOrEditedObjectList.add(object);
-            updateView();
+            addObject(object);
         }
     }
 
