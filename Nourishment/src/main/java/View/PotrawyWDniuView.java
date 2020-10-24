@@ -165,6 +165,8 @@ public class PotrawyWDniuView extends BasePanel {
         lblID.setText("ID");
         lblID.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         add(lblID);
+
+        edtID.setEnabled(false);
         add(edtID);
 
         lblNazwa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

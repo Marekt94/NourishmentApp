@@ -29,6 +29,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="edtID">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNazwa">
       <Properties>

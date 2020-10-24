@@ -74,7 +74,7 @@ public class PotrawyEditorListView extends BaseListPanel {
                     if (potrawa != null){
                         objectList = (List<Serializable>) GlobalFun.toList(potrawa.getProduktyWPotrawieCollection());
                     }  
-                    updateView();
+                    updateIngrediensView();
                 }
             }
         });
@@ -218,13 +218,17 @@ public class PotrawyEditorListView extends BaseListPanel {
         super.rollback(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void updateIngrediensView(){
+        super.updateView();
+    }
+    
     @Override
     public void updateView() {
         if (!isCurrentlyUpdated){
             isCurrentlyUpdated = true;
             pnlProduktyList.updateView();
             pnlPotrawyList.updateView();
-            super.updateView();
+            updateIngrediensView();
             isCurrentlyUpdated = false;
         }
     }
