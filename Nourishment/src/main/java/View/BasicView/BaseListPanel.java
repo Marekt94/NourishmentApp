@@ -12,6 +12,7 @@ import Interfaces.MyPanelInterface;
 import Other.AfterClickSorter;
 import Other.AfterClickSorterModel;
 import Other.PreferencesManager;
+import Other.RowSearcher;
 import View.ChoosenColumnsPanel;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -39,6 +40,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     private String detailPanelTitle = null;
     private Class detailEntityClass = null;
     private AfterClickSorterModel sorterModel = null;
+    private RowSearcher rowSearcher = null;
     
     protected KonfigView konfigView = null;
     protected KonfigView detailPanelKonfigView = null;
@@ -221,6 +223,8 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         sorterModel.setObjectType(detailEntityClass);
         tblObjects.getTableHeader().addMouseListener(new AfterClickSorter(sorterModel));
         
+        rowSearcher = new RowSearcher(tblObjects);
+        
         btnEdit.setMnemonic(KeyEvent.VK_E);
         btnAdd.setMnemonic(KeyEvent.VK_D);
         btnDelete.setMnemonic(KeyEvent.VK_U);
@@ -395,6 +399,11 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblObjects.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblObjectsKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblObjects);
 
         jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -455,6 +464,10 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
         rollback();
         updateView();
     }//GEN-LAST:event_btnUndoActionPerformed
+
+    private void tblObjectsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblObjectsKeyPressed
+        rowSearcher.searchRowAndScroll(evt);
+    }//GEN-LAST:event_tblObjectsKeyPressed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -470,7 +483,7 @@ public class BaseListPanel extends javax.swing.JPanel implements MyListPanelInte
     protected javax.swing.JPanel jPanel4;
     protected javax.swing.JPanel jPanel5;
     protected javax.swing.JScrollPane jScrollPane1;
-    protected javax.swing.JTable tblObjects;
+    public javax.swing.JTable tblObjects;
     // End of variables declaration//GEN-END:variables
 
     @Override

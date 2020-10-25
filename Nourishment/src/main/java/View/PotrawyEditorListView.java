@@ -65,6 +65,7 @@ public class PotrawyEditorListView extends BaseListPanel {
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height));
         
         btnAdd.setText("<<");
+        btnAdd.setMnemonic(KeyEvent.VK_LEFT);
         
         ((JTable) pnlPotrawyList.getComponentWihtListOfRecords()).getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -170,6 +171,7 @@ public class PotrawyEditorListView extends BaseListPanel {
                 newOrEditedObjectList.add((Potrawy) pnlPotrawyList.getCurrentObject());
             }
             updateView();
+            ((BaseListPanel) pnlProduktyList).tblObjects.requestFocusInWindow();
         }
         else{
             JOptionPane.showMessageDialog(this, "Wybierz potrawę", "Wybierz potrawę", JOptionPane.WARNING_MESSAGE);
