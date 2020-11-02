@@ -41,8 +41,8 @@ public class RowSearcher {
         else{
             if ((System.currentTimeMillis() - lastSignEnteredTime) > maxTimeToRemeberSigns){
                 searchedString = "";
-                lastSignEnteredTime = System.currentTimeMillis();
             }
+            lastSignEnteredTime = System.currentTimeMillis();            
             scrollToFoundRow(searchRow(keyEvt.getKeyChar()));
         }
     }
