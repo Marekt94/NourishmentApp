@@ -6,6 +6,7 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -189,6 +190,8 @@ public class Potrawy implements Serializable {
 
     @XmlTransient
     public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+        Set<ProduktyWPotrawie> setForAvoidDuplicates = new HashSet<ProduktyWPotrawie> (produktyWPotrawieCollection);
+        produktyWPotrawieCollection = new ArrayList<ProduktyWPotrawie> (setForAvoidDuplicates);
         return produktyWPotrawieCollection;
     }
 
