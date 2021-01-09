@@ -22,7 +22,7 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
     <Property name="columns" type="int" value="2"/>
     <Property name="horizontalGap" type="int" value="5"/>
-    <Property name="rows" type="int" value="12"/>
+    <Property name="rows" type="int" value="13"/>
     <Property name="verticalGap" type="int" value="10"/>
   </Layout>
   <SubComponents>
@@ -158,6 +158,22 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="edtSol">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblKategoria">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="Kategoria"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbKategoria">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

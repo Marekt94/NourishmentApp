@@ -10,6 +10,7 @@
     <class>Entities.PotrawyWDniu_1</class>
     <class>Entities.Potrawy_1</class>
     <class>Entities.ProduktyWPotrawie_1</class>
+    <class>Entities.KategoriaProduktu</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:firebirdsql://localhost:3050/C:/Users/Marek/Documents/GitHub/NourishmentApp/DB/NOURISHMENT.FDB"/>
       <property name="javax.persistence.jdbc.user" value="sysdba"/>

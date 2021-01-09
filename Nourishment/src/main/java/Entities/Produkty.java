@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,6 +44,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produkty.findByBlonnik", query = "SELECT p FROM Produkty p WHERE p.blonnik = :blonnik"),
     @NamedQuery(name = "Produkty.findBySol", query = "SELECT p FROM Produkty p WHERE p.sol = :sol")})
 public class Produkty implements Serializable {
+
+    @JoinColumn(name = "KATEGORIA", referencedColumnName = "ID_KATEGORII")
+    @ManyToOne
+    private KategoriaProduktu kategoria;
 
     @Basic(optional = false)
     @Column(name = "JEDNOSTKA")
@@ -219,6 +225,14 @@ public class Produkty implements Serializable {
 
     public void setJednostka(String jednostka) {
         this.jednostka = jednostka;
+    }
+
+    public KategoriaProduktu getKategoria() {
+        return kategoria;
+    }
+
+    public void setKategoria(KategoriaProduktu kategoria) {
+        this.kategoria = kategoria;
     }
     
 }

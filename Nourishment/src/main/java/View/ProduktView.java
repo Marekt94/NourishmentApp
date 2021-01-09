@@ -5,9 +5,14 @@
  */
 package View;
 
+import Entities.KategoriaProduktu;
 import Global.GlobalFun;
 import Entities.Produkty;
+import Global.ORMManager;
 import View.BasicView.BasePanel;
+import View.BasicView.KonfigView;
+import java.io.Serializable;
+import java.util.List;
         
 /**
  *
@@ -15,9 +20,11 @@ import View.BasicView.BasePanel;
  */
 public class ProduktView extends BasePanel{
     private Produkty produkt = null;
+    private List<Serializable> kategoria = null;
         
     @Override
     public <E> void unpack(E object) {
+        GlobalFun.unpackComboBox(cmbKategoria, kategoria);
         produkt = (Produkty) object;
         GlobalFun.bind(produkt.getBialko(), edtBialko);
         GlobalFun.bind(produkt.getBlonnik(), edtBlonnik);
@@ -31,6 +38,7 @@ public class ProduktView extends BasePanel{
         GlobalFun.bind(produkt.getTluszcz(), edtTluszcz);
         GlobalFun.bind(produkt.getWagaJednostki(), edtWagaJednostki);
         GlobalFun.bind(produkt.getJednostka(),cmbUnit,"g");
+        GlobalFun.bind(produkt.getKategoria(),cmbKategoria, null);
     }
 
     @Override
@@ -46,8 +54,18 @@ public class ProduktView extends BasePanel{
         produkt.setTluszcz((Double) GlobalFun.bind(edtTluszcz, Double.class));
         produkt.setWagaJednostki((Double) GlobalFun.bind(edtWagaJednostki, Double.class));
         produkt.setJednostka((String) GlobalFun.bind(cmbUnit));
+        produkt.setKategoria((KategoriaProduktu) GlobalFun.bind(cmbKategoria));
     }
 
+    @Override
+    public Boolean init(KonfigView konfigView) {
+        Boolean res = super.init(konfigView); //To change body of generated methods, choose Tools | Templates.
+        kategoria = (List<Serializable>) ORMManager.getOrmManager().askForObjects(KategoriaProduktu.class);
+        return res;
+    }
+    
+    
+    
     /**
      * Creates new form ProduktView
      */
@@ -89,9 +107,11 @@ public class ProduktView extends BasePanel{
         edtBlonnik = new javax.swing.JTextField();
         lblSol = new javax.swing.JLabel();
         edtSol = new javax.swing.JTextField();
+        lblKategoria = new javax.swing.JLabel();
+        cmbKategoria = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(174, 344));
-        setLayout(new java.awt.GridLayout(12, 2, 5, 10));
+        setLayout(new java.awt.GridLayout(13, 2, 5, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblID.setText("ID");
@@ -190,6 +210,12 @@ public class ProduktView extends BasePanel{
         lblSol.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         add(lblSol);
         add(edtSol);
+
+        lblKategoria.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblKategoria.setText("Kategoria");
+        add(lblKategoria);
+
+        add(cmbKategoria);
     }// </editor-fold>//GEN-END:initComponents
 
     private void edtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtIDActionPerformed
@@ -210,6 +236,7 @@ public class ProduktView extends BasePanel{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbKategoria;
     private javax.swing.JComboBox<String> cmbUnit;
     private javax.swing.JTextField edtBialko;
     private javax.swing.JTextField edtBlonnik;
@@ -228,6 +255,7 @@ public class ProduktView extends BasePanel{
     private javax.swing.JLabel lblCukrySuma;
     private javax.swing.JLabel lblCukryZlozone;
     private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblKategoria;
     private javax.swing.JLabel lblKcalNa100g;
     private javax.swing.JLabel lblNazwa;
     private javax.swing.JLabel lblSol;

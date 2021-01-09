@@ -17,5 +17,6 @@
         <mapping class="Entities.Potrawy" />
         <mapping class="Entities.PotrawyWDniu" />
         <mapping class="Entities.ProduktyLuzneWDniu" />
+        <mapping class="Entities.KategoriaProduktu" />
     </session-factory>
 </hibernate-configuration>
