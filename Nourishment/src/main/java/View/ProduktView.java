@@ -110,7 +110,7 @@ public class ProduktView extends BasePanel{
         lblKategoria = new javax.swing.JLabel();
         cmbKategoria = new javax.swing.JComboBox<>();
 
-        setPreferredSize(new java.awt.Dimension(174, 344));
+        setPreferredSize(new java.awt.Dimension(174, 361));
         setLayout(new java.awt.GridLayout(13, 2, 5, 10));
 
         lblID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

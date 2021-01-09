@@ -334,10 +334,14 @@ public class PotrawyWDniuListView extends BaseListPanel {
             productList.sort(new Comparator<ProductRecord>() {
                 @Override
                 public int compare(ProductRecord o1, ProductRecord o2) {
-                    return o1.productName.compareTo(o2.productName);
+                    int res = o1.category.compareTo(o2.category); 
+                    if (res == 0){
+                        res = o1.productName.compareTo(o2.productName);
+                    }
+                    return res;
                 }
             });
-            pDFGenerator.addList(createShoppingStringList(productList));
+            createShoppingStringList(pDFGenerator, productList);
             pDFGenerator.closeDocument();
         }        
     }
@@ -373,6 +377,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
                         productRecord.productName = prod.getNazwa();
+                        productRecord.category = prod.getKategoria().getNazwaKategorii();
                         productRecord.weight = forHowManyDays * produktWPotr.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productRecord.packages = productRecord.weight / prod.getWagaJednostki();
@@ -407,6 +412,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                     if (indexOfProduct == -1){
                         ProductRecord productRecord = new ProductRecord();
                         productRecord.productName = prod.getNazwa();
+                        productRecord.category = prod.getKategoria().getNazwaKategorii();
                         productRecord.weight = forHowManyDays * prodLuzem.getIloscWG();
                         if (!prod.getWagaJednostki().equals(0.0)){
                             productRecord.packages = productRecord.weight / prod.getWagaJednostki();
@@ -432,17 +438,30 @@ public class PotrawyWDniuListView extends BaseListPanel {
             return result;
     }
     
-    private String[] createShoppingStringList(List<ProductRecord> productList){
+    private String[] createShoppingStringList(MyPDFGeneratorInterface pdf, List<ProductRecord> productList){
         Integer size = productList.size();
-        String [] list = new String[size];
+        List<String> list = new ArrayList<>();
+        String category = productList.get(0).category;
+        String tekst = "";
         for (int i = 0; i < size; i++) {
-            list[i] = productList.get(i).productName + ": "
-                      + GlobalFun.round(productList.get(i).weight,1) + "g";
-            if (!productList.get(i).packages.equals(0.0)){
-                list[i] = list[i] + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)";
+            if (!productList.get(i).category.equals(category)){
+                pdf.addSubtitle(category);
+                pdf.addList(list.toArray(new String[0]));
+                list.clear();
+                category = productList.get(i).category;
+            }            
+            tekst = productList.get(i).productName + ": "
+                    + GlobalFun.round(productList.get(i).weight,1) + "g";
+            if (productList.get(i).packages.equals(0.0)){
+                list.add(tekst);
+            }
+            else{
+                list.add(tekst + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)");
             }
         }
-        return list;
+        pdf.addSubtitle(category);
+        pdf.addList(list.toArray(new String[0]));        
+        return list.toArray(new String[0]);
     }
     
     private Integer returnIndexInProductList (List<ProductRecord> productsList, Produkty product){

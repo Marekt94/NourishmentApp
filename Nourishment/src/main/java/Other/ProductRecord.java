@@ -13,4 +13,5 @@ public class ProductRecord {
       public String productName;
       public Double weight;
       public Double packages;
+      public String category;
 }
