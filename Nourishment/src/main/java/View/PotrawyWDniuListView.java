@@ -445,8 +445,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
         String tekst = "";
         for (int i = 0; i < size; i++) {
             if (!productList.get(i).category.equals(category)){
-                pdf.addSubtitle(category);
-                pdf.addList(list.toArray(new String[0]));
+                pdf.withSpaces(1).addSubtitle(category);
+                pdf.withSpaces(2).addList(list.toArray(new String[0]));
                 list.clear();
                 category = productList.get(i).category;
             }            
@@ -459,8 +459,8 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 list.add(tekst + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)");
             }
         }
-        pdf.addSubtitle(category);
-        pdf.addList(list.toArray(new String[0]));        
+        pdf.withSpaces(1).addSubtitle(category);
+        pdf.withSpaces(2).addList(list.toArray(new String[0]));        
         return list.toArray(new String[0]);
     }
     

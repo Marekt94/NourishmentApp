@@ -17,4 +17,5 @@ public interface MyPDFGeneratorInterface {
     public void addParagraph(String text);
     public void closeDocument();
     public void newPage();
+    public MyPDFGeneratorInterface withSpaces(Integer spaceCount);
 }

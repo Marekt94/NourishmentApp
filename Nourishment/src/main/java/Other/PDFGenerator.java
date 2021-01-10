@@ -26,6 +26,7 @@ import java.util.logging.Logger;
  */
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
+    Integer spaceCount = 0;
     Font titleFont    = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
     Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 13, Font.BOLD);
     Font listFont     = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
@@ -33,6 +34,23 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     
     public PDFGenerator(){
         
+    }
+    
+    private String addSpacesToLine(String line){
+        String spaces = "";
+        if (spaceCount == 0){
+            return line;
+        }
+        for (int i = 0; i < spaceCount; i++) {
+            spaces = spaces + " ";
+        }
+        return spaces + line;
+    }
+
+    @Override
+    public MyPDFGeneratorInterface withSpaces(Integer spaceCount) {
+        this.spaceCount = spaceCount;
+        return this;
     }
     
     @Override
@@ -62,7 +80,7 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     @Override
     public void addTitle(String text) {
         try {
-            document.add(new Paragraph(text,titleFont));
+            document.add(new Paragraph(addSpacesToLine(text),titleFont));
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,7 +89,7 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     @Override
     public void addSubtitle(String text) {
         try {
-            document.add(new Paragraph(text, subtitleFont));
+            document.add(new Paragraph(addSpacesToLine(text), subtitleFont));
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -85,7 +103,7 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
             for (String line : text) {
                 line = line.replace("\n", "\n  ");
                 line = line.trim();
-                paragraph.add(" - " + line + "\n");
+                paragraph.add(addSpacesToLine(" - " + line + "\n"));
             }
             document.add(paragraph);
         } catch (DocumentException ex) {
@@ -96,7 +114,7 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     @Override
     public void addParagraph(String text) {
         try {
-            document.add(new Paragraph(text, normalFont));
+            document.add(new Paragraph(addSpacesToLine(text), normalFont));
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
