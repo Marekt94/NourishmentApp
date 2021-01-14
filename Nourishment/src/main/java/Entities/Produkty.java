@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produkty.findBySol", query = "SELECT p FROM Produkty p WHERE p.sol = :sol")})
 public class Produkty implements Serializable {
 
-    @JoinColumn(name = "KATEGORIA", referencedColumnName = "ID_KATEGORII")
+    @JoinColumn(name = "KATEGORIA", referencedColumnName = "ID")
     @ManyToOne
     private KategoriaProduktu kategoria;
 

@@ -27,15 +27,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KategoriaProduktu.findAll", query = "SELECT k FROM KategoriaProduktu k"),
-    @NamedQuery(name = "KategoriaProduktu.findByIdKategorii", query = "SELECT k FROM KategoriaProduktu k WHERE k.idKategorii = :idKategorii"),
+    @NamedQuery(name = "KategoriaProduktu.findByIdKategorii", query = "SELECT k FROM KategoriaProduktu k WHERE k.id = :id"),
     @NamedQuery(name = "KategoriaProduktu.findByNazwaKategorii", query = "SELECT k FROM KategoriaProduktu k WHERE k.nazwaKategorii = :nazwaKategorii")})
 public class KategoriaProduktu implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "ID_KATEGORII")
-    private Integer idKategorii;
+    @Column(name = "ID")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "NAZWA_KATEGORII")
     private String nazwaKategorii;
@@ -43,23 +44,6 @@ public class KategoriaProduktu implements Serializable {
     private Collection<Produkty> produktyCollection;
 
     public KategoriaProduktu() {
-    }
-
-    public KategoriaProduktu(Integer idKategorii) {
-        this.idKategorii = idKategorii;
-    }
-
-    public KategoriaProduktu(Integer idKategorii, String nazwaKategorii) {
-        this.idKategorii = idKategorii;
-        this.nazwaKategorii = nazwaKategorii;
-    }
-
-    public Integer getIdKategorii() {
-        return idKategorii;
-    }
-
-    public void setIdKategorii(Integer idKategorii) {
-        this.idKategorii = idKategorii;
     }
 
     public String getNazwaKategorii() {
@@ -80,9 +64,26 @@ public class KategoriaProduktu implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return nazwaKategorii;
+    }
+
+    public KategoriaProduktu(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idKategorii != null ? idKategorii.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -93,15 +94,10 @@ public class KategoriaProduktu implements Serializable {
             return false;
         }
         KategoriaProduktu other = (KategoriaProduktu) object;
-        if ((this.idKategorii == null && other.idKategorii != null) || (this.idKategorii != null && !this.idKategorii.equals(other.idKategorii))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return nazwaKategorii;
     }
     
 }
