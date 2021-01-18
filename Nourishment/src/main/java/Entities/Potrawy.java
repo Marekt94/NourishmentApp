@@ -190,8 +190,11 @@ public class Potrawy implements Serializable {
 
     @XmlTransient
     public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
-        Set<ProduktyWPotrawie> setForAvoidDuplicates = new HashSet<ProduktyWPotrawie> (produktyWPotrawieCollection);
-        produktyWPotrawieCollection = new ArrayList<ProduktyWPotrawie> (setForAvoidDuplicates);
+//        if (produktyWPotrawieCollection != null){
+//            Set<ProduktyWPotrawie> setForAvoidDuplicates = new HashSet<ProduktyWPotrawie> (produktyWPotrawieCollection);
+//            produktyWPotrawieCollection.clear();
+//            produktyWPotrawieCollection.addAll(setForAvoidDuplicates);
+//        }
         return produktyWPotrawieCollection;
     }
 
