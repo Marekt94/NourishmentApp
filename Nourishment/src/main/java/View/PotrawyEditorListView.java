@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -116,9 +117,9 @@ public class PotrawyEditorListView extends BaseListPanel {
                 pDFGenerator.addParagraph(potr.getPrzepis().trim());
             }
             list.clear();
-            for (int j = 0; j < potrList.get(i).getProduktyWPotrawieCollection().size(); j++) {
-                list.add(potrList.get(i).getProduktyWPotrawieCollection().get(j).getIdProduktu().getNazwa() + " "
-                         + potrList.get(i).getProduktyWPotrawieCollection().get(j).getIloscWG() + " g");
+            List<ProduktyWPotrawie> prodWPotrList= new ArrayList<ProduktyWPotrawie>(potrList.get(i).getProduktyWPotrawieCollection());
+            for (int j = 0; j < prodWPotrList.size(); j++) {
+                list.add(prodWPotrList.get(j).getIdProduktu().getNazwa() + " " + prodWPotrList.get(j).getIloscWG() + " g");
             }
             pDFGenerator.addList(list.toArray(new String[0]));
         }
@@ -164,7 +165,7 @@ public class PotrawyEditorListView extends BaseListPanel {
             
             if (wagaProduktuDialog.getResult()){
                 if (((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection() == null){
-                    ((Potrawy) pnlPotrawyList.getCurrentObject()).setProduktyWPotrawieCollection(new ArrayList<ProduktyWPotrawie>() );
+                    ((Potrawy) pnlPotrawyList.getCurrentObject()).setProduktyWPotrawieCollection(new HashSet<ProduktyWPotrawie>() );
                 }
                 ((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection().add(prodWPotr);
                 objectList = (List<Serializable>) GlobalFun.toList(((Potrawy) pnlPotrawyList.getCurrentObject()).getProduktyWPotrawieCollection());

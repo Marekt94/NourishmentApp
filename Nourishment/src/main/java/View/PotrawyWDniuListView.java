@@ -370,7 +370,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
     private Boolean addToShoppingList(List<ProductRecord> productsList, Potrawy meal, Integer forHowManyDays){
             Boolean result = false;
             if (meal != null){
-                List<ProduktyWPotrawie> prodWPotr = (List<ProduktyWPotrawie>) meal.getProduktyWPotrawieCollection();
+                List<ProduktyWPotrawie> prodWPotr = new ArrayList(meal.getProduktyWPotrawieCollection());
                 for (ProduktyWPotrawie produktWPotr : prodWPotr){
                     Integer indexOfProduct = returnIndexInProductList(productsList, produktWPotr.getIdProduktu());
                     Produkty prod = ((ProduktyWPotrawie) produktWPotr).getIdProduktu();

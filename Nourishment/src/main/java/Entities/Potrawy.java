@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -72,7 +73,7 @@ public class Potrawy implements Serializable {
     @Transient
     private Double waga;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPotrawy", fetch = FetchType.EAGER)
-    private List<ProduktyWPotrawie> produktyWPotrawieCollection;
+    private Set<ProduktyWPotrawie> produktyWPotrawieCollection;
     @OneToMany(mappedBy = "obiad", fetch = FetchType.LAZY)
     private Collection<PotrawyWDniu> potrawyWDniuCollection;
     @OneToMany(mappedBy = "sniadanie", fetch = FetchType.LAZY)
@@ -189,7 +190,7 @@ public class Potrawy implements Serializable {
     }
 
     @XmlTransient
-    public List<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
+    public Set<ProduktyWPotrawie> getProduktyWPotrawieCollection() {
 //        if (produktyWPotrawieCollection != null){
 //            Set<ProduktyWPotrawie> setForAvoidDuplicates = new HashSet<ProduktyWPotrawie> (produktyWPotrawieCollection);
 //            produktyWPotrawieCollection.clear();
@@ -198,7 +199,7 @@ public class Potrawy implements Serializable {
         return produktyWPotrawieCollection;
     }
 
-    public void setProduktyWPotrawieCollection(List<ProduktyWPotrawie> produktyWPotrawieCollection) {
+    public void setProduktyWPotrawieCollection(Set<ProduktyWPotrawie> produktyWPotrawieCollection) {
         this.produktyWPotrawieCollection = produktyWPotrawieCollection;
     }
 
@@ -258,8 +259,9 @@ public class Potrawy implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.nazwa);
         return hash;
     }
 
