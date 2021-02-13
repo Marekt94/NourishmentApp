@@ -40,6 +40,10 @@ public class MainDialog extends javax.swing.JDialog implements MyWindowInterface
             pack();
             setLocationRelativeTo(null);
             myWindowManager.setResizeListener(this);
+            myWindowManager.getWorkingPanel().loadPreferences();
+        }
+        else{
+          myWindowManager.getWorkingPanel().savePreferences();
         }
         super.setVisible(b);
     }

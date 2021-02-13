@@ -60,6 +60,19 @@ public class ProduktyLuzneWDniuListView extends BaseListPanel {
         }
         updateView();
     }
+
+    @Override
+    public void savePreferences() {
+        super.savePreferences();
+        pnlProduktyList.savePreferences();
+    }
+
+    @Override
+    public void loadPreferences() {
+        super.loadPreferences();
+        pnlProduktyList.loadPreferences();
+    }
+    
     
     
 
