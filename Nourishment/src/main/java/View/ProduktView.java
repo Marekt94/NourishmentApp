@@ -38,7 +38,7 @@ public class ProduktView extends BasePanel{
         GlobalFun.bind(produkt.getTluszcz(), edtTluszcz);
         GlobalFun.bind(produkt.getWagaJednostki(), edtWagaJednostki);
         GlobalFun.bind(produkt.getJednostka(),cmbUnit,"g");
-        GlobalFun.bind(produkt.getKategoria(),cmbKategoria, null);
+        GlobalFun.bind(produkt.getKategoria(),cmbKategoria, 1);
     }
 
     @Override

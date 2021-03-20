@@ -90,7 +90,17 @@ public class GlobalFun {
         }
         else{
             cmb.setSelectedItem(defaultObject);
-        }         
+        }        
+    }
+    
+    public static void bind(Serializable obj, JComboBox cmb, Integer defaultIndex){
+        if (obj != null){
+            cmb.setSelectedItem(obj);
+        }
+        else{
+            cmb.setSelectedIndex(defaultIndex);
+        }   
+        
     }
     
     public static void bind(Serializable obj, JComboBox cmb){
