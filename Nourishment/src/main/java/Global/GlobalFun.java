@@ -104,7 +104,7 @@ public class GlobalFun {
     }
     
     public static void bind(Serializable obj, JComboBox cmb){
-        bind(obj, cmb, null);
+        bind(obj, cmb, 0);
     }
     
     public static Object bind(JTextComponent edt, Class type){
