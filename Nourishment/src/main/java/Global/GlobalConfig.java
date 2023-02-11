@@ -30,4 +30,5 @@ public class GlobalConfig {
     public static final Byte POTRAWY_W_DNIU_ID = 4;
     public static final Byte POTRAWY_ID = 5;
     public static final Byte PRODUKTY_LUZEM_ID = 6;
+    public static final Byte EDYTOR_TEKSTU = 7;
 }

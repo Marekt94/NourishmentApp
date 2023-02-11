@@ -21,6 +21,7 @@ import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -342,7 +343,17 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 }
             });
             createShoppingStringList(pDFGenerator, productList);
-            pDFGenerator.closeDocument();
+            pDFGenerator.closeDocument(false);
+            StringBuilder shoppingList = new StringBuilder(pDFGenerator.toString());
+            DokumentEditorPanel docEditorPanel = new DokumentEditorPanel();
+            KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_TEKSTU);
+            MainDialog docWindow = new MainDialog(null, true, konfigView, "Edytuj listę zakupów", docEditorPanel);
+            docWindow.unpackWindow(shoppingList);
+            docWindow.setVisible(true);
+            if (docWindow.getResult()) {
+               pDFGenerator.fromString(shoppingList.toString());  
+               pDFGenerator.saveToFile(); 
+            }              
         }        
     }
     

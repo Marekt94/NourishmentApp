@@ -14,9 +14,14 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import java.io.ByteArrayOutputStream;
+import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +32,8 @@ import java.util.logging.Logger;
 public class PDFGenerator implements MyPDFGeneratorInterface{
     Document document = null;
     Integer spaceCount = 0;
+    String path = "";
+    ByteArrayOutputStream byteOutputStream = null;
     Font titleFont    = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 16, Font.BOLD, BaseColor.BLACK); 
     Font subtitleFont = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 13, Font.BOLD);
     Font listFont     = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, BaseFont.CACHED, 11, Font.NORMAL);
@@ -55,8 +62,16 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     
     @Override
     public void closeDocument() {
-        document.close();    
+        closeDocument(true);
     }
+    
+    @Override
+    public void closeDocument(boolean saveFile) {
+        document.close();
+        if (saveFile) {
+          saveToFile();            
+        }
+    }    
 
     @Override
     public void newPage() {
@@ -67,11 +82,11 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
     public void openDocument(String path) {
         try {
             document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(path));
+            this.path = path;
+            byteOutputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, byteOutputStream);
             
             document.open();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,6 +133,50 @@ public class PDFGenerator implements MyPDFGeneratorInterface{
         } catch (DocumentException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void saveToFile() {
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = new FileOutputStream(path);
+            fileOutputStream.write(byteOutputStream.toByteArray());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+    }
+
+    @Override
+    public void fromString(String text) {
+        try {
+            byteOutputStream.reset();
+            
+            document = new Document();
+            PdfWriter.getInstance(document, byteOutputStream);
+            document.open();
+            document.add(new Paragraph(text));
+            document.close();
+        } catch (DocumentException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public String toString(){
+        String text = "";
+        try {
+            PdfReader pdfReader = new PdfReader(byteOutputStream.toByteArray());
+            for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
+                text = text + PdfTextExtractor.getTextFromPage(pdfReader, i);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return text;
     }
     
 }
