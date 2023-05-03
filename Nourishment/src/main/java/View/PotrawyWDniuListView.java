@@ -449,6 +449,15 @@ public class PotrawyWDniuListView extends BaseListPanel {
             return result;
     }
     
+    private String createShoppingListPosition(ProductRecord product){
+        String position = product.productName + ": "
+                          + GlobalFun.round(product.weight,1) + "g";
+        if (!product.packages.equals(0.0)){
+            position = position + " (" +  GlobalFun.round(product.packages,1) + " jed.)";
+        }        
+        return position;
+    }
+    
     private String[] createShoppingStringList(MyPDFGeneratorInterface pdf, List<ProductRecord> productList){
         Integer size = productList.size();
         List<String> list = new ArrayList<>();
@@ -460,15 +469,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 pdf.withSpaces(2).addList(list.toArray(new String[0]));
                 list.clear();
                 category = productList.get(i).category;
-            }            
-            tekst = productList.get(i).productName + ": "
-                    + GlobalFun.round(productList.get(i).weight,1) + "g";
-            if (productList.get(i).packages.equals(0.0)){
-                list.add(tekst);
-            }
-            else{
-                list.add(tekst + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)");
-            }
+            }    
+            tekst = createShoppingListPosition(productList.get(i));
+            list.add(tekst);
         }
         pdf.withSpaces(1).addSubtitle(category);
         pdf.withSpaces(2).addList(list.toArray(new String[0]));        
