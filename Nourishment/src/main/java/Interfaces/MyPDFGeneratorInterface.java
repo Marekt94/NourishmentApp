@@ -16,11 +16,6 @@ public interface MyPDFGeneratorInterface {
     public void addList(String[] text);
     public void addParagraph(String text);
     public void closeDocument();
-    public void closeDocument(boolean saveFile);
     public void newPage();
-    public void saveToFile();
-    @Override
-    public String toString();
-    public void fromString(String text);
     public MyPDFGeneratorInterface withSpaces(Integer spaceCount);
 }

@@ -343,7 +343,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
             
             productList.sortByCategory();
             createShoppingStringList(pDFGenerator, productList);      
-            pDFGenerator.closeDocument(true);            
+            pDFGenerator.closeDocument();            
         }        
     }
     
