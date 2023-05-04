@@ -16,6 +16,7 @@ import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
 import static Other.FileDialogFunctionType.fdftSave;
+import Other.ListProductRecord;
 import Other.PDFGenerator;
 import Other.ProductRecord;
 import View.BasicView.BaseListPanel;
@@ -331,35 +332,32 @@ public class PotrawyWDniuListView extends BaseListPanel {
             for (int i = 0; i < listOfDays.size(); i++) {
               pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString());    
             }
-            List<ProductRecord> productList = createShoppingList(listOfDays, forHowManyDaysList);
-            productList.sort(new Comparator<ProductRecord>() {
-                @Override
-                public int compare(ProductRecord o1, ProductRecord o2) {
-                    int res = o1.category.compareTo(o2.category); 
-                    if (res == 0){
-                        res = o1.productName.compareTo(o2.productName);
-                    }
-                    return res;
-                }
-            });
-            createShoppingStringList(pDFGenerator, productList);
-            pDFGenerator.closeDocument(false);
-            StringBuilder shoppingList = new StringBuilder(pDFGenerator.toString());
+            ListProductRecord productList = createShoppingList(listOfDays, forHowManyDaysList);
+            productList.sortByName();           
+            List<String> productStringList = positionsToStringList(productList);
+            StringBuilder shoppingList = new StringBuilder(String.join("\n", productStringList));
             DokumentEditorPanel docEditorPanel = new DokumentEditorPanel();
             KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_TEKSTU);
-            MainDialog docWindow = new MainDialog(null, true, konfigView, "Edytuj listę zakupów", docEditorPanel);
+            MainDialog docWindow = new MainDialog(null, true, docEditorPanlKonfig, "Edytuj listę zakupów", docEditorPanel);
             docWindow.unpackWindow(shoppingList);
             docWindow.setVisible(true);
             if (docWindow.getResult()) {
-               pDFGenerator.fromString(shoppingList.toString());  
-               pDFGenerator.saveToFile(); 
+               productStringList.clear();
+               String[] temp = shoppingList.toString().split("\n");
+                for (int i = 0; i < temp.length - 1; i++) {
+                    productStringList.add(temp[i]);
+                }
+               stringListToPosition(productStringList, productList);
+               productList.sortByCategory();
+               createShoppingStringList(pDFGenerator, productList);      
+               pDFGenerator.closeDocument(true);               
             }              
         }        
     }
     
-    private List<ProductRecord> createShoppingList(List<Serializable> listOfDays, List<Integer> forHowManyDaysList){
+    private ListProductRecord createShoppingList(List<Serializable> listOfDays, List<Integer> forHowManyDaysList){
         Integer forHowManyDays = 1;
-        List<ProductRecord> productsList = new ArrayList<ProductRecord>();
+        ListProductRecord productsList = new ListProductRecord();
         for (int i = 0; i < listOfDays.size(); ++i){
             forHowManyDays = forHowManyDaysList.get(i);
             PotrawyWDniu day = (PotrawyWDniu) listOfDays.get(i);
@@ -456,6 +454,36 @@ public class PotrawyWDniuListView extends BaseListPanel {
             position = position + " (" +  GlobalFun.round(product.packages,1) + " jed.)";
         }        
         return position;
+    }
+    
+    private List<String> positionsToStringList(List<ProductRecord> list){
+        List<String> stringList = new ArrayList<>();
+        for (int i = 0; i < list.size() - 1; i++) {
+            stringList.add(createShoppingListPosition(list.get(i)));
+        }
+        return stringList;
+    }
+    
+    private void stringListToPosition(List<String> stringList, ListProductRecord productRecordList){
+        for (String productString : stringList) {
+            Integer weightIndex = productString.indexOf(":");
+            String productName = "";
+            if (weightIndex > -1){
+                productName = productString.substring(0, weightIndex);
+            }
+            else{
+                productName = productString;
+            }
+            ProductRecord product = productRecordList.findByName(productName);
+            if (product == null){
+                product = new ProductRecord();
+                product.productName = productName;
+                product.category = "inne";
+                product.packages = 0.0;
+                product.weight = 0.0;
+                productRecordList.add(product);
+            }
+        }
     }
     
     private String[] createShoppingStringList(MyPDFGeneratorInterface pdf, List<ProductRecord> productList){
