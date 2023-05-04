@@ -333,25 +333,17 @@ public class PotrawyWDniuListView extends BaseListPanel {
               pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString());    
             }
             ListProductRecord productList = createShoppingList(listOfDays, forHowManyDaysList);
-            productList.sortByName();           
-            List<String> productStringList = positionsToStringList(productList);
-            StringBuilder shoppingList = new StringBuilder(String.join("\n", productStringList));
+            
             DokumentEditorPanel docEditorPanel = new DokumentEditorPanel();
             KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_TEKSTU);
             MainDialog docWindow = new MainDialog(null, true, docEditorPanlKonfig, "Edytuj listę zakupów", docEditorPanel);
-            docWindow.unpackWindow(shoppingList);
+            docWindow.unpackWindow(productList);
             docWindow.setVisible(true);
-            if (docWindow.getResult()) {
-               productStringList.clear();
-               String[] temp = shoppingList.toString().split("\n");
-                for (int i = 0; i < temp.length - 1; i++) {
-                    productStringList.add(temp[i]);
-                }
-               stringListToPosition(productStringList, productList);
-               productList.sortByCategory();
-               createShoppingStringList(pDFGenerator, productList);      
-               pDFGenerator.closeDocument(true);               
-            }              
+            if (!docWindow.getResult()) {return;}
+            
+            productList.sortByCategory();
+            createShoppingStringList(pDFGenerator, productList);      
+            pDFGenerator.closeDocument(true);            
         }        
     }
     
@@ -447,45 +439,6 @@ public class PotrawyWDniuListView extends BaseListPanel {
             return result;
     }
     
-    private String createShoppingListPosition(ProductRecord product){
-        String position = product.productName + ": "
-                          + GlobalFun.round(product.weight,1) + "g";
-        if (!product.packages.equals(0.0)){
-            position = position + " (" +  GlobalFun.round(product.packages,1) + " jed.)";
-        }        
-        return position;
-    }
-    
-    private List<String> positionsToStringList(List<ProductRecord> list){
-        List<String> stringList = new ArrayList<>();
-        for (int i = 0; i < list.size() - 1; i++) {
-            stringList.add(createShoppingListPosition(list.get(i)));
-        }
-        return stringList;
-    }
-    
-    private void stringListToPosition(List<String> stringList, ListProductRecord productRecordList){
-        for (String productString : stringList) {
-            Integer weightIndex = productString.indexOf(":");
-            String productName = "";
-            if (weightIndex > -1){
-                productName = productString.substring(0, weightIndex);
-            }
-            else{
-                productName = productString;
-            }
-            ProductRecord product = productRecordList.findByName(productName);
-            if (product == null){
-                product = new ProductRecord();
-                product.productName = productName;
-                product.category = "inne";
-                product.packages = 0.0;
-                product.weight = 0.0;
-                productRecordList.add(product);
-            }
-        }
-    }
-    
     private String[] createShoppingStringList(MyPDFGeneratorInterface pdf, List<ProductRecord> productList){
         Integer size = productList.size();
         List<String> list = new ArrayList<>();
@@ -498,7 +451,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 list.clear();
                 category = productList.get(i).category;
             }    
-            tekst = createShoppingListPosition(productList.get(i));
+            tekst = ListProductRecord.createShoppingListPosition(productList.get(i));
             list.add(tekst);
         }
         pdf.withSpaces(1).addSubtitle(category);

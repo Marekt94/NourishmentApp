@@ -4,14 +4,17 @@
  */
 package View;
 
+import Other.ListProductRecord;
 import View.BasicView.BasePanel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author komputer1
  */
 public class DokumentEditorPanel extends BasePanel {
-    StringBuilder text;
+    ListProductRecord list;
 
     /**
      * Creates new form DokumentEditorPanel
@@ -22,16 +25,17 @@ public class DokumentEditorPanel extends BasePanel {
     }
     
     @Override
-    public <E> void unpack(E object) {
-        super.unpack(object);
-        text = (StringBuilder) object;
-        jTextArea1.setText(text.toString());
-    }
+    public <E> void unpack(List<E> objectList) {
+        super.unpack(objectList);
+        list = (ListProductRecord) objectList;
+        list.sortByName();           
+        List<String> productStringList = list.positionsToStringList();
+        jTextArea1.setText(String.join("\n", productStringList));
+    }  
 
     @Override
     public void pack() {
-      text.delete(0, text.length());
-      text.append(jTextArea1.getText());
+        list.stringListToPositions(jTextArea1.getText().split("\n"));
     }    
 
     /**
