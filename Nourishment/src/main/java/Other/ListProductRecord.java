@@ -9,6 +9,7 @@ import Global.GlobalFun;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import net.bytebuddy.agent.builder.AgentBuilder;
 
 /**
  *
@@ -60,25 +61,57 @@ public class ListProductRecord extends ArrayList<ProductRecord>{
         return position;
     } 
     
+    private Integer getSepearatorIndex(String productString){
+      return productString.lastIndexOf(SEPARATOR);    
+    }
+    
+    private String cutProductName(String productString){
+      Integer separatorIndex = getSepearatorIndex(productString);
+      if (separatorIndex > -1){
+          return productString.substring(0, separatorIndex).trim();
+      }
+      else{
+          return productString;
+      }
+    }
+    
+    private Double cutWeight(String productString){
+      Integer separatorIndex = productString.lastIndexOf(SEPARATOR);
+      if (separatorIndex > -1){
+          return Double.valueOf(productString.substring(separatorIndex + 1, productString.lastIndexOf(GlobalConfig.WEIGHT_UNIT)).trim());
+      }
+      else{
+          return 0.0;
+      }        
+    }
+    
+    private Double cutPackages(String productString){
+        Integer packageStartIndex = productString.lastIndexOf("(");
+        Integer packageEndIndex = productString.indexOf(GlobalConfig.UNIT_SHORTCUT, packageStartIndex);
+        if (packageStartIndex > -1){
+          return Double.valueOf(productString.substring(packageStartIndex + 1, packageEndIndex).trim());
+        }       
+        else{
+            return 0.0;
+        }
+    }
+    
     public void stringListToPositions(String[] stringList){
         for (String productString : stringList) {
-            String productName;
-            Integer weightIndex = productString.indexOf(SEPARATOR);
-            if (weightIndex > -1){
-                productName = productString.substring(0, weightIndex);
-            }
-            else{
-                productName = productString;
-            }
+            if (productString.trim().isEmpty()){continue;}
+            
+            String productName = cutProductName(productString);
+            Double weight = cutWeight(productString);
+            Double packages = cutPackages(productString);
             ProductRecord product = this.findByName(productName);
             if (product == null){
                 product = new ProductRecord();
                 product.productName = productName;
                 product.category = "inne";
-                product.packages = 0.0;
-                product.weight = 0.0;
                 this.add(product);
             }
+            product.packages = packages;
+            product.weight = weight;            
         }
     }    
 }
