@@ -52,7 +52,7 @@ public class ListProductRecord extends ArrayList<ProductRecord>{
         for (String productString : stringList) {
             ProductRecord newProduct = ProductRecordFun.stringToProduct(productString);
             if (newProduct != null){
-                ProductRecord product = this.findByName(productString);
+                ProductRecord product = this.findByName(newProduct.productName);
                 if (product == null){
                     product = new ProductRecord();
                     this.add(product);
