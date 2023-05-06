@@ -16,8 +16,10 @@ import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
 import static Other.FileDialogFunctionType.fdftSave;
+import Other.ListProductRecord;
 import Other.PDFGenerator;
 import Other.ProductRecord;
+import Other.ProductRecordFun;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
@@ -28,7 +30,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -330,25 +331,24 @@ public class PotrawyWDniuListView extends BaseListPanel {
             for (int i = 0; i < listOfDays.size(); i++) {
               pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString());    
             }
-            List<ProductRecord> productList = createShoppingList(listOfDays, forHowManyDaysList);
-            productList.sort(new Comparator<ProductRecord>() {
-                @Override
-                public int compare(ProductRecord o1, ProductRecord o2) {
-                    int res = o1.category.compareTo(o2.category); 
-                    if (res == 0){
-                        res = o1.productName.compareTo(o2.productName);
-                    }
-                    return res;
-                }
-            });
-            createShoppingStringList(pDFGenerator, productList);
-            pDFGenerator.closeDocument();
+            ListProductRecord productList = createShoppingList(listOfDays, forHowManyDaysList);
+            
+            ShoppingListEditorPanel shoppingListEditorPanel = new ShoppingListEditorPanel();
+            KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_LISTY_ZAKOPOW);
+            MainDialog docWindow = new MainDialog(null, true, docEditorPanlKonfig, "Edytuj listę zakupów", shoppingListEditorPanel);
+            docWindow.unpackWindow(productList);
+            docWindow.setVisible(true);
+            if (!docWindow.getResult()) {return;}
+            
+            productList.sortByCategory();
+            createShoppingStringList(pDFGenerator, productList);      
+            pDFGenerator.closeDocument();            
         }        
     }
     
-    private List<ProductRecord> createShoppingList(List<Serializable> listOfDays, List<Integer> forHowManyDaysList){
+    private ListProductRecord createShoppingList(List<Serializable> listOfDays, List<Integer> forHowManyDaysList){
         Integer forHowManyDays = 1;
-        List<ProductRecord> productsList = new ArrayList<ProductRecord>();
+        ListProductRecord productsList = new ListProductRecord();
         for (int i = 0; i < listOfDays.size(); ++i){
             forHowManyDays = forHowManyDaysList.get(i);
             PotrawyWDniu day = (PotrawyWDniu) listOfDays.get(i);
@@ -449,15 +449,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 pdf.withSpaces(2).addList(list.toArray(new String[0]));
                 list.clear();
                 category = productList.get(i).category;
-            }            
-            tekst = productList.get(i).productName + ": "
-                    + GlobalFun.round(productList.get(i).weight,1) + "g";
-            if (productList.get(i).packages.equals(0.0)){
-                list.add(tekst);
-            }
-            else{
-                list.add(tekst + " (" +  GlobalFun.round(productList.get(i).packages,1) + " jed.)");
-            }
+            }    
+            tekst = ProductRecordFun.createShoppingListPosition(productList.get(i));
+            list.add(tekst);
         }
         pdf.withSpaces(1).addSubtitle(category);
         pdf.withSpaces(2).addList(list.toArray(new String[0]));        
