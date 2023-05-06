@@ -12,7 +12,8 @@ import Global.GlobalFun;
  * @author komputer1
  */
 public class ProductRecordFun {
-    static final String SEPARATOR = ":";
+    public static final String SEPARATOR = ":";
+    public static final String DEFAULT_CATEGORY_NAME = "inne";
 
     public static String createShoppingListPosition(ProductRecord product){
         String position = product.productName + SEPARATOR + " "
@@ -79,7 +80,7 @@ public class ProductRecordFun {
         Double packages = ProductRecordFun.cutPackages(productString);
         
         product.productName = productName;
-        product.category = "inne";            
+        product.category = DEFAULT_CATEGORY_NAME;            
         product.packages = packages;
         product.weight = weight;          
         

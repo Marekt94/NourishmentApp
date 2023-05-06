@@ -6,20 +6,19 @@ package View;
 
 import Other.ListProductRecord;
 import View.BasicView.BasePanel;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author komputer1
  */
-public class DokumentEditorPanel extends BasePanel {
+public class ShoppingListEditorPanel extends BasePanel {
     ListProductRecord list;
 
     /**
      * Creates new form DokumentEditorPanel
      */
-    public DokumentEditorPanel() {
+    public ShoppingListEditorPanel() {
         super(null);
         initComponents();
     }

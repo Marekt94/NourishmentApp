@@ -23,7 +23,6 @@ import Other.ProductRecordFun;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,7 +30,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -335,9 +333,9 @@ public class PotrawyWDniuListView extends BaseListPanel {
             }
             ListProductRecord productList = createShoppingList(listOfDays, forHowManyDaysList);
             
-            DokumentEditorPanel docEditorPanel = new DokumentEditorPanel();
-            KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_TEKSTU);
-            MainDialog docWindow = new MainDialog(null, true, docEditorPanlKonfig, "Edytuj listę zakupów", docEditorPanel);
+            ShoppingListEditorPanel shoppingListEditorPanel = new ShoppingListEditorPanel();
+            KonfigView docEditorPanlKonfig = new KonfigView(this.konfigView, GlobalConfig.EDYTOR_LISTY_ZAKOPOW);
+            MainDialog docWindow = new MainDialog(null, true, docEditorPanlKonfig, "Edytuj listę zakupów", shoppingListEditorPanel);
             docWindow.unpackWindow(productList);
             docWindow.setVisible(true);
             if (!docWindow.getResult()) {return;}

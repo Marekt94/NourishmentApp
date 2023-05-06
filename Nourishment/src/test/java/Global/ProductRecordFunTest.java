@@ -77,7 +77,7 @@ public class ProductRecordFunTest {
         String given = "test: 18.0g (12.0 jed.)";
         ProductRecord when = ProductRecordFun.stringToProduct(given);
         ProductRecord then = new ProductRecord();
-        then.category = "inne";
+        then.category = ProductRecordFun.DEFAULT_CATEGORY_NAME;
         then.packages = 12.0;
         then.productName = "test";
         then.weight = 18.0;
@@ -90,7 +90,7 @@ public class ProductRecordFunTest {
         String given = "test 18.0g (12.0 jed.)";
         ProductRecord when = ProductRecordFun.stringToProduct(given);
         ProductRecord then = new ProductRecord();
-        then.category = "inne";
+        then.category = ProductRecordFun.DEFAULT_CATEGORY_NAME;
         then.packages = 12.0;
         then.productName = "test";
         then.weight = 18.0;
@@ -103,7 +103,7 @@ public class ProductRecordFunTest {
         String given = "test18.0g (12.0 jed.)";
         ProductRecord when = ProductRecordFun.stringToProduct(given);
         ProductRecord then = new ProductRecord();
-        then.category = "inne";
+        then.category = ProductRecordFun.DEFAULT_CATEGORY_NAME;
         then.packages = 12.0;
         then.productName = "test";
         then.weight = 18.0;
