@@ -5,16 +5,6 @@
  */
 package Global;
 
-import Other.FileDialogFunctionType;
-import java.awt.Component;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.text.JTextComponent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;

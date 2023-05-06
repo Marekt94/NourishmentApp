@@ -19,6 +19,7 @@ import static Other.FileDialogFunctionType.fdftSave;
 import Other.ListProductRecord;
 import Other.PDFGenerator;
 import Other.ProductRecord;
+import Other.ProductRecordFun;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
@@ -451,7 +452,7 @@ public class PotrawyWDniuListView extends BaseListPanel {
                 list.clear();
                 category = productList.get(i).category;
             }    
-            tekst = ListProductRecord.createShoppingListPosition(productList.get(i));
+            tekst = ProductRecordFun.createShoppingListPosition(productList.get(i));
             list.add(tekst);
         }
         pdf.withSpaces(1).addSubtitle(category);
