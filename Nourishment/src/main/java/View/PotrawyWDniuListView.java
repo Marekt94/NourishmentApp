@@ -16,6 +16,7 @@ import Global.ORMManager;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
 import static Other.FileDialogFunctionType.fdftSave;
+import Other.GoogleTaskController;
 import Other.ListProductRecord;
 import Other.PDFGenerator;
 import Other.ProductRecord;
@@ -23,11 +24,14 @@ import Other.ProductRecordFun;
 import View.BasicView.BaseListPanel;
 import View.BasicView.KonfigView;
 import View.BasicView.MainDialog;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -328,9 +332,11 @@ public class PotrawyWDniuListView extends BaseListPanel {
             MyPDFGeneratorInterface pDFGenerator = new PDFGenerator();
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", new Locale("pl", "PL")); // musi być w ten sposób, żeby były nazwy dni tygodnia
             pDFGenerator.openDocument(fileName);
+            String title = "";
             for (int i = 0; i < listOfDays.size(); i++) {
-              pDFGenerator.addTitle(((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString());    
+              title = title + ((PotrawyWDniu) listOfDays.get(i)).getNazwa() + " - dni: " + forHowManyDaysList.get(i).toString() + "\n";    
             }
+            pDFGenerator.addTitle(title);
             ListProductRecord productList = createShoppingList(listOfDays, forHowManyDaysList);
             
             ShoppingListEditorPanel shoppingListEditorPanel = new ShoppingListEditorPanel();
@@ -341,7 +347,25 @@ public class PotrawyWDniuListView extends BaseListPanel {
             if (!docWindow.getResult()) {return;}
             
             productList.sortByCategory();
-            createShoppingStringList(pDFGenerator, productList);      
+            createShoppingStringList(pDFGenerator, productList);    
+            if (JOptionPane.showConfirmDialog(this, "Czy wysłać listę zakupów do Google Task (Lista zadań)?", "", JOptionPane.OK_CANCEL_OPTION) == 0){
+                boolean res = false;
+                try {
+                    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    GoogleTaskController controller = new GoogleTaskController();
+                    res = controller.sendToGoogleTasks(productList, title);
+                } catch (IOException ex) {
+                    Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (GeneralSecurityException ex) {
+                    Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                finally{
+                    this.setCursor(Cursor.getDefaultCursor());
+                    if (res){
+                        JOptionPane.showMessageDialog(this, "Pomyślnie wysłano", "Status", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            }
             pDFGenerator.closeDocument();            
         }        
     }
