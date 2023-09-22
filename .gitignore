@@ -5,3 +5,5 @@ Nourishment/Nourishment_setup/nourishment.exe
 Nourishment/Nourishment_setup/Output/nourishment_install.exe
 Nourishment/DB/backup/NOURISHMENT.FDB
 /Nourishment/nbproject/
+/Nourishment/src/main/resources/credentials.json
+/Nourishment/tokens/StoredCredential
