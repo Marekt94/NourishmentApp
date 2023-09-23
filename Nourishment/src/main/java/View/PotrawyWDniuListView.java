@@ -13,6 +13,7 @@ import Entities.ProduktyWPotrawie;
 import Global.GlobalConfig;
 import Global.GlobalFun;
 import Global.ORMManager;
+import Global.ProgressDialog;
 import Interfaces.MyPDFGeneratorInterface;
 import Interfaces.MyPanelInterface;
 import static Other.FileDialogFunctionType.fdftSave;
@@ -349,21 +350,14 @@ public class PotrawyWDniuListView extends BaseListPanel {
             productList.sortByCategory();
             createShoppingStringList(pDFGenerator, productList);    
             if (JOptionPane.showConfirmDialog(this, "Czy wysłać listę zakupów do Google Task (Lista zadań)?", "", JOptionPane.OK_CANCEL_OPTION) == 0){
-                boolean res = false;
                 try {
-                    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     GoogleTaskController controller = new GoogleTaskController();
-                    res = controller.sendToGoogleTasks(productList, title);
+                    controller.setDlg(new ProgressDialog());
+                    controller.sendToGoogleTasks(productList, title);
                 } catch (IOException ex) {
                     Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (GeneralSecurityException ex) {
                     Logger.getLogger(PotrawyWDniuListView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                finally{
-                    this.setCursor(Cursor.getDefaultCursor());
-                    if (res){
-                        JOptionPane.showMessageDialog(this, "Pomyślnie wysłano", "Status", JOptionPane.INFORMATION_MESSAGE);
-                    }
                 }
             }
             pDFGenerator.closeDocument();            
